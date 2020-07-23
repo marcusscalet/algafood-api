@@ -1,7 +1,5 @@
 package com.marcusscalet.algafood.domain.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,38 +8,43 @@ import org.springframework.stereotype.Service;
 import com.marcusscalet.algafood.domain.exception.EntidadeEmUsoException;
 import com.marcusscalet.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.marcusscalet.algafood.domain.model.Cidade;
+import com.marcusscalet.algafood.domain.model.Estado;
 import com.marcusscalet.algafood.domain.repository.CidadeRepository;
+import com.marcusscalet.algafood.domain.repository.EstadoRepository;
 
 @Service
 public class CadastroCidadeService {
 
 	@Autowired
-	private CidadeRepository cidadeRepo;
+	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private EstadoRepository estadoRepository;
+	
+	public Cidade salvar(Cidade cidade) {
+		Long estadoId = cidade.getEstado().getId();
 
-	public List<Cidade> listar(Cidade cidade) {
-		return cidadeRepo.listar();
+		Estado estado = estadoRepository.findById(estadoId)
+			.orElseThrow(() -> new EntidadeNaoEncontradaException(
+					String.format("Não existe cadastro de estado com código %d", estadoId)));
+		
+		cidade.setEstado(estado);
+		
+		return cidadeRepository.save(cidade);
 	}
-
-	public Cidade buscar(Long id) {
-		return cidadeRepo.buscar(id);
-	}
-
-	public void remover(Long id) {
-
+	
+	public void remover(Long cidadeId) {
 		try {
-			cidadeRepo.remover(id);
+			cidadeRepository.deleteById(cidadeId);
+			
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe um cadastro de cidade com código %d", id));
+				String.format("Não existe um cadastro de cidade com código %d", cidadeId));
+		
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
-					String.format("Cidade de código %d não pode ser removido, pois está em uso", id));
+				String.format("Cidade de código %d não pode ser removida, pois está em uso", cidadeId));
 		}
 	}
-
-	public Cidade salvar(Cidade cidade) {
-
-		return cidadeRepo.salvar(cidade);
-	}
-
+	
 }
