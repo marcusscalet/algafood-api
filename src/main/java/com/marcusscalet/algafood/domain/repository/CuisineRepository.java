@@ -14,4 +14,6 @@ public interface CuisineRepository extends JpaRepository<Cuisine, Long>{
 	List<Cuisine> findByName(String nome);
 
 	Optional<Cuisine> findUniqueByName(String name);
+	
+	boolean existsByName(String name);
 }
