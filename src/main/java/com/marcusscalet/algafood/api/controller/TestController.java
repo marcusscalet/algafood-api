@@ -37,12 +37,12 @@ public class TestController {
 
 	@GetMapping("/restaurant/por-taxa-frete")
 	public List<Restaurant> restaurantByFreight(BigDecimal initialFreightRate, BigDecimal finalFreightRate) {
-		return restaurantRepository.findByFreightRateBetween(initialFreightRate, finalFreightRate);
+		return restaurantRepository.queryByFreightRateBetween(initialFreightRate, finalFreightRate);
 	}
 
 	@GetMapping("/restaurant/por-nome")
 	public List<Restaurant> restaurantsByName(String name, Long cuisineId) {
-		return restaurantRepository.findByNameContainingAndCuisineId(name, cuisineId);
+		return restaurantRepository.consultByName(name, cuisineId);
 	}
 
 	@GetMapping("/restaurant/primeiro-por-nome")
