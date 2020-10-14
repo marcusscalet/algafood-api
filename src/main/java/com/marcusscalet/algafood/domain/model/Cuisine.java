@@ -1,23 +1,28 @@
 package com.marcusscalet.algafood.domain.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@JsonRootName("cuisine")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class FormaPagamento {
-	
-	@EqualsAndHashCode.Include
+public class Cuisine {
+
+	@EqualsAndHashCode.Include // specify the use of equals and hash using only the ID
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String descricao;
+	@Column(nullable = false)
+	private String name;
 
 }
