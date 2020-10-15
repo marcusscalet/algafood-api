@@ -11,7 +11,8 @@ import org.springframework.stereotype.Repository;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+public interface RestaurantRepository 
+		extends JpaRepository<Restaurant, Long>, RestaurantRepositoryQueries {
 
 	List<Restaurant> queryByFreightRateBetween(BigDecimal initialFreightRate, BigDecimal finalFreightRate);
 	
@@ -25,4 +26,5 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 	List<Restaurant> findTop2ByNameContaining(String name);
 	
 	int countByCuisineId(Long cuisineId);
+	
 }
