@@ -14,6 +14,8 @@ import com.marcusscalet.algafood.domain.model.Cuisine;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.repository.CuisineRepository;
 import com.marcusscalet.algafood.domain.repository.RestaurantRepository;
+import com.marcusscalet.algafood.infrastructure.repository.spec.RestaurantWithFreeShippingSpec;
+import com.marcusscalet.algafood.infrastructure.repository.spec.RestaurantWithSimilarNameSpec;
 
 @RestController
 @RequestMapping("/teste")
@@ -63,5 +65,13 @@ public class TestController {
 	@GetMapping("/restaurantes/quantidade-por-cozinha")
 	public int countByCuisineId(Long cuisineId) {
 		return restaurantRepository.countByCuisineId(cuisineId);
+	}
+	
+	@GetMapping
+	public List<Restaurant> restaurantsWithFreeShipping(String name){
+		var withFreeShipping = new RestaurantWithFreeShippingSpec();
+		var withSimilarName = new RestaurantWithSimilarNameSpec(name);
+		
+		return restaurantRepository.findAll(withSimilarName.and(withFreeShipping));
 	}
 }

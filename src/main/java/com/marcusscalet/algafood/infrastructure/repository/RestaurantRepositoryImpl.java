@@ -27,30 +27,6 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 	@Override
 	public List<Restaurant> find(String name, BigDecimal initialFreightRate, BigDecimal finalFreightRate) {
 
-//		var jpql = new StringBuilder();
-//		jpql.append("FROM Restaurante WHERE 0 = 0 ");
-//
-//		var parameters = new HashMap<String, Object>();
-//
-//		if (StringUtils.hasLength(name)) {
-//			jpql.append("AND nome like :nome ");
-//			parameters.put("name", "%" + name + "%");
-//		}
-//
-//		if (initialFreightRate != null) {
-//			jpql.append("AND freightRate => :initialRate ");
-//			parameters.put("initialRate", "%" + initialFreightRate + "%");
-//		}
-//
-//		if (finalFreightRate != null) {
-//			jpql.append("AND freightRate <= :finalRate ");
-//			parameters.put("finalRate", "%" + finalFreightRate + "%");
-//		}
-//
-//		TypedQuery<Restaurant> query = em.createQuery(jpql.toString(), Restaurant.class);
-//
-//		parameters.forEach((chave, valor) -> query.setParameter(chave, valor));
-
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 
 		CriteriaQuery<Restaurant> criteria = builder.createQuery(Restaurant.class);
@@ -70,7 +46,8 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 			predicates.add(builder.lessThanOrEqualTo(root.get("freightRate"), finalFreightRate));
 		}
 
-		//Convertendo lista de predicates em array de predicates passando uma instância de um array vazio
+		// Convertendo lista de predicates em array de predicates passando uma instância
+		// de um array vazio
 		criteria.where(predicates.toArray(new Predicate[0]));
 
 		TypedQuery<Restaurant> query = em.createQuery(criteria);
