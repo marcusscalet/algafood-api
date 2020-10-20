@@ -14,8 +14,6 @@ import com.marcusscalet.algafood.domain.model.Cuisine;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.repository.CuisineRepository;
 import com.marcusscalet.algafood.domain.repository.RestaurantRepository;
-import com.marcusscalet.algafood.infrastructure.repository.spec.RestaurantWithFreeShippingSpec;
-import com.marcusscalet.algafood.infrastructure.repository.spec.RestaurantWithSimilarNameSpec;
 
 @RestController
 @RequestMapping("/teste")
@@ -31,10 +29,15 @@ public class TestController {
 	public List<Cuisine> consultByName(@RequestParam("name") String name) {
 		return cuisineRepository.findByName(name);
 	}
-	
+
 	@GetMapping("/cozinhas/existe")
 	public boolean cuisineExists(@RequestParam("name") String name) {
 		return cuisineRepository.existsByName(name);
+	}
+	
+	@GetMapping("/cozinhas/primeira")
+	public Optional<Cuisine> cuisineFirst() {
+		return cuisineRepository.findFirst();
 	}
 
 	@GetMapping("/restaurant/por-taxa-frete")
@@ -56,22 +59,25 @@ public class TestController {
 	public List<Restaurant> restaurantsTop2ByName(String name) {
 		return restaurantRepository.findTop2ByNameContaining(name);
 	}
-	
+
 	@GetMapping("/restaurant/por-nome-e-frete")
-	public List<Restaurant> restaurantsByFreightName(String name, BigDecimal initialFreightRate, BigDecimal finalFreightRate) {
+	public List<Restaurant> restaurantsByFreightName(String name, BigDecimal initialFreightRate,
+			BigDecimal finalFreightRate) {
 		return restaurantRepository.find(name, initialFreightRate, finalFreightRate);
 	}
-	
+
 	@GetMapping("/restaurantes/quantidade-por-cozinha")
 	public int countByCuisineId(Long cuisineId) {
 		return restaurantRepository.countByCuisineId(cuisineId);
 	}
-	
-	@GetMapping
-	public List<Restaurant> restaurantsWithFreeShipping(String name){
-		var withFreeShipping = new RestaurantWithFreeShippingSpec();
-		var withSimilarName = new RestaurantWithSimilarNameSpec(name);
-		
-		return restaurantRepository.findAll(withSimilarName.and(withFreeShipping));
+
+	@GetMapping("/restaurants/com-frete-gratis")
+	public List<Restaurant> restaurantsWithFreeShipping(String name) {
+		return restaurantRepository.findWithFreeShippingRate(name);
+	}
+
+	@GetMapping("/restaurants/primeiro")
+	public Optional<Restaurant> restaurantFirst() {
+		return restaurantRepository.findFirst();
 	}
 }

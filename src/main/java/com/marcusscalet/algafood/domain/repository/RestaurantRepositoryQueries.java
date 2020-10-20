@@ -7,6 +7,9 @@ import com.marcusscalet.algafood.domain.model.Restaurant;
 
 public interface RestaurantRepositoryQueries {
 
-	List<Restaurant> find(String name, BigDecimal initialFreightRate, BigDecimal finalFreightRate);
+	List<Restaurant> find(String name,
+			BigDecimal initialFreightRate, BigDecimal finalFreightRate);
+
+	List<Restaurant> findWithFreeShippingRate(String name);
 
 }

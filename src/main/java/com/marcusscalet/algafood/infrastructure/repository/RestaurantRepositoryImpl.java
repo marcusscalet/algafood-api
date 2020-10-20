@@ -1,5 +1,8 @@
 package com.marcusscalet.algafood.infrastructure.repository;
 
+import static com.marcusscalet.algafood.infrastructure.repository.spec.RestaurantSpecs.withFreeShipping;
+import static com.marcusscalet.algafood.infrastructure.repository.spec.RestaurantSpecs.withSimilarNameSpec;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +15,13 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.marcusscalet.algafood.domain.model.Restaurant;
+import com.marcusscalet.algafood.domain.repository.RestaurantRepository;
 import com.marcusscalet.algafood.domain.repository.RestaurantRepositoryQueries;
 
 @Repository
@@ -24,6 +30,9 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 	@PersistenceContext
 	private EntityManager em;
 
+	@Autowired @Lazy
+	private RestaurantRepository restaurantRepository;
+	
 	@Override
 	public List<Restaurant> find(String name, BigDecimal initialFreightRate, BigDecimal finalFreightRate) {
 
@@ -53,5 +62,12 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 		TypedQuery<Restaurant> query = em.createQuery(criteria);
 		return query.getResultList();
 
+	}
+
+	@Override
+	public List<Restaurant> findWithFreeShippingRate(String name) {
+		
+		return restaurantRepository.findAll(withFreeShipping()
+				.and(withSimilarNameSpec(name)));
 	}
 }
