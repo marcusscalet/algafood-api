@@ -72,7 +72,7 @@ public class TestController {
 	}
 
 	@GetMapping("/restaurants/com-frete-gratis")
-	public List<Restaurant> restaurantsWithFreeShipping(String name) {
+	public List<Restaurant> restaurantsWithFreeShippingRate(String name) {
 		return restaurantRepository.findWithFreeShippingRate(name);
 	}
 
