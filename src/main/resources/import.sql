@@ -23,3 +23,12 @@ insert into permission (id, name, description) values (1, 'CONSULTAR_COZINHAS', 
 insert into permission (id, name, description) values (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
 
 insert into restaurant_payment_method (restaurant_id, payment_method_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
+
+insert into product(id, description, price, active, restaurant_id) values (1, "pizza", 25.50, true, 1)
+insert into product(id, description, price, active, restaurant_id) values (2, "Spaghetti", 25.50, true, 1)
+
+insert into uuser(id, name, email, password, registration_date) values (1, 'Viola Davis', 'viola@gmail.com', 'vi01#$', utc_timestamp)
+
+insert into ggroup(id, name) values (1, 'Usuários privilegiados')
+
+insert into uuser_ggroup(uuser_id, ggroup_id) values (1,1)
