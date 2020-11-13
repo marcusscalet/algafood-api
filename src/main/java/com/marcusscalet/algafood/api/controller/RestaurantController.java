@@ -66,8 +66,8 @@ public class RestaurantController {
 		try {
 			Restaurant currentRestaurant = restaurantRepository.findById(restaurantId).orElse(null);
 
-			if (currentRestaurant != null) {
-				BeanUtils.copyProperties(restaurant, currentRestaurant, "id");
+			if (currentRestaurant != null) { //excluir os campos mencionados na hora de fazer o copy
+				BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethod", "address", "registrationDate");
 
 				currentRestaurant = restaurantRegistrationService.saveRestaurant(currentRestaurant);
 				return ResponseEntity.ok(currentRestaurant);

@@ -8,8 +8,8 @@
 	<named-query name="Restaurant.consultByName">
 		<query>
 			FROM Restaurant
-			WHERE nome LIKE concat('%', :nome, '%')  <!-- necessário uso do concat p/ usar % na query -->
-			AND cozinha.id = :id"
+			WHERE name LIKE concat('%', :name, '%')  <!-- necessário uso do concat p/ usar % na query -->
+			AND cuisine.id = :id
 		</query>
 	</named-query>
 	

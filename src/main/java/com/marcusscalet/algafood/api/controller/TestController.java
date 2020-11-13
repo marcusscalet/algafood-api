@@ -25,10 +25,10 @@ public class TestController {
 	@Autowired
 	private RestaurantRepository restaurantRepository;
 
-	@GetMapping("/cozinhas/por-nome")
-	public List<Cuisine> consultByName(@RequestParam("name") String name) {
-		return cuisineRepository.findByName(name);
-	}
+//	@GetMapping("/cozinhas/por-nome")
+//	public List<Cuisine> consultByName(@RequestParam("name") String name) {
+//		return cuisineRepository.findByName(name);
+//	}
 
 	@GetMapping("/cozinhas/existe")
 	public boolean cuisineExists(@RequestParam("name") String name) {
@@ -45,10 +45,10 @@ public class TestController {
 		return restaurantRepository.queryByFreightRateBetween(initialFreightRate, finalFreightRate);
 	}
 
-	@GetMapping("/restaurant/por-nome")
-	public List<Restaurant> restaurantsByName(String name, Long cuisineId) {
-		return restaurantRepository.consultByName(name, cuisineId);
-	}
+//	@GetMapping("/restaurant/por-nome")
+//	public List<Restaurant> restaurantsByName(String name, Long cuisineId) {
+//		return restaurantRepository.consultByName(name, cuisineId);
+//	}
 
 	@GetMapping("/restaurant/primeiro-por-nome")
 	public Optional<Restaurant> restaurantFirstByName(String name) {

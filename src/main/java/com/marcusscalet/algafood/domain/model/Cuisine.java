@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import lombok.Data;
@@ -29,7 +30,7 @@ public class Cuisine {
 	@Column(nullable = false)
 	private String name;
 
-//	@JsonIgnore
-	@OneToMany(mappedBy = "cozinha") //mapeamento feito por cozinha na tabela Restaurant
+	@JsonIgnore
+	@OneToMany(mappedBy = "cuisine") //mapeamento feito por cozinha na tabela Restaurant
 	private List<Restaurant> restaurants = new ArrayList<>();
 }

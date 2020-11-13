@@ -11,17 +11,14 @@ import lombok.Data;
 @Embeddable
 public class Address {
 
-	@Column(name = "adress_zip_code")
+	@Column(name = "address_zip_code")
 	private String zipCode;
 
-	@Column(name = "adress_street")
+	@Column(name = "address_street")
 	private String street;
 
-	@Column(name = "adress_number")
+	@Column(name = "address_number")
 	private String number;
-
-	@Column(name = "address_addressSupplement")
-	private String addressSupplement;
 
 	@Column(name = "address_neighborhood")
 	private String neighborhood;
