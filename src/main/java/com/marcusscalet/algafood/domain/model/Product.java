@@ -23,6 +23,8 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String name;
+
 	@Column(nullable = false)
 	private String description;
 
