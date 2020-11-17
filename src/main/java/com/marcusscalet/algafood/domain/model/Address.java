@@ -2,6 +2,7 @@ package com.marcusscalet.algafood.domain.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -23,7 +24,7 @@ public class Address {
 	@Column(name = "address_neighborhood")
 	private String neighborhood;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_city_id")
 	private City city;
 
