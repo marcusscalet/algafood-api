@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
-@Table(name = "uuser")
+@Table(name = "user")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
 
@@ -41,6 +41,6 @@ public class User {
 	private LocalDateTime registrationDate;
 
 	@ManyToMany
-	@JoinTable(name = "uuser_ggroup", joinColumns = @JoinColumn(name = "uuser_id"), inverseJoinColumns = @JoinColumn(name = "ggroup_id"))
+	@JoinTable(name = "user_ggroup", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
 	private List<Permission> group = new ArrayList<>();
 }

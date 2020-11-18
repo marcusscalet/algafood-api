@@ -18,7 +18,7 @@ public interface RestaurantRepository extends CustomJpaRepository<Restaurant, Lo
 	@Query("from Restaurant r join fetch r.cuisine")
 	List<Restaurant> findAll();
 	
-	List<Restaurant> queryByFreightRateBetween(BigDecimal initialFreightRate, BigDecimal finalFreightRate);
+	List<Restaurant> queryByShippingFeeBetween(BigDecimal initialShippingFee, BigDecimal finalShippingFee);
 
 	List<Restaurant> consultByName(String name, @Param("id") Long cuisineId);
 

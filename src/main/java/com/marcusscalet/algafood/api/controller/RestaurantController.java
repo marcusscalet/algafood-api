@@ -25,7 +25,7 @@ import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.repository.RestaurantRepository;
 import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
 @RestController
-@RequestMapping(value = "/restaurantes")
+@RequestMapping(value = "/restaurants")
 public class RestaurantController {
 
 	@Autowired

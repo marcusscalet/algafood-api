@@ -17,14 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.domain.exception.EntityInUseException;
-import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
 import com.marcusscalet.algafood.domain.model.Cuisine;
 import com.marcusscalet.algafood.domain.repository.CuisineRepository;
 import com.marcusscalet.algafood.domain.service.CuisineRegistrationService;
 
 @RestController
-@RequestMapping(value = "/cozinhas")
+@RequestMapping(value = "/cuisines")
 public class CuisineController {
 
 	@Autowired
@@ -70,17 +68,23 @@ public class CuisineController {
 	}
 
 	@DeleteMapping("/{cuisineId}")
-	public ResponseEntity<?> remove(@PathVariable Long cuisineId) {
-		try {
-			cuisineRegistrationService.removeCuisine(cuisineId);
-			return ResponseEntity.noContent().build();
-
-		} catch (EntityNotFoundException e) {
-			return ResponseEntity.notFound().build();
-
-		} catch (EntityInUseException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-		}
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remove(@PathVariable Long cuisineId) {
+		cuisineRegistrationService.removeCuisine(cuisineId);
 	}
+
+//	@DeleteMapping("/{cuisineId}")
+//	public ResponseEntity<?> remove(@PathVariable Long cuisineId) {
+//		try {
+//			cuisineRegistrationService.removeCuisine(cuisineId);
+//			return ResponseEntity.noContent().build();
+//
+//		} catch (EntityNotFoundException e) {
+//			return ResponseEntity.notFound().build();
+//
+//		} catch (EntityInUseException e) {
+//			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+//		}
+//	}
 
 }

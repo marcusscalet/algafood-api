@@ -34,7 +34,7 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 	private RestaurantRepository restaurantRepository;
 	
 	@Override
-	public List<Restaurant> find(String name, BigDecimal initialFreightRate, BigDecimal finalFreightRate) {
+	public List<Restaurant> find(String name, BigDecimal initialShippingFee, BigDecimal finalShippingFee) {
 
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 
@@ -47,12 +47,12 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 			predicates.add(builder.like(root.get("name"), "%" + name + "%"));
 		}
 
-		if (initialFreightRate != null) {
-			predicates.add(builder.greaterThanOrEqualTo(root.get("freightRate"), initialFreightRate));
+		if (initialShippingFee != null) {
+			predicates.add(builder.greaterThanOrEqualTo(root.get("shippingFee"), initialShippingFee));
 		}
 
-		if (finalFreightRate != null) {
-			predicates.add(builder.lessThanOrEqualTo(root.get("freightRate"), finalFreightRate));
+		if (finalShippingFee != null) {
+			predicates.add(builder.lessThanOrEqualTo(root.get("shippingFee"), finalShippingFee));
 		}
 
 		// Convertendo lista de predicates em array de predicates passando uma instância

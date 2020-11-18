@@ -23,7 +23,7 @@ import com.marcusscalet.algafood.domain.repository.CityRepository;
 import com.marcusscalet.algafood.domain.service.CityRegistrationService;
 
 @RestController
-@RequestMapping(value = "/cidades")
+@RequestMapping(value = "/cities")
 public class CityController {
 
 	@Autowired

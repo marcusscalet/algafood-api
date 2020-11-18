@@ -10,7 +10,7 @@ public class RestaurantSpecs {
 
 	public static Specification<Restaurant> withFreeShipping() {
 		return (root, query, builder) ->
-		builder.equal(root.get("freightRate"), BigDecimal.ZERO);
+		builder.equal(root.get("shippingFee"), BigDecimal.ZERO);
 	}
 
 	public static Specification<Restaurant> withSimilarNameSpec(String name) {

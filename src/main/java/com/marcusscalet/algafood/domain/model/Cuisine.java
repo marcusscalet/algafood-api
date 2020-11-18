@@ -29,8 +29,6 @@ public class Cuisine {
 
 	@Column(nullable = false)
 	private String name;
-
-	private String description;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "cuisine") //mapeamento feito por cozinha na tabela Restaurant

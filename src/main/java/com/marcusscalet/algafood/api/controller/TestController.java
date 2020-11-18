@@ -41,8 +41,8 @@ public class TestController {
 	}
 
 	@GetMapping("/restaurant/por-taxa-frete")
-	public List<Restaurant> restaurantByFreight(BigDecimal initialFreightRate, BigDecimal finalFreightRate) {
-		return restaurantRepository.queryByFreightRateBetween(initialFreightRate, finalFreightRate);
+	public List<Restaurant> restaurantByFreight(BigDecimal initialShippingFee, BigDecimal finalShippingFee) {
+		return restaurantRepository.queryByShippingFeeBetween(initialShippingFee, finalShippingFee);
 	}
 
 //	@GetMapping("/restaurant/por-nome")
@@ -61,9 +61,9 @@ public class TestController {
 	}
 
 	@GetMapping("/restaurant/por-nome-e-frete")
-	public List<Restaurant> restaurantsByFreightName(String name, BigDecimal initialFreightRate,
-			BigDecimal finalFreightRate) {
-		return restaurantRepository.find(name, initialFreightRate, finalFreightRate);
+	public List<Restaurant> restaurantsByFreightName(String name, BigDecimal initialShippingFee,
+			BigDecimal finalShippingFee) {
+		return restaurantRepository.find(name, initialShippingFee, finalShippingFee);
 	}
 
 	@GetMapping("/restaurantes/quantidade-por-cozinha")

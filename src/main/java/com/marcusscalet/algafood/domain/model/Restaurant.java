@@ -39,12 +39,11 @@ public class Restaurant {
 	@Column(nullable = false)
 	private String name;
 
-	@Column(name = "freight_rate", nullable = false)
-	private BigDecimal freightRate;
+	@Column(name = "shipping_fee", nullable = false)
+	private BigDecimal shippingFee;
 
-//	@JsonIgnoreProperties("hibernateLazyInitializer")
 //	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cuisine_id", nullable = false)
 	private Cuisine cuisine;
 
