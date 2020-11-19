@@ -5,18 +5,18 @@ id bigint not null auto_increment,
  primary key (id)
  ) engine=InnoDB default charset=UTF8MB4;
  
-create table ggroup (
+create table `group` (
 id bigint not null auto_increment,
 name varchar(60) not null,
 
  primary key (id)
  ) engine=InnoDB default charset=UTF8MB4;
 
-create table ggroup_permission (
-ggroup_id bigint not null,
+create table group_permission (
+group_id bigint not null,
  permission_id bigint not null,
  
-primary key (ggroup_id, permission_id)
+primary key (group_id, permission_id)
 ) engine=InnoDB default charset=UTF8MB4;
 
 create table permission (
@@ -42,7 +42,7 @@ create table restaurant (
 id bigint not null auto_increment,
  cuisine_id bigint not null,
  name varchar(80) not null,
- freight_rate decimal(10,2) not null,
+ shipping_fee decimal(10,2) not null,
  registration_date datetime not null,
  update_date datetime not null,
  
@@ -62,7 +62,7 @@ restaurant_id bigint not null,
  primary key (restaurant_id, payment_method_id)
  ) engine=InnoDB default charset=UTF8MB4;
  
- create table uuser (
+ create table `user` (
  id bigint not null auto_increment,
  email varchar(80), 
  name varchar(80),
@@ -72,18 +72,18 @@ restaurant_id bigint not null,
  primary key (id)
  ) engine=InnoDB default charset=UTF8MB4;
 
-create table uuser_ggroup (
-uuser_id bigint not null,
-ggroup_id bigint not null,
+create table user_group (
+user_id bigint not null,
+group_id bigint not null,
 
-primary key (uuser_id, ggroup_id)
+primary key (user_id, group_id)
 ) engine=InnoDB default charset=UTF8MB4;
 
-alter table ggroup_permission add constraint fk_group_permission_permission
+alter table group_permission add constraint fk_group_permission_permission
  foreign key (permission_id) references permission (id);
  
-alter table ggroup_permission add constraint fk_ggroup_permission_ggroup
- foreign key (ggroup_id) references ggroup (id);
+alter table group_permission add constraint fk_group_permission_group
+ foreign key (group_id) references `group` (id);
  
 alter table product add constraint fk_product_restaurant
  foreign key (restaurant_id) references restaurant (id);
@@ -100,8 +100,8 @@ alter table restaurant_payment_method add constraint fk_restaurant_payment_metho
 alter table restaurant_payment_method add constraint fk_restaurant_payment_method_restaurant
  foreign key (restaurant_id) references restaurant (id);
  
-alter table uuser_ggroup add constraint fk_uusuar_ggrupo_ggrupo
- foreign key (ggroup_id) references permission (id);
+alter table user_group add constraint fk_user_group_group
+ foreign key (group_id) references permission (id);
  
-alter table uuser_ggroup add constraint fk_uuser_ggroup_uuser
- foreign key (uuser_id) references uuser (id);
+alter table user_group add constraint fk_user_group_user
+ foreign key (user_id) references `user` (id);

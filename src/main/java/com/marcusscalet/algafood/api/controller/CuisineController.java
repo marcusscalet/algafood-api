@@ -1,12 +1,10 @@
 package com.marcusscalet.algafood.api.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,14 +35,8 @@ public class CuisineController {
 	}
 
 	@GetMapping("/{cuisineId}")
-	public ResponseEntity<Cuisine> find(@PathVariable Long cuisineId) {
-		Optional<Cuisine> cozinha = cuisineRepository.findById(cuisineId);
-
-		if (cozinha.isPresent()) {
-			return ResponseEntity.ok(cozinha.get());
-		}
-
-		return ResponseEntity.notFound().build();
+	public Cuisine find(@PathVariable Long cuisineId) {
+		return cuisineRegistrationService.searchOrFail(cuisineId);
 	}
 
 	@PostMapping
@@ -54,17 +46,13 @@ public class CuisineController {
 	}
 
 	@PutMapping("/{cuisineId}")
-	public ResponseEntity<Cuisine> update(@PathVariable Long cuisineId, @RequestBody Cuisine cuisine) {
-		Optional<Cuisine> currentCuisine = cuisineRepository.findById(cuisineId);
+	public Cuisine update(@PathVariable Long cuisineId, @RequestBody Cuisine cuisine) {
 
-		if (currentCuisine.isPresent()) {
-			BeanUtils.copyProperties(cuisine, currentCuisine.get(), "id");
+		Cuisine currentCuisine = cuisineRegistrationService.searchOrFail(cuisineId);
 
-			Cuisine savedCuisine = cuisineRegistrationService.saveCuisine(currentCuisine.get());
-			return ResponseEntity.ok(savedCuisine);
-		}
+		BeanUtils.copyProperties(cuisine, currentCuisine, "id");
 
-		return ResponseEntity.notFound().build();
+		return cuisineRegistrationService.saveCuisine(currentCuisine);
 	}
 
 	@DeleteMapping("/{cuisineId}")
@@ -72,19 +60,5 @@ public class CuisineController {
 	public void remove(@PathVariable Long cuisineId) {
 		cuisineRegistrationService.removeCuisine(cuisineId);
 	}
-
-//	@DeleteMapping("/{cuisineId}")
-//	public ResponseEntity<?> remove(@PathVariable Long cuisineId) {
-//		try {
-//			cuisineRegistrationService.removeCuisine(cuisineId);
-//			return ResponseEntity.noContent().build();
-//
-//		} catch (EntityNotFoundException e) {
-//			return ResponseEntity.notFound().build();
-//
-//		} catch (EntityInUseException e) {
-//			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-//		}
-//	}
 
 }

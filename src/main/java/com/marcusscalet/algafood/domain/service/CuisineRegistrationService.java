@@ -13,6 +13,8 @@ import com.marcusscalet.algafood.domain.repository.CuisineRepository;
 @Service
 public class CuisineRegistrationService {
 
+	private static final String MSG_CUISINE_BEING_USED = "Cozinha de código %d não pode ser removida, pois está em uso";
+	private static final String MSG_CUISINE_NOT_FOUND = "Não existe um cadastro de cozinha com código %d";
 	@Autowired
 	private CuisineRepository cuisineRepository;
 
@@ -26,11 +28,17 @@ public class CuisineRegistrationService {
 
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException(
-					String.format("Não existe um cadastro de cozinha com código %d", cuisineId));
+					String.format(MSG_CUISINE_NOT_FOUND, cuisineId));
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityInUseException(
-					String.format("Cozinha de código %d não pode ser removida, pois está em uso", cuisineId));
+					String.format(MSG_CUISINE_BEING_USED, cuisineId));
 		}
+	}
+
+	public Cuisine searchOrFail(Long cuisineId) {
+		return cuisineRepository.findById(cuisineId)
+				.orElseThrow(() -> new EntityNotFoundException(
+						String.format(MSG_CUISINE_NOT_FOUND, cuisineId)));
 	}
 }
