@@ -10,26 +10,25 @@ import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
 import com.marcusscalet.algafood.domain.model.City;
 import com.marcusscalet.algafood.domain.model.State;
 import com.marcusscalet.algafood.domain.repository.CityRepository;
-import com.marcusscalet.algafood.domain.repository.StateRepository;
 
 @Service
 public class CityRegistrationService {
+
+	private static final String MSG_CITY_BEING_USED = "Cidade de código %d não pode ser removida, pois está em uso";
+	private static final String MSG_CITY_NOT_FOUND = "Não existe um cadastro de cidade com código %d";
 
 	@Autowired
 	private CityRepository cityRepository;
 
 	@Autowired
-	private StateRepository stateRepository;
+	private StateRegistrationService stateRegistrationService;
 
 	public City saveCity(City city) {
 		Long stateId = city.getState().getId();
 
-		State state = stateRepository.findById(stateId)
-				.orElseThrow(() -> new EntityNotFoundException(
-				String.format("Não existe cadastro de estado com código %d", stateId)));
+		State state = stateRegistrationService.searchOrFail(stateId);
 
 		city.setState(state);
-
 		return cityRepository.save(city);
 	}
 
@@ -38,12 +37,15 @@ public class CityRegistrationService {
 			cityRepository.deleteById(cityId);
 
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException(String.format("Não existe um cadastro de cidade com código %d", cityId));
+			throw new EntityNotFoundException(String.format(MSG_CITY_NOT_FOUND, cityId));
 
 		} catch (DataIntegrityViolationException e) {
-			throw new EntityInUseException(
-					String.format("Cidade de código %d não pode ser removida, pois está em uso", cityId));
+			throw new EntityInUseException(String.format(MSG_CITY_BEING_USED, cityId));
 		}
 	}
 
+	public City searchOrFail(Long cityId) {
+		return cityRepository.findById(cityId)
+				.orElseThrow(() -> new EntityNotFoundException(String.format(MSG_CITY_NOT_FOUND, cityId)));
+	}
 }

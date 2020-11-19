@@ -6,27 +6,30 @@ import org.springframework.stereotype.Service;
 import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
 import com.marcusscalet.algafood.domain.model.Cuisine;
 import com.marcusscalet.algafood.domain.model.Restaurant;
-import com.marcusscalet.algafood.domain.repository.CuisineRepository;
 import com.marcusscalet.algafood.domain.repository.RestaurantRepository;
 
 @Service
 public class RestaurantRegistrationService {
 
+	private static final String MSG_RESTAURANT_NOT_FOUND = "Não existe cadastro de restaurante com código %d";
+
 	@Autowired
 	private RestaurantRepository restauranteRepository;
 
 	@Autowired
-	private CuisineRepository cuisineRepository;
+	private CuisineRegistrationService cuisineRegistrationService;
 
 	public Restaurant saveRestaurant(Restaurant restaurant) {
 		Long cuisineId = restaurant.getCuisine().getId();
 
-		Cuisine cuisine = cuisineRepository.findById(cuisineId)
-				.orElseThrow(() -> new EntityNotFoundException(
-				String.format("Não existe cadastro de cozinha com código %d", cuisineId)));
-
+		Cuisine cuisine = cuisineRegistrationService.searchOrFail(cuisineId);
 		restaurant.setCuisine(cuisine);
 
 		return restauranteRepository.save(restaurant);
+	}
+
+	public Restaurant searchOrFail(Long restaurantId) {
+		return restauranteRepository.findById(restaurantId)
+				.orElseThrow(() -> new EntityNotFoundException(String.format(MSG_RESTAURANT_NOT_FOUND, restaurantId)));
 	}
 }
