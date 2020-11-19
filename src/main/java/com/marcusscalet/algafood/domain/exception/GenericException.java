@@ -12,4 +12,7 @@ public class GenericException extends RuntimeException {
 		super(message);
 	}
 
+	public GenericException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

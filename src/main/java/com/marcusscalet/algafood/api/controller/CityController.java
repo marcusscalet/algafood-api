@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
 import com.marcusscalet.algafood.domain.exception.GenericException;
+import com.marcusscalet.algafood.domain.exception.StateNotFoundException;
 import com.marcusscalet.algafood.domain.model.City;
 import com.marcusscalet.algafood.domain.repository.CityRepository;
 import com.marcusscalet.algafood.domain.service.CityRegistrationService;
@@ -46,7 +46,7 @@ public class CityController {
 	public City add(@RequestBody City city) {
 		try {
 			return cityRegistrationService.saveCity(city);
-		} catch (EntityNotFoundException e) {
+		} catch (StateNotFoundException e) {
 			throw new GenericException(e.getMessage());
 		}
 	}
@@ -59,7 +59,7 @@ public class CityController {
 
 		try {
 			return cityRegistrationService.saveCity(currentCity);
-		} catch (EntityNotFoundException e) {
+		} catch (StateNotFoundException e) {
 			throw new GenericException(e.getMessage());
 		}
 	}
