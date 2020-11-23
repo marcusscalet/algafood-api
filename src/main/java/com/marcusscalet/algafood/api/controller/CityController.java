@@ -69,5 +69,4 @@ public class CityController {
 	public void remove(@PathVariable Long cityId) {
 		cityRegistrationService.remove(cityId);
 	}
-
 }

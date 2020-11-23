@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
+import com.marcusscalet.algafood.domain.exception.CuisineNotFoundException;
 import com.marcusscalet.algafood.domain.exception.GenericException;
+import com.marcusscalet.algafood.domain.exception.RestaurantNotFoundException;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.repository.RestaurantRepository;
 import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
@@ -51,7 +52,7 @@ public class RestaurantController {
 		try {
 			return restaurantRegistrationService.saveRestaurant(restaurant);
 
-		} catch (EntityNotFoundException e) {
+		} catch (RestaurantNotFoundException e) {
 			throw new GenericException(e.getMessage());
 		}
 	}
@@ -59,14 +60,15 @@ public class RestaurantController {
 	@PutMapping("/{restaurantId}")
 	public Restaurant update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant) {
 
-		Restaurant currentRestaurant = restaurantRegistrationService.searchOrFail(restaurantId);
-
-		// excluir os campos mencionados na hora de fazer o copy
-		BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethod", "address", "registrationDate");
-
 		try {
+			Restaurant currentRestaurant = restaurantRegistrationService.searchOrFail(restaurantId);
+
+			// excluir os campos mencionados na hora de fazer o copy
+			BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethod", "address",
+					"registrationDate", "products");
+
 			return restaurantRegistrationService.saveRestaurant(currentRestaurant);
-		} catch (EntityNotFoundException e) {
+		} catch (CuisineNotFoundException e) {
 			throw new GenericException(e.getMessage());
 		}
 

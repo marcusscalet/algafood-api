@@ -5,8 +5,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.marcusscalet.algafood.domain.exception.CityNotFoundException;
 import com.marcusscalet.algafood.domain.exception.EntityInUseException;
-import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
 import com.marcusscalet.algafood.domain.model.City;
 import com.marcusscalet.algafood.domain.model.State;
 import com.marcusscalet.algafood.domain.repository.CityRepository;
@@ -15,7 +15,6 @@ import com.marcusscalet.algafood.domain.repository.CityRepository;
 public class CityRegistrationService {
 
 	private static final String MSG_CITY_BEING_USED = "Cidade de código %d não pode ser removida, pois está em uso";
-	private static final String MSG_CITY_NOT_FOUND = "Não existe um cadastro de cidade com código %d";
 
 	@Autowired
 	private CityRepository cityRepository;
@@ -37,7 +36,7 @@ public class CityRegistrationService {
 			cityRepository.deleteById(cityId);
 
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException(String.format(MSG_CITY_NOT_FOUND, cityId));
+			throw new CityNotFoundException(cityId);
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityInUseException(String.format(MSG_CITY_BEING_USED, cityId));
@@ -45,7 +44,6 @@ public class CityRegistrationService {
 	}
 
 	public City searchOrFail(Long cityId) {
-		return cityRepository.findById(cityId)
-				.orElseThrow(() -> new EntityNotFoundException(String.format(MSG_CITY_NOT_FOUND, cityId)));
+		return cityRepository.findById(cityId).orElseThrow(() -> new CityNotFoundException(cityId));
 	}
 }

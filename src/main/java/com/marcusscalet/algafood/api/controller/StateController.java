@@ -20,7 +20,7 @@ import com.marcusscalet.algafood.domain.repository.StateRepository;
 import com.marcusscalet.algafood.domain.service.StateRegistrationService;
 
 @RestController
-@RequestMapping("/estados")
+@RequestMapping("/states")
 public class StateController {
 
 	@Autowired
