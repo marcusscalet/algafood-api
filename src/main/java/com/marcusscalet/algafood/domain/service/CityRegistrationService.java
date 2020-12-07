@@ -6,7 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.marcusscalet.algafood.domain.exception.CityNotFoundException;
-import com.marcusscalet.algafood.domain.exception.EntityInUseException;
+import com.marcusscalet.algafood.domain.exception.EntityBeenUsedException;
 import com.marcusscalet.algafood.domain.model.City;
 import com.marcusscalet.algafood.domain.model.State;
 import com.marcusscalet.algafood.domain.repository.CityRepository;
@@ -39,7 +39,7 @@ public class CityRegistrationService {
 			throw new CityNotFoundException(cityId);
 
 		} catch (DataIntegrityViolationException e) {
-			throw new EntityInUseException(String.format(MSG_CITY_BEING_USED, cityId));
+			throw new EntityBeenUsedException(String.format(MSG_CITY_BEING_USED, cityId));
 		}
 	}
 

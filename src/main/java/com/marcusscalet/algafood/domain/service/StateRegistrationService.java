@@ -5,7 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.marcusscalet.algafood.domain.exception.EntityInUseException;
+import com.marcusscalet.algafood.domain.exception.EntityBeenUsedException;
 import com.marcusscalet.algafood.domain.exception.StateNotFoundException;
 import com.marcusscalet.algafood.domain.model.State;
 import com.marcusscalet.algafood.domain.repository.StateRepository;
@@ -30,7 +30,7 @@ public class StateRegistrationService {
 			throw new StateNotFoundException(stateId);
 
 		} catch (DataIntegrityViolationException e) {
-			throw new EntityInUseException(String.format(MSG_STATE_BEING_USED, stateId));
+			throw new EntityBeenUsedException(String.format(MSG_STATE_BEING_USED, stateId));
 		}
 	}
 

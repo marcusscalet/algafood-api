@@ -6,7 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.marcusscalet.algafood.domain.exception.CuisineNotFoundException;
-import com.marcusscalet.algafood.domain.exception.EntityInUseException;
+import com.marcusscalet.algafood.domain.exception.EntityBeenUsedException;
 import com.marcusscalet.algafood.domain.model.Cuisine;
 import com.marcusscalet.algafood.domain.repository.CuisineRepository;
 
@@ -30,7 +30,7 @@ public class CuisineRegistrationService {
 			throw new CuisineNotFoundException(cuisineId);
 
 		} catch (DataIntegrityViolationException e) {
-			throw new EntityInUseException(String.format(MSG_CUISINE_BEING_USED, cuisineId));
+			throw new EntityBeenUsedException(String.format(MSG_CUISINE_BEING_USED, cuisineId));
 		}
 	}
 

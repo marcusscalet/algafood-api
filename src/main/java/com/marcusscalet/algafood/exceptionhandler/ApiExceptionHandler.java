@@ -3,18 +3,32 @@ package com.marcusscalet.algafood.exceptionhandler;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.marcusscalet.algafood.domain.exception.EntityInUseException;
+import com.marcusscalet.algafood.domain.exception.BusinessException;
+import com.marcusscalet.algafood.domain.exception.EntityBeenUsedException;
 import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
-import com.marcusscalet.algafood.domain.exception.GenericException;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
+	@Override
+	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+	
+		ProblemType problemType = ProblemType.MESSAGE_NOT_READABLE;
+		String detail = "O corpo da requisição possui erros. Verifique por erros de sintaxe.";
+		
+		Problem problem = createProblemBuilder(status, problemType, detail).build();
+		
+		return handleExceptionInternal(
+				ex, problem, new HttpHeaders(), status, request);
+	}
+	
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<?> handleEntityNotFoundException(
 			EntityNotFoundException ex, WebRequest request) {
@@ -25,31 +39,34 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		Problem problem = createProblemBuilder(status, problemType, detail).build();
 		
+		return handleExceptionInternal(
+				ex, problem, new HttpHeaders(), status, request);
+	}
+
+	@ExceptionHandler(EntityBeenUsedException.class)
+	public ResponseEntity<?> handleEntityInUseException(
+			EntityBeenUsedException ex, WebRequest request) {
+
+		HttpStatus status = HttpStatus.CONFLICT;
+		ProblemType problemType = ProblemType.ENTITY_BEEN_USED;
+		String detail = ex.getMessage();
 		
-//		Problem problem = Problem.builder()
-//				.status(status.value())
-//				.type("https://algafood.com.br/entidade-nao-encontrada")
-//				.title("Entidade não encontrada")
-//				.detail(ex.getMessage())
-//				.build();
+		Problem problem = createProblemBuilder(status, problemType, detail).build();
 		
 		return handleExceptionInternal(
 				ex, problem, new HttpHeaders(), status, request);
 	}
 
-	@ExceptionHandler(EntityInUseException.class)
-	public ResponseEntity<?> handleEntityInUseException(
-			EntityInUseException ex, WebRequest request) {
+	@ExceptionHandler(BusinessException.class)
+	public ResponseEntity<?> handleGenericException(BusinessException ex, WebRequest request) {
 
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		ProblemType problemType = ProblemType.BUSINESS_ERROR;
+		String detail = ex.getMessage();
+		
+		Problem problem = createProblemBuilder(status, problemType, detail).build();
 		return handleExceptionInternal(
-				ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
-	}
-
-	@ExceptionHandler(GenericException.class)
-	public ResponseEntity<?> handleGenericException(GenericException ex, WebRequest request) {
-
-		return handleExceptionInternal(
-				ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+				ex, problem, new HttpHeaders(), status, request);
 	}
 
 	@Override

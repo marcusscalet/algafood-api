@@ -1,10 +1,10 @@
 package com.marcusscalet.algafood.domain.exception;
 
-public class EntityInUseException extends GenericException {
+public class EntityBeenUsedException extends BusinessException {
 
 	private static final long serialVersionUID = 1L;
 
-	public EntityInUseException(String message) {
+	public EntityBeenUsedException(String message) {
 		super(message);
 	}
 }

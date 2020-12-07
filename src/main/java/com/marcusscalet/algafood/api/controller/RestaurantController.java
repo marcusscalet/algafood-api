@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marcusscalet.algafood.domain.exception.CuisineNotFoundException;
-import com.marcusscalet.algafood.domain.exception.GenericException;
+import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.RestaurantNotFoundException;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.repository.RestaurantRepository;
@@ -53,7 +53,7 @@ public class RestaurantController {
 			return restaurantRegistrationService.saveRestaurant(restaurant);
 
 		} catch (RestaurantNotFoundException e) {
-			throw new GenericException(e.getMessage());
+			throw new BusinessException(e.getMessage());
 		}
 	}
 
@@ -69,7 +69,7 @@ public class RestaurantController {
 
 			return restaurantRegistrationService.saveRestaurant(currentRestaurant);
 		} catch (CuisineNotFoundException e) {
-			throw new GenericException(e.getMessage());
+			throw new BusinessException(e.getMessage());
 		}
 
 	}
