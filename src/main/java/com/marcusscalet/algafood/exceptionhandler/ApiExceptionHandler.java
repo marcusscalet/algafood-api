@@ -1,5 +1,8 @@
 package com.marcusscalet.algafood.exceptionhandler;
 
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.EntityBeenUsedException;
 import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
@@ -19,7 +23,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-	
+		Throwable rootCause = ExceptionUtils.getRootCause(ex);
+				
+		if(rootCause instanceof InvalidFormatException) {
+			return handleInvalidFormatException((InvalidFormatException)rootCause, headers, status, request);
+		}
+				
 		ProblemType problemType = ProblemType.MESSAGE_NOT_READABLE;
 		String detail = "O corpo da requisição possui erros. Verifique por erros de sintaxe.";
 		
@@ -29,6 +38,24 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				ex, problem, new HttpHeaders(), status, request);
 	}
 	
+	private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpHeaders headers, HttpStatus status, WebRequest request){
+		
+//		ex.getPath().forEach(ref -> System.out.println(ref.getFieldName()));
+		
+		//pegamos uma lista de referências com as propriedades que foram passadas inválidas
+		String path = ex.getPath().stream()
+				.map(ref -> ref.getFieldName())
+				.collect(Collectors.joining("."));
+		
+		ProblemType problemType = ProblemType.MESSAGE_NOT_READABLE;
+		String detail = String.format("A propriedade '%s' recebeu o valor '%s', "
+				+ "que é de um tipo inválido. Corrija e informe um valor com o tipo '%s.'", path, ex.getValue(), ex.getTargetType().getSimpleName());
+		
+		Problem problem = createProblemBuilder(status, problemType, detail).build();
+		
+		return handleExceptionInternal(ex, problem, headers, status, request);
+	}
+
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<?> handleEntityNotFoundException(
 			EntityNotFoundException ex, WebRequest request) {
