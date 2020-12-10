@@ -16,6 +16,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -35,13 +38,15 @@ public class Restaurant {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotBlank
 	@Column(nullable = false)
 	private String name;
 
+	@DecimalMin("1")
 	@Column(name = "shipping_fee", nullable = false)
 	private BigDecimal shippingFee;
 
-//	@JsonIgnore
+	@Valid
 	@ManyToOne // (fetch = FetchType.LAZY)
 	@JoinColumn(name = "cuisine_id", nullable = false)
 	private Cuisine cuisine;
