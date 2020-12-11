@@ -1,4 +1,4 @@
-package com.marcusscalet.algafood;
+package com.marcusscalet.algafood.core.validation;
 
 public interface Groups {
 
