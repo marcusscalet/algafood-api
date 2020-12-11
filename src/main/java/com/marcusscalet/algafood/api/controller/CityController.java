@@ -2,6 +2,8 @@ package com.marcusscalet.algafood.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,7 +45,7 @@ public class CityController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public City add(@RequestBody City city) {
+	public City add(@Valid @RequestBody City city) {
 		try {
 			return cityRegistrationService.saveCity(city);
 		} catch (StateNotFoundException e) {
@@ -52,7 +54,7 @@ public class CityController {
 	}
 
 	@PutMapping("/{cityId}")
-	public City update(@PathVariable Long cityId, @RequestBody City city) {
+	public City update(@PathVariable Long cityId, @Valid @RequestBody City city) {
 		City currentCity = cityRegistrationService.searchOrFail(cityId);
 
 		BeanUtils.copyProperties(city, currentCity, "id");

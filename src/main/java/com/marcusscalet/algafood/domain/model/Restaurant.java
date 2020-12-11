@@ -52,7 +52,7 @@ public class Restaurant {
 
 	@Valid
 	@ConvertGroup(from = Default.class, to = Groups.CuisineId.class)
-	@NotNull(groups = Groups.CuisineId.class)
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "cuisine_id", nullable = false)
 	private Cuisine cuisine;

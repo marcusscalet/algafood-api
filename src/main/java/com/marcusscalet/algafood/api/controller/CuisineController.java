@@ -48,7 +48,7 @@ public class CuisineController {
 	}
 
 	@PutMapping("/{cuisineId}")
-	public Cuisine update(@PathVariable Long cuisineId, @RequestBody Cuisine cuisine) {
+	public Cuisine update(@PathVariable Long cuisineId, @Valid @RequestBody Cuisine cuisine) {
 
 		Cuisine currentCuisine = cuisineRegistrationService.searchOrFail(cuisineId);
 

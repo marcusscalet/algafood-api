@@ -2,6 +2,8 @@ package com.marcusscalet.algafood.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,12 +43,12 @@ public class StateController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public State add(@RequestBody State state) {
+	public State add(@Valid @RequestBody State state) {
 		return stateRegistrationService.saveState(state);
 	}
 
 	@PutMapping("/{stateId}")
-	public State update(@PathVariable Long stateId, @RequestBody State state) {
+	public State update(@PathVariable Long stateId, @Valid @RequestBody State state) {
 
 		State currentState = stateRegistrationService.searchOrFail(stateId);
 

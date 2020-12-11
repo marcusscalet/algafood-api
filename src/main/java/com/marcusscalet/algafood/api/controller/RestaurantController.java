@@ -64,7 +64,7 @@ public class RestaurantController {
 	}
 
 	@PutMapping("/{restaurantId}")
-	public Restaurant update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant) {
+	public Restaurant update(@PathVariable Long restaurantId, @Valid @RequestBody Restaurant restaurant) {
 
 		try {
 			Restaurant currentRestaurant = restaurantRegistrationService.searchOrFail(restaurantId);
@@ -90,6 +90,7 @@ public class RestaurantController {
 	}
 
 	private void merge(Map<String, Object> mapData, Restaurant restaurantData, HttpServletRequest request) {
+		
 		ServletServerHttpRequest servletHttpRequest = new ServletServerHttpRequest(request);
 		
 		try {
