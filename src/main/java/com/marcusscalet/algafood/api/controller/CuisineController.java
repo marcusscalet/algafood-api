@@ -2,6 +2,8 @@ package com.marcusscalet.algafood.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,7 +43,7 @@ public class CuisineController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cuisine add(@RequestBody Cuisine cuisine) {
+	public Cuisine add(@Valid @RequestBody Cuisine cuisine) {
 		return cuisineRegistrationService.saveCuisine(cuisine);
 	}
 

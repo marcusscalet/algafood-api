@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.marcusscalet.algafood.Groups;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,7 +24,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Cuisine {
 
-	@NotNull
+	@NotNull(groups = Groups.CuisineId.class)
 	@EqualsAndHashCode.Include // specify the use of equals and hash using only the ID
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

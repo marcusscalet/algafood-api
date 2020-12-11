@@ -17,13 +17,17 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.marcusscalet.algafood.Groups;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,12 +46,14 @@ public class Restaurant {
 	@Column(nullable = false)
 	private String name;
 
-	@DecimalMin("1")
+	@PositiveOrZero
 	@Column(name = "shipping_fee", nullable = false)
 	private BigDecimal shippingFee;
 
 	@Valid
-	@ManyToOne // (fetch = FetchType.LAZY)
+	@ConvertGroup(from = Default.class, to = Groups.CuisineId.class)
+	@NotNull(groups = Groups.CuisineId.class)
+	@ManyToOne
 	@JoinColumn(name = "cuisine_id", nullable = false)
 	private Cuisine cuisine;
 
