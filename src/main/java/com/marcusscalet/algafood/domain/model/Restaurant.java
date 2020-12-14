@@ -28,10 +28,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.marcusscalet.algafood.core.validation.Groups;
+import com.marcusscalet.algafood.core.validation.ZeroIncludesDescription;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@ZeroIncludesDescription(valueField =  "shippingFee", descriptionField = "name", requiredDescription = "Frete Grátis")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -47,7 +49,7 @@ public class Restaurant {
 	private String name;
 
 	@NotNull
-	@PositiveOrZero(message = "{ShippingFee.invalid}")
+	@PositiveOrZero
 	@Column(name = "shipping_fee", nullable = false)
 	private BigDecimal shippingFee;
 
