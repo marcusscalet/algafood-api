@@ -55,11 +55,11 @@ public class CityController {
 
 	@PutMapping("/{cityId}")
 	public City update(@PathVariable Long cityId, @Valid @RequestBody City city) {
-		City currentCity = cityRegistrationService.searchOrFail(cityId);
-
-		BeanUtils.copyProperties(city, currentCity, "id");
-
 		try {
+			City currentCity = cityRegistrationService.searchOrFail(cityId);
+
+			BeanUtils.copyProperties(city, currentCity, "id");
+
 			return cityRegistrationService.saveCity(currentCity);
 		} catch (StateNotFoundException e) {
 			throw new BusinessException(e.getMessage());
