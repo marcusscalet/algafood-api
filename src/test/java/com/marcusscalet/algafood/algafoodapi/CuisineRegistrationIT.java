@@ -1,54 +1,75 @@
 package com.marcusscalet.algafood.algafoodapi;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.Matchers.hasSize;
 
+import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.marcusscalet.algafood.domain.exception.EntityBeingUsedException;
-import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
-import com.marcusscalet.algafood.domain.model.Cuisine;
-import com.marcusscalet.algafood.domain.service.CuisineRegistrationService;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource("/application-test.properties")
 class CuisineRegistrationIT {
 
+	@LocalServerPort
+	private int port;
+	
 	@Autowired
-	private CuisineRegistrationService cuisineRegistrationService;
-
-	@Test
-	void mustRegisterCuisineWithSuccess() {
-
-		Cuisine newCuisine = new Cuisine();
-		newCuisine.setName("Chinesa");
-
-		newCuisine = cuisineRegistrationService.saveCuisine(newCuisine);
-
-		assertThat(newCuisine).isNotNull();
-		assertThat(newCuisine.getId()).isNotNull();
+	private Flyway flyway;
+	
+	@BeforeEach
+	public void setup() {
+		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+		RestAssured.port = port;
+		RestAssured.basePath = "/cuisines";
+		
+		flyway.migrate();
 	}
-
+	
 	@Test
-	public void mustFailWhenRegistrationCuisineWithoutName() {
-		Cuisine newCuisine = new Cuisine();
-		newCuisine.setName(null);
-		assertThrows(DataIntegrityViolationException.class, () -> cuisineRegistrationService.saveCuisine(newCuisine));
+	void mustReturnStatus200WhenQueryByCuisines() {
+				
+		given()
+			.accept(ContentType.JSON)
+		.when()
+			.get()
+		.then()
+			.statusCode(HttpStatus.OK.value());
 	}
-
+	
 	@Test
-	public void mustFailWhenRemoveCuisineNotExists() {
-		assertThrows(EntityNotFoundException.class, () -> cuisineRegistrationService.removeCuisine(54L));
+	void mustContain4CuisinesWhenQueryByCuisines() {
+		
+		given()
+		.accept(ContentType.JSON)
+	.when()
+		.get()
+	.then()
+		.body("", hasSize(4))
+		.body("name", hasItems("Indiana", "Tailandesa"));
 	}
-
+	
 	@Test
-	public void mustFailWhenRemoveCuisineBeingUsed() {
-		assertThrows(EntityBeingUsedException.class, () -> cuisineRegistrationService.removeCuisine(1L));
-	}
-
+	public void mustReturnStatus201WhenRegisteringCuisine() {
+		given()
+			.body("{\"name\": \"Chinesa\"}")
+			.contentType(ContentType.JSON)
+			.accept(ContentType.JSON)
+		.when()
+			.post()
+		.then()
+			.statusCode(HttpStatus.CREATED.value());
+			}
 }
