@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class OrderItem {
+public class OrderedItem {
 
 	@EqualsAndHashCode.Include
 	@Id
@@ -32,7 +32,7 @@ public class OrderItem {
 
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private Order order;
+	private Ordered ordered;
 
 	@ManyToOne
 	@JoinColumn(nullable = false)

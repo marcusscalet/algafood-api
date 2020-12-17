@@ -23,7 +23,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Order {
+public class Ordered {
 
 	@EqualsAndHashCode.Include
 	@Id
@@ -61,8 +61,8 @@ public class Order {
 	@Embedded
 	private Address deliveryAdrress;
 
-	@OneToMany(mappedBy = "order")
-	private List<OrderItem> itens = new ArrayList<>();
+	@OneToMany(mappedBy = "ordered")
+	private List<OrderedItem> itens = new ArrayList<>();
 
-	private StatusOrder statusOrder;
+	private Status status;
 }

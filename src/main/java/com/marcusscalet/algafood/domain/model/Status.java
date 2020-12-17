@@ -1,6 +1,6 @@
 package com.marcusscalet.algafood.domain.model;
 
-public enum StatusOrder {
+public enum Status {
 
 	CREATED, CONFIRMED, DELIVERED, CANCELED;
 

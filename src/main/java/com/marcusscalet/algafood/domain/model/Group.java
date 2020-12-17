@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
-@Table(name = "group")
+@Table(name = "ggroup")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Group {
 
@@ -29,6 +29,6 @@ public class Group {
 	private String name;
 
 	@ManyToMany
-	@JoinTable(name = "group_permission", joinColumns = @JoinColumn(name = "group_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
+	@JoinTable(name = "ggroup_permission", joinColumns = @JoinColumn(name = "ggroup_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
 	private List<Permission> permissions = new ArrayList<>();
 }

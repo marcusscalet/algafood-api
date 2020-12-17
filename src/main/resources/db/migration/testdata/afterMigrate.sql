@@ -4,14 +4,14 @@ delete from city;
 delete from cuisine;
 delete from state;
 delete from payment_method;
-delete from `group`;
-delete from group_permission;
+delete from ggroup;
+delete from ggroup_permission;
 delete from permission;
 delete from product;
 delete from restaurant;
 delete from restaurant_payment_method;
 delete from `user`;
-delete from user_group;
+delete from user_ggroup;
 
 set foreign_key_checks = 1;
 
@@ -19,7 +19,7 @@ alter table city auto_increment = 1;
 alter table cuisine auto_increment = 1;
 alter table state auto_increment = 1;
 alter table payment_method auto_increment = 1;
-alter table `group` auto_increment = 1;
+alter table ggroup auto_increment = 1;
 alter table permission auto_increment = 1;
 alter table product auto_increment = 1;
 alter table restaurant auto_increment = 1;

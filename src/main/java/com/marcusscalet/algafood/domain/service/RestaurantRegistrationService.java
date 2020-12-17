@@ -2,6 +2,7 @@ package com.marcusscalet.algafood.domain.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.marcusscalet.algafood.domain.exception.RestaurantNotFoundException;
 import com.marcusscalet.algafood.domain.model.Cuisine;
@@ -17,6 +18,7 @@ public class RestaurantRegistrationService {
 	@Autowired
 	private CuisineRegistrationService cuisineRegistrationService;
 
+	@Transactional
 	public Restaurant saveRestaurant(Restaurant restaurant) {
 		Long cuisineId = restaurant.getCuisine().getId();
 

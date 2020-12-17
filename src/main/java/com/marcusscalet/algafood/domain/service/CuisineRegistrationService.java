@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.marcusscalet.algafood.domain.exception.CuisineNotFoundException;
 import com.marcusscalet.algafood.domain.exception.EntityBeingUsedException;
@@ -18,10 +19,12 @@ public class CuisineRegistrationService {
 	@Autowired
 	private CuisineRepository cuisineRepository;
 
+	@Transactional
 	public Cuisine saveCuisine(Cuisine cuisine) {
 		return cuisineRepository.save(cuisine);
 	}
 
+	@Transactional
 	public void removeCuisine(Long cuisineId) {
 		try {
 			cuisineRepository.deleteById(cuisineId);
