@@ -1,4 +1,4 @@
-package com.marcusscalet.algafood.exceptionhandler;
+package com.marcusscalet.algafood.api.exceptionhandler;
 
 import lombok.Getter;
 

@@ -1,7 +1,7 @@
 package com.marcusscalet.algafood.domain.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +26,6 @@ import javax.validation.groups.Default;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.marcusscalet.algafood.core.validation.Groups;
 
 import lombok.Data;
@@ -50,7 +49,7 @@ public class Restaurant {
 	@PositiveOrZero
 	@Column(name = "shipping_fee", nullable = false)
 	private BigDecimal shippingFee;
-
+	
 	@Valid
 	@ConvertGroup(from = Default.class, to = Groups.CuisineId.class)
 	@NotNull
@@ -58,26 +57,21 @@ public class Restaurant {
 	@JoinColumn(name = "cuisine_id", nullable = false)
 	private Cuisine cuisine;
 
-	@JsonIgnore
 	@Embedded
 	private Address address;
 
-	@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDateTime registrationDate;
+	private OffsetDateTime registrationDate;
 
-	@JsonIgnore
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDateTime updateDate;
+	private OffsetDateTime updateDate;
 
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "restaurant_payment_method", joinColumns = @JoinColumn(name = "restaurant_id"), inverseJoinColumns = @JoinColumn(name = "payment_method_id"))
 	private List<PaymentMethod> paymentMethod = new ArrayList<>();
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "restaurant")
 	private List<Product> products = new ArrayList<>();
 }

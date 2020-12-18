@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.marcusscalet.algafood.core.validation.Groups;
 
 import lombok.Data;
@@ -31,7 +30,6 @@ public class Cuisine {
 	@Column(nullable = false)
 	private String name;
 	
-	@JsonIgnore
 	@OneToMany(mappedBy = "cuisine") //mapeamento feito por cozinha na tabela Restaurant
 	private List<Restaurant> restaurants = new ArrayList<>();
 }
