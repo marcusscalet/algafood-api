@@ -5,6 +5,6 @@ import com.marcusscalet.algafood.domain.model.State;
 
 public class CityMixin {
 
-	@JsonIgnoreProperties(value = "nome", allowGetters = true)
+	@JsonIgnoreProperties(value = "name", allowGetters = true)
 	private State state;
 }

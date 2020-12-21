@@ -23,6 +23,7 @@ public class RestaurantRegistrationService {
 		Long cuisineId = restaurant.getCuisine().getId();
 
 		Cuisine cuisine = cuisineRegistrationService.searchOrFail(cuisineId);
+		
 		restaurant.setCuisine(cuisine);
 
 		return restauranteRepository.save(restaurant);

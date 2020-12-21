@@ -74,11 +74,15 @@
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 		<dependency>
-		<groupId>io.rest-assured</groupId>
-		<artifactId>rest-assured</artifactId>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -88,7 +92,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-			<artifactId>maven-failsafe-plugin</artifactId>
+				<artifactId>maven-failsafe-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

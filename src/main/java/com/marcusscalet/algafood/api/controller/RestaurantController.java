@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marcusscalet.algafood.api.assembler.RestaurantModelAssembler;
+import com.marcusscalet.algafood.api.assembler.RestaurantModelDisassembler;
+import com.marcusscalet.algafood.api.model.RestaurantDTO;
+import com.marcusscalet.algafood.api.model.input.RestaurantInput;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.CuisineNotFoundException;
 import com.marcusscalet.algafood.domain.model.Restaurant;
@@ -32,83 +36,54 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantRegistrationService restaurantRegistrationService;
 
-//	@Autowired
-//	private SmartValidator validator;
-	
+	@Autowired
+	private RestaurantModelAssembler restaurantModelAssembler;
+
+	@Autowired
+	private RestaurantModelDisassembler restaurantModelDisassembler;
+
 	@GetMapping
-	public List<Restaurant> listAll() {
-		return restaurantRepository.findAll();
+	public List<RestaurantDTO> listAll() {
+		return restaurantModelAssembler.toCollectionDTO(restaurantRepository.findAll());
 	}
 
 	@GetMapping("/{restaurantId}")
-	public Restaurant find(@PathVariable Long restaurantId) {
-		return restaurantRegistrationService.searchOrFail(restaurantId);
+	public RestaurantDTO find(@PathVariable Long restaurantId) {
+		Restaurant restaurant = restaurantRegistrationService.searchOrFail(restaurantId);
+
+		return restaurantModelAssembler.toDTO(restaurant);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Restaurant add(@RequestBody @Valid Restaurant restaurant) {
+	public RestaurantDTO add(@RequestBody @Valid RestaurantInput restaurantInput) {
 		try {
-			return restaurantRegistrationService.saveRestaurant(restaurant);
+			Restaurant restaurant = restaurantModelDisassembler.toDomainObject(restaurantInput);
+
+			return restaurantModelAssembler.toDTO(restaurantRegistrationService.saveRestaurant(restaurant));
 		} catch (CuisineNotFoundException e) {
 			throw new BusinessException(e.getMessage());
 		}
 	}
 
 	@PutMapping("/{restaurantId}")
-	public Restaurant update(@PathVariable Long restaurantId, @Valid @RequestBody Restaurant restaurant) {
-
+	public RestaurantDTO update(@PathVariable Long restaurantId, @Valid @RequestBody RestaurantInput restaurantInput) {
 		try {
+			Restaurant restaurant = restaurantModelDisassembler.toDomainObject(restaurantInput);
+
+			System.out.println(restaurant);
 			Restaurant currentRestaurant = restaurantRegistrationService.searchOrFail(restaurantId);
 
 			// excluir os campos mencionados na hora de fazer o copy
 			BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethod", "address",
 					"registrationDate", "products");
 
-			return restaurantRegistrationService.saveRestaurant(currentRestaurant);
+			return restaurantModelAssembler.toDTO(restaurantRegistrationService.saveRestaurant(currentRestaurant));
 		} catch (CuisineNotFoundException e) {
 			throw new BusinessException(e.getMessage());
 		}
 
 	}
 
-//	private void validate(Restaurant restaurant, String objectName) {
-//		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurant, objectName);
-//		
-//		validator.validate(restaurant, bindingResult);
-//		
-//		if(bindingResult.hasErrors()) {
-//			throw new ValidationException(bindingResult);
-//		}
-//	}
-//
-//	private void merge(Map<String, Object> mapData, Restaurant restaurantData, HttpServletRequest request) {
-//		
-//		ServletServerHttpRequest servletHttpRequest = new ServletServerHttpRequest(request);
-//		
-//		try {
-//		ObjectMapper objectMapper = new ObjectMapper();
-//		
-//		//Configurando manualmente para falhar em tentativas de passar dados em propriedades que estão com @JsonIgnore
-//		objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
-//		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-//		
-//		Restaurant restaurant = objectMapper.convertValue(mapData, Restaurant.class);
-//
-//		mapData.forEach((propertyName, propertyValue) -> {
-//			Field field = ReflectionUtils.findField(Restaurant.class, propertyName);
-//			field.setAccessible(true);
-//
-//			Object newValue = ReflectionUtils.getField(field, restaurant);
-//
-////			System.out.println(nomePropriedade + " = " + valorPropriedade + " = " + novoValor);
-//
-//			ReflectionUtils.setField(field, restaurantData, newValue);
-//		});
-//		}catch (IllegalArgumentException e) {
-//			Throwable rootCause = ExceptionUtils.getRootCause(e);
-//			throw new HttpMessageNotReadableException(e.getMessage(), rootCause, servletHttpRequest);
-//		}
-//	}
 
 }
