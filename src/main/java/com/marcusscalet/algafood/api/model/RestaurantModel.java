@@ -7,11 +7,11 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class RestaurantDTO {
+public class RestaurantModel {
 
 	private Long id;
 	
 	private String name;
 	private BigDecimal shippingFee;
-	private CuisineDTO cuisine;
+	private CuisineModel cuisine;
 }

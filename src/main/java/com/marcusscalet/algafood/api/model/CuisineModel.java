@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class CuisineDTO {
+public class CuisineModel {
 
 	private Long id;
 	private String name;

@@ -114,6 +114,18 @@ class CuisineRegistrationIT {
 			.statusCode(HttpStatus.NOT_FOUND.value());
 	}
 	
+	@Test
+	public void deveRetornarStatus409_QuandoTentarRemoverCozinhaEmUso() {
+		RestAssured.given()
+			.pathParam("cuisineId", 1)
+			.accept(ContentType.JSON)
+		.when()
+			.delete("/{cuisineId}")
+		.then()
+			.statusCode(HttpStatus.CONFLICT.value());
+		
+	}
+	
 	private void prepareData() {
 		Cuisine thaiCuisine = new Cuisine();
 		thaiCuisine.setName("Tailandesa");
