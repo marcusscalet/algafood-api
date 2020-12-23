@@ -160,19 +160,7 @@ public class RestaurantRegistrationIT {
         .then()
             .statusCode(HttpStatus.NOT_FOUND.value());
     }
-    
-	@Test
-	public void mustReturnStatus409_WhenTryingToRemoveCuisineBeingUsed() {
-		RestAssured.given()
-			.pathParam("cuisineId", 1)
-			.accept(ContentType.JSON)
-		.when()
-			.delete("/{cuisineId}")
-		.then()
-			.statusCode(HttpStatus.CONFLICT.value());
-		
-	}
-    
+
     private void prepareData() {
         Cuisine brazilianCuisine = new Cuisine();
         brazilianCuisine.setName("Brasileira");

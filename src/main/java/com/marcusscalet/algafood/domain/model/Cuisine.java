@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,13 +18,11 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Cuisine {
 
-//	@NotNull(groups = Groups.CuisineId.class)
 	@EqualsAndHashCode.Include // specify the use of equals and hash using only the ID
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank
 	@Column(nullable = false)
 	private String name;
 	

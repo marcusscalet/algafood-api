@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcusscalet.algafood.api.assembler.RestaurantInputDisassembler;
-import com.marcusscalet.algafood.api.assembler.RestaurantModelAssembler;
-import com.marcusscalet.algafood.api.model.RestaurantModel;
+import com.marcusscalet.algafood.api.assembler.RestaurantDTOAssembler;
+import com.marcusscalet.algafood.api.model.RestaurantDTO;
 import com.marcusscalet.algafood.api.model.input.RestaurantInput;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.CuisineNotFoundException;
@@ -36,18 +36,18 @@ public class RestaurantController {
 	private RestaurantRegistrationService restaurantRegistrationService;
 
 	@Autowired
-	private RestaurantModelAssembler restaurantModelAssembler;
+	private RestaurantDTOAssembler restaurantModelAssembler;
 
 	@Autowired
 	private RestaurantInputDisassembler restaurantInputDisassembler;
 
 	@GetMapping
-	public List<RestaurantModel> listAll() {
+	public List<RestaurantDTO> listAll() {
 		return restaurantModelAssembler.toCollectionDTO(restaurantRepository.findAll());
 	}
 
 	@GetMapping("/{restaurantId}")
-	public RestaurantModel find(@PathVariable Long restaurantId) {
+	public RestaurantDTO find(@PathVariable Long restaurantId) {
 		Restaurant restaurant = restaurantRegistrationService.searchOrFail(restaurantId);
 
 		return restaurantModelAssembler.toDTO(restaurant);
@@ -55,7 +55,7 @@ public class RestaurantController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public RestaurantModel add(@RequestBody @Valid RestaurantInput restaurantInput) {
+	public RestaurantDTO add(@RequestBody @Valid RestaurantInput restaurantInput) {
 		try {
 			Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
 
@@ -66,17 +66,12 @@ public class RestaurantController {
 	}
 
 	@PutMapping("/{restaurantId}")
-	public RestaurantModel update(@PathVariable Long restaurantId, @Valid @RequestBody RestaurantInput restaurantInput) {
+	public RestaurantDTO update(@PathVariable Long restaurantId, @Valid @RequestBody RestaurantInput restaurantInput) {
 		try {
-			//Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
 
 			Restaurant currentRestaurant = restaurantRegistrationService.searchOrFail(restaurantId);
 			
 			restaurantInputDisassembler.copyToDomainObject(restaurantInput, currentRestaurant);
-
-			// excluir os campos mencionados na hora de fazer o copy
-//			BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethod", "address",
-//					"registrationDate", "products");
 
 			return restaurantModelAssembler.toDTO(restaurantRegistrationService.saveRestaurant(currentRestaurant));
 		} catch (CuisineNotFoundException e) {

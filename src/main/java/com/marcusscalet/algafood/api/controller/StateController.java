@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marcusscalet.algafood.api.assembler.StateInputDisassembler;
+import com.marcusscalet.algafood.api.assembler.StateDTOAssembler;
+import com.marcusscalet.algafood.api.model.StateDTO;
+import com.marcusscalet.algafood.api.model.input.StateInput;
 import com.marcusscalet.algafood.domain.model.State;
 import com.marcusscalet.algafood.domain.repository.StateRepository;
 import com.marcusscalet.algafood.domain.service.StateRegistrationService;
@@ -31,30 +34,45 @@ public class StateController {
 	@Autowired
 	private StateRegistrationService stateRegistrationService;
 
+	@Autowired
+	private StateDTOAssembler stateModelAssembler;
+	
+	@Autowired
+	private StateInputDisassembler stateInputDisassembler;
+	
 	@GetMapping
-	public List<State> listAll() {
-		return stateRepository.findAll();
+	public List<StateDTO> listAll() {
+		List<State> stateList = stateRepository.findAll();
+		
+		return stateModelAssembler.toCollectionDTO(stateList); 
 	}
 
 	@GetMapping("/{stateId}")
-	public State find(@PathVariable Long stateId) {
-		return stateRegistrationService.searchOrFail(stateId);
+	public StateDTO find(@PathVariable Long stateId) {
+		State state = stateRegistrationService.searchOrFail(stateId);
+		
+		return stateModelAssembler.toDTO(state);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public State add(@Valid @RequestBody State state) {
-		return stateRegistrationService.saveState(state);
+	public StateDTO add(@Valid @RequestBody StateInput stateInput) {
+		State state = stateInputDisassembler.toDomainObject(stateInput);
+		state = stateRegistrationService.saveState(state);
+		
+		return stateModelAssembler.toDTO(state);
 	}
 
 	@PutMapping("/{stateId}")
-	public State update(@PathVariable Long stateId, @Valid @RequestBody State state) {
+	public StateDTO update(@PathVariable Long stateId, @Valid @RequestBody StateInput stateInput) {
 
 		State currentState = stateRegistrationService.searchOrFail(stateId);
 
-		BeanUtils.copyProperties(state, currentState, "id");
+		stateInputDisassembler.copyToDomainObject(stateInput, currentState);
 
-		return stateRegistrationService.saveState(currentState);
+		currentState = stateRegistrationService.saveState(currentState);
+		
+		return stateModelAssembler.toDTO(currentState);
 
 	}
 

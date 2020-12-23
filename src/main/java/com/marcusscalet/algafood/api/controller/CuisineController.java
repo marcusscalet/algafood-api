@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marcusscalet.algafood.api.assembler.CuisineInputDisassembler;
+import com.marcusscalet.algafood.api.assembler.CuisineDTOAssembler;
+import com.marcusscalet.algafood.api.model.CuisineDTO;
+import com.marcusscalet.algafood.api.model.input.CuisineInput;
 import com.marcusscalet.algafood.domain.model.Cuisine;
 import com.marcusscalet.algafood.domain.repository.CuisineRepository;
 import com.marcusscalet.algafood.domain.service.CuisineRegistrationService;
@@ -31,30 +34,45 @@ public class CuisineController {
 	@Autowired
 	private CuisineRegistrationService cuisineRegistrationService;
 
+	@Autowired
+	private CuisineDTOAssembler cuisineModelAssembler;
+	
+	@Autowired
+	private CuisineInputDisassembler cuisineInputDisassembler;
+	
 	@GetMapping
-	public List<Cuisine> listAll() {
-		return cuisineRepository.findAll();
+	public List<CuisineDTO> listAll() {
+		List<Cuisine> cuisineList = cuisineRepository.findAll();
+		
+		return cuisineModelAssembler.toCollectionDTO(cuisineList);
 	}
 
 	@GetMapping("/{cuisineId}")
-	public Cuisine find(@PathVariable Long cuisineId) {
-		return cuisineRegistrationService.searchOrFail(cuisineId);
+	public CuisineDTO find(@PathVariable Long cuisineId) {
+		Cuisine cuisine =  cuisineRegistrationService.searchOrFail(cuisineId);
+		
+		return cuisineModelAssembler.toDTO(cuisine);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cuisine add(@Valid @RequestBody Cuisine cuisine) {
-		return cuisineRegistrationService.saveCuisine(cuisine);
+	public CuisineDTO add(@Valid @RequestBody CuisineInput cuisineInput) {
+		Cuisine cuisine = cuisineInputDisassembler.toDomainObject(cuisineInput);
+		cuisine = cuisineRegistrationService.saveCuisine(cuisine);
+		
+		return cuisineModelAssembler.toDTO(cuisine);
 	}
 
 	@PutMapping("/{cuisineId}")
-	public Cuisine update(@PathVariable Long cuisineId, @Valid @RequestBody Cuisine cuisine) {
+	public CuisineDTO update(@PathVariable Long cuisineId, @Valid @RequestBody CuisineInput cuisineInput) {
 
 		Cuisine currentCuisine = cuisineRegistrationService.searchOrFail(cuisineId);
 
-		BeanUtils.copyProperties(cuisine, currentCuisine, "id");
+		cuisineInputDisassembler.copyToDomainObject(cuisineInput, currentCuisine);
 
-		return cuisineRegistrationService.saveCuisine(currentCuisine);
+		currentCuisine = cuisineRegistrationService.saveCuisine(currentCuisine);
+		
+		return cuisineModelAssembler.toDTO(currentCuisine);
 	}
 
 	@DeleteMapping("/{cuisineId}")
