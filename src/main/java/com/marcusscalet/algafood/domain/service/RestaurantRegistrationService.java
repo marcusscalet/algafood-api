@@ -23,10 +23,24 @@ public class RestaurantRegistrationService {
 		Long cuisineId = restaurant.getCuisine().getId();
 
 		Cuisine cuisine = cuisineRegistrationService.searchOrFail(cuisineId);
-		
+
 		restaurant.setCuisine(cuisine);
 
 		return restauranteRepository.save(restaurant);
+	}
+
+	@Transactional
+	public void activate(Long restaurantId) {
+		Restaurant currentRestaurant = searchOrFail(restaurantId);
+
+		currentRestaurant.activate();
+	}
+	
+	@Transactional
+	public void inactivate(Long restaurantId) {
+		Restaurant currentRestaurant = searchOrFail(restaurantId);
+
+		currentRestaurant.inactivate();
 	}
 
 	public Restaurant searchOrFail(Long restaurantId) {

@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,5 +81,16 @@ public class RestaurantController {
 
 	}
 
-
+	@PutMapping("/{restaurantId}/active")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void activate(@PathVariable Long restaurantId) {
+		restaurantRegistrationService.activate(restaurantId);
+	}
+	
+	@DeleteMapping("/{restaurantId}/active")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void inactivate(@PathVariable Long restaurantId) {
+		restaurantRegistrationService.inactivate(restaurantId);
+	}
+	
 }

@@ -38,13 +38,15 @@ public class Restaurant {
 
 	@Column(name = "shipping_fee", nullable = false)
 	private BigDecimal shippingFee;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "cuisine_id", nullable = false)
 	private Cuisine cuisine;
 
 	@Embedded
 	private Address address;
+
+	private Boolean active = Boolean.TRUE;
 
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
@@ -60,4 +62,12 @@ public class Restaurant {
 
 	@OneToMany(mappedBy = "restaurant")
 	private List<Product> products = new ArrayList<>();
+
+	public void activate() {
+		setActive(true);
+	}
+
+	public void inactivate() {
+		setActive(false);
+	}
 }
