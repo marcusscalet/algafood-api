@@ -21,6 +21,7 @@ import com.marcusscalet.algafood.api.assembler.RestaurantDTOAssembler;
 import com.marcusscalet.algafood.api.model.RestaurantDTO;
 import com.marcusscalet.algafood.api.model.input.RestaurantInput;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
+import com.marcusscalet.algafood.domain.exception.CityNotFoundException;
 import com.marcusscalet.algafood.domain.exception.CuisineNotFoundException;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.repository.RestaurantRepository;
@@ -37,21 +38,21 @@ public class RestaurantController {
 	private RestaurantRegistrationService restaurantRegistrationService;
 
 	@Autowired
-	private RestaurantDTOAssembler restaurantModelAssembler;
+	private RestaurantDTOAssembler restaurantDTOAssembler;
 
 	@Autowired
 	private RestaurantInputDisassembler restaurantInputDisassembler;
 
 	@GetMapping
 	public List<RestaurantDTO> listAll() {
-		return restaurantModelAssembler.toCollectionDTO(restaurantRepository.findAll());
+		return restaurantDTOAssembler.toCollectionDTO(restaurantRepository.findAll());
 	}
 
 	@GetMapping("/{restaurantId}")
 	public RestaurantDTO find(@PathVariable Long restaurantId) {
 		Restaurant restaurant = restaurantRegistrationService.searchOrFail(restaurantId);
 
-		return restaurantModelAssembler.toDTO(restaurant);
+		return restaurantDTOAssembler.toDTO(restaurant);
 	}
 
 	@PostMapping
@@ -60,8 +61,8 @@ public class RestaurantController {
 		try {
 			Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
 
-			return restaurantModelAssembler.toDTO(restaurantRegistrationService.saveRestaurant(restaurant));
-		} catch (CuisineNotFoundException e) {
+			return restaurantDTOAssembler.toDTO(restaurantRegistrationService.saveRestaurant(restaurant));
+		} catch (CuisineNotFoundException | CityNotFoundException e) {
 			throw new BusinessException(e.getMessage());
 		}
 	}
@@ -74,8 +75,8 @@ public class RestaurantController {
 			
 			restaurantInputDisassembler.copyToDomainObject(restaurantInput, currentRestaurant);
 
-			return restaurantModelAssembler.toDTO(restaurantRegistrationService.saveRestaurant(currentRestaurant));
-		} catch (CuisineNotFoundException e) {
+			return restaurantDTOAssembler.toDTO(restaurantRegistrationService.saveRestaurant(currentRestaurant));
+		} catch (CuisineNotFoundException | CityNotFoundException e) {
 			throw new BusinessException(e.getMessage());
 		}
 

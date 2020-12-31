@@ -35,7 +35,7 @@ public class CuisineController {
 	private CuisineRegistrationService cuisineRegistrationService;
 
 	@Autowired
-	private CuisineDTOAssembler cuisineModelAssembler;
+	private CuisineDTOAssembler cuisineDTOAssembler;
 	
 	@Autowired
 	private CuisineInputDisassembler cuisineInputDisassembler;
@@ -44,14 +44,14 @@ public class CuisineController {
 	public List<CuisineDTO> listAll() {
 		List<Cuisine> cuisineList = cuisineRepository.findAll();
 		
-		return cuisineModelAssembler.toCollectionDTO(cuisineList);
+		return cuisineDTOAssembler.toCollectionDTO(cuisineList);
 	}
 
 	@GetMapping("/{cuisineId}")
 	public CuisineDTO find(@PathVariable Long cuisineId) {
 		Cuisine cuisine =  cuisineRegistrationService.searchOrFail(cuisineId);
 		
-		return cuisineModelAssembler.toDTO(cuisine);
+		return cuisineDTOAssembler.toDTO(cuisine);
 	}
 
 	@PostMapping
@@ -60,7 +60,7 @@ public class CuisineController {
 		Cuisine cuisine = cuisineInputDisassembler.toDomainObject(cuisineInput);
 		cuisine = cuisineRegistrationService.saveCuisine(cuisine);
 		
-		return cuisineModelAssembler.toDTO(cuisine);
+		return cuisineDTOAssembler.toDTO(cuisine);
 	}
 
 	@PutMapping("/{cuisineId}")
@@ -72,7 +72,7 @@ public class CuisineController {
 
 		currentCuisine = cuisineRegistrationService.saveCuisine(currentCuisine);
 		
-		return cuisineModelAssembler.toDTO(currentCuisine);
+		return cuisineDTOAssembler.toDTO(currentCuisine);
 	}
 
 	@DeleteMapping("/{cuisineId}")
