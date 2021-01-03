@@ -37,7 +37,7 @@ public class CityController {
 	private CityRegistrationService cityRegistrationService;
 
 	@Autowired
-	private CityDTOAssembler cityModelAssembler;
+	private CityDTOAssembler cityDTOAssembler;
 	
 	@Autowired
 	private CityInputDisassembler cityInputDisassembler;
@@ -46,14 +46,14 @@ public class CityController {
 	public List<CityDTO> listAll() {
 		List<City> citiesList = cityRepository.findAll();
 		
-		return cityModelAssembler.toCollectionDTO(citiesList);
+		return cityDTOAssembler.toCollectionDTO(citiesList);
 	}
 
 	@GetMapping("/{cityId}")
 	public CityDTO find(@PathVariable Long cityId) {
 		City city = cityRegistrationService.searchOrFail(cityId);
 		
-		return cityModelAssembler.toDTO(city);
+		return cityDTOAssembler.toDTO(city);
 	}
 
 	@PostMapping
@@ -64,7 +64,7 @@ public class CityController {
 
 			city = cityRegistrationService.saveCity(city);
 			
-			return cityModelAssembler.toDTO(city);
+			return cityDTOAssembler.toDTO(city);
 			
 		} catch (StateNotFoundException e) {
 			throw new BusinessException(e.getMessage());
@@ -78,7 +78,7 @@ public class CityController {
 
 			cityInputDisassembler.copyToDomainObject(cityInput, currentCity);
 			
-			return cityModelAssembler.toDTO(cityRegistrationService.saveCity(currentCity));
+			return cityDTOAssembler.toDTO(cityRegistrationService.saveCity(currentCity));
 			
 		} catch (StateNotFoundException e) {
 			throw new BusinessException(e.getMessage());
