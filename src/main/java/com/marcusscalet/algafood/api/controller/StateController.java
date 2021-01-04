@@ -16,20 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.StateInputDisassembler;
 import com.marcusscalet.algafood.api.assembler.StateDTOAssembler;
+import com.marcusscalet.algafood.api.assembler.StateInputDisassembler;
 import com.marcusscalet.algafood.api.model.StateDTO;
 import com.marcusscalet.algafood.api.model.input.StateInput;
 import com.marcusscalet.algafood.domain.model.State;
-import com.marcusscalet.algafood.domain.repository.StateRepository;
 import com.marcusscalet.algafood.domain.service.StateRegistrationService;
 
 @RestController
 @RequestMapping("/states")
 public class StateController {
-
-	@Autowired
-	private StateRepository stateRepository;
 
 	@Autowired
 	private StateRegistrationService stateRegistrationService;
@@ -42,7 +38,7 @@ public class StateController {
 	
 	@GetMapping
 	public List<StateDTO> listAll() {
-		List<State> stateList = stateRepository.findAll();
+		List<State> stateList = stateRegistrationService.listAll();
 		
 		return stateModelAssembler.toCollectionDTO(stateList); 
 	}

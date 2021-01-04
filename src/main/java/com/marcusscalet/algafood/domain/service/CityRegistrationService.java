@@ -1,5 +1,7 @@
 package com.marcusscalet.algafood.domain.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -23,6 +25,14 @@ public class CityRegistrationService {
 	@Autowired
 	private StateRegistrationService stateRegistrationService;
 
+	public List<City> listAll(){
+		return cityRepository.findAll();
+	}
+	
+	public City searchOrFail(Long cityId) {
+		return cityRepository.findById(cityId).orElseThrow(() -> new CityNotFoundException(cityId));
+	}
+	
 	@Transactional
 	public City saveCity(City city) {
 		Long stateId = city.getState().getId();
@@ -47,7 +57,4 @@ public class CityRegistrationService {
 		}
 	}
 
-	public City searchOrFail(Long cityId) {
-		return cityRepository.findById(cityId).orElseThrow(() -> new CityNotFoundException(cityId));
-	}
 }

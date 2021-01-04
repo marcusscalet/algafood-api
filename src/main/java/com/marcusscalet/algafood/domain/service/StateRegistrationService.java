@@ -1,5 +1,7 @@
 package com.marcusscalet.algafood.domain.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,6 +21,14 @@ public class StateRegistrationService {
 	@Autowired
 	private StateRepository stateRepository;
 
+	public List<State> listAll() {
+		return stateRepository.findAll();
+	}
+
+	public State searchOrFail(Long stateId) {
+		return stateRepository.findById(stateId).orElseThrow(() -> new StateNotFoundException(stateId));
+	}
+
 	@Transactional
 	public State saveState(State state) {
 		return stateRepository.save(state);
@@ -37,7 +47,4 @@ public class StateRegistrationService {
 		}
 	}
 
-	public State searchOrFail(Long stateId) {
-		return stateRepository.findById(stateId).orElseThrow(() -> new StateNotFoundException(stateId));
-	}
 }

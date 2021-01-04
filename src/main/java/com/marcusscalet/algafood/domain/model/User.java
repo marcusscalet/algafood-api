@@ -29,11 +29,14 @@ public class User {
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
+	@Column(nullable = false)
 	private String name;
-
+	
+	@Column(nullable = false)
 	private String email;
-
+	
+	@Column(nullable = false)
 	private String password;
 
 	@CreationTimestamp
@@ -43,4 +46,12 @@ public class User {
 	@ManyToMany
 	@JoinTable(name = "user_ggroup", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "ggroup_id"))
 	private List<Permission> ggroup = new ArrayList<>();
+
+	public boolean passwordMatches(String password) {
+		return getPassword().equals(password);
+	}
+
+	public boolean passwordDoesNotMatch(String password) {
+		return !passwordMatches(password);
+	}
 }

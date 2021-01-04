@@ -1,5 +1,7 @@
 package com.marcusscalet.algafood.domain.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,19 +23,28 @@ public class RestaurantRegistrationService {
 
 	@Autowired
 	private CityRegistrationService cityRegistrationService;
-	
+
+	public List<Restaurant> listAll() {
+		return restauranteRepository.findAll();
+	}
+
+	public Restaurant searchOrFail(Long restaurantId) {
+		return restauranteRepository.findById(restaurantId)
+				.orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+	}
+
 	@Transactional
 	public Restaurant saveRestaurant(Restaurant restaurant) {
-		
+
 		Long cuisineId = restaurant.getCuisine().getId();
 		Long cityId = restaurant.getAddress().getCity().getId();
-		
+
 		Cuisine cuisine = cuisineRegistrationService.searchOrFail(cuisineId);
 		City city = cityRegistrationService.searchOrFail(cityId);
-				
+
 		restaurant.setCuisine(cuisine);
 		restaurant.getAddress().setCity(city);
-		
+
 		return restauranteRepository.save(restaurant);
 	}
 
@@ -43,7 +54,7 @@ public class RestaurantRegistrationService {
 
 		currentRestaurant.activate();
 	}
-	
+
 	@Transactional
 	public void inactivate(Long restaurantId) {
 		Restaurant currentRestaurant = searchOrFail(restaurantId);
@@ -51,8 +62,4 @@ public class RestaurantRegistrationService {
 		currentRestaurant.inactivate();
 	}
 
-	public Restaurant searchOrFail(Long restaurantId) {
-		return restauranteRepository.findById(restaurantId)
-				.orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
-	}
 }

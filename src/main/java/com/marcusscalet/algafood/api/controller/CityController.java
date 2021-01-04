@@ -16,22 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.CityInputDisassembler;
 import com.marcusscalet.algafood.api.assembler.CityDTOAssembler;
+import com.marcusscalet.algafood.api.assembler.CityInputDisassembler;
 import com.marcusscalet.algafood.api.model.CityDTO;
 import com.marcusscalet.algafood.api.model.input.CityInput;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.StateNotFoundException;
 import com.marcusscalet.algafood.domain.model.City;
-import com.marcusscalet.algafood.domain.repository.CityRepository;
 import com.marcusscalet.algafood.domain.service.CityRegistrationService;
 
 @RestController
 @RequestMapping(value = "/cities")
 public class CityController {
-
-	@Autowired
-	private CityRepository cityRepository;
 
 	@Autowired
 	private CityRegistrationService cityRegistrationService;
@@ -44,7 +40,7 @@ public class CityController {
 	
 	@GetMapping
 	public List<CityDTO> listAll() {
-		List<City> citiesList = cityRepository.findAll();
+		List<City> citiesList = cityRegistrationService.listAll();
 		
 		return cityDTOAssembler.toCollectionDTO(citiesList);
 	}

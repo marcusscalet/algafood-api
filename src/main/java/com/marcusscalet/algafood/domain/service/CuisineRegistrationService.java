@@ -1,5 +1,7 @@
 package com.marcusscalet.algafood.domain.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,6 +21,14 @@ public class CuisineRegistrationService {
 	@Autowired
 	private CuisineRepository cuisineRepository;
 
+	public List<Cuisine> listAll() {
+		return cuisineRepository.findAll();
+	}
+
+	public Cuisine searchOrFail(Long cuisineId) {
+		return cuisineRepository.findById(cuisineId).orElseThrow(() -> new CuisineNotFoundException(cuisineId));
+	}
+
 	@Transactional
 	public Cuisine saveCuisine(Cuisine cuisine) {
 		return cuisineRepository.save(cuisine);
@@ -37,7 +47,4 @@ public class CuisineRegistrationService {
 		}
 	}
 
-	public Cuisine searchOrFail(Long cuisineId) {
-		return cuisineRepository.findById(cuisineId).orElseThrow(() -> new CuisineNotFoundException(cuisineId));
-	}
 }

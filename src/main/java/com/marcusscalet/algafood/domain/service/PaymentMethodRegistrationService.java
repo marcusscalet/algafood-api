@@ -1,5 +1,7 @@
 package com.marcusscalet.algafood.domain.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,10 +21,18 @@ public class PaymentMethodRegistrationService {
 	@Autowired
 	private PaymentMethodRepository paymentMethodRepository;
 
+	public List<PaymentMethod> listAll() {
+		return paymentMethodRepository.findAll();
+	}
+
+	public PaymentMethod searchOrFail(Long payMentMethodId) {
+		return paymentMethodRepository.findById(payMentMethodId)
+				.orElseThrow(() -> new PaymentMethodNotFoundException(payMentMethodId));
+	}
+
 	@Transactional
 	public PaymentMethod savePaymentMethod(PaymentMethod paymentMethod) {
 		return paymentMethodRepository.save(paymentMethod);
-
 	}
 
 	@Transactional
@@ -30,7 +40,7 @@ public class PaymentMethodRegistrationService {
 		try {
 			paymentMethodRepository.deleteById(paymentMethodId);
 			paymentMethodRepository.flush();
-			
+
 		} catch (EmptyResultDataAccessException e) {
 			throw new PaymentMethodNotFoundException(paymentMethodId);
 		} catch (DataIntegrityViolationException e) {
@@ -38,8 +48,4 @@ public class PaymentMethodRegistrationService {
 		}
 	}
 
-	public PaymentMethod searchOrFail(Long payMentMethodId) {
-		return paymentMethodRepository.findById(payMentMethodId)
-				.orElseThrow(() -> new PaymentMethodNotFoundException(payMentMethodId));
-	}
 }

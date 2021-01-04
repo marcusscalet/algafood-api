@@ -16,24 +16,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.RestaurantInputDisassembler;
 import com.marcusscalet.algafood.api.assembler.RestaurantDTOAssembler;
+import com.marcusscalet.algafood.api.assembler.RestaurantInputDisassembler;
 import com.marcusscalet.algafood.api.model.RestaurantDTO;
 import com.marcusscalet.algafood.api.model.input.RestaurantInput;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.CityNotFoundException;
 import com.marcusscalet.algafood.domain.exception.CuisineNotFoundException;
 import com.marcusscalet.algafood.domain.model.Restaurant;
-import com.marcusscalet.algafood.domain.repository.RestaurantRepository;
 import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
 
 @RestController
 @RequestMapping(value = "/restaurants")
 public class RestaurantController {
-
-	@Autowired
-	private RestaurantRepository restaurantRepository;
-
+	
 	@Autowired
 	private RestaurantRegistrationService restaurantRegistrationService;
 
@@ -45,7 +41,7 @@ public class RestaurantController {
 
 	@GetMapping
 	public List<RestaurantDTO> listAll() {
-		return restaurantDTOAssembler.toCollectionDTO(restaurantRepository.findAll());
+		return restaurantDTOAssembler.toCollectionDTO(restaurantRegistrationService.listAll());
 	}
 
 	@GetMapping("/{restaurantId}")

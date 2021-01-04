@@ -16,20 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.CuisineInputDisassembler;
 import com.marcusscalet.algafood.api.assembler.CuisineDTOAssembler;
+import com.marcusscalet.algafood.api.assembler.CuisineInputDisassembler;
 import com.marcusscalet.algafood.api.model.CuisineDTO;
 import com.marcusscalet.algafood.api.model.input.CuisineInput;
 import com.marcusscalet.algafood.domain.model.Cuisine;
-import com.marcusscalet.algafood.domain.repository.CuisineRepository;
 import com.marcusscalet.algafood.domain.service.CuisineRegistrationService;
 
 @RestController
 @RequestMapping(value = "/cuisines")
 public class CuisineController {
-
-	@Autowired
-	private CuisineRepository cuisineRepository;
 
 	@Autowired
 	private CuisineRegistrationService cuisineRegistrationService;
@@ -42,7 +38,7 @@ public class CuisineController {
 	
 	@GetMapping
 	public List<CuisineDTO> listAll() {
-		List<Cuisine> cuisineList = cuisineRepository.findAll();
+		List<Cuisine> cuisineList = cuisineRegistrationService.listAll();
 		
 		return cuisineDTOAssembler.toCollectionDTO(cuisineList);
 	}

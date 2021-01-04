@@ -23,15 +23,11 @@ import com.marcusscalet.algafood.api.model.input.PaymentMethodInput;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.PaymentMethodNotFoundException;
 import com.marcusscalet.algafood.domain.model.PaymentMethod;
-import com.marcusscalet.algafood.domain.repository.PaymentMethodRepository;
 import com.marcusscalet.algafood.domain.service.PaymentMethodRegistrationService;
 
 @RestController
 @RequestMapping(value = "/payment-method")
 public class PaymentMethodController {
-
-	@Autowired
-	private PaymentMethodRepository paymentMethodRepository;
 
 	@Autowired
 	private PaymentMethodRegistrationService paymentMethodRegistrationService;
@@ -44,7 +40,7 @@ public class PaymentMethodController {
 
 	@GetMapping
 	public List<PaymentMethodDTO> listAll() {
-		return paymentMethodDTOAssembler.toCollectionDTO(paymentMethodRepository.findAll());
+		return paymentMethodDTOAssembler.toCollectionDTO(paymentMethodRegistrationService.listAll());
 	}
 
 	@GetMapping("/{paymentMethodId}")

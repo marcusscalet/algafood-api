@@ -24,14 +24,10 @@ import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.GroupNotFoundException;
 import com.marcusscalet.algafood.domain.model.Group;
 import com.marcusscalet.algafood.domain.service.GroupRegistrationService;
-import com.marcusscalet.algafood.infrastructure.repository.GroupRepository;
 
 @RestController
 @RequestMapping(value = "/groups")
 public class GroupController {
-
-	@Autowired
-	private GroupRepository groupRepository;
 
 	@Autowired
 	private GroupRegistrationService groupRegistrationService;
@@ -44,7 +40,7 @@ public class GroupController {
 
 	@GetMapping
 	public List<GroupDTO> listAll() {
-		List<Group> groupsList = groupRepository.findAll();
+		List<Group> groupsList = groupRegistrationService.listAll();
 		
 		return groupDTOAssembler.toCollectionDTO(groupsList);
 	}
@@ -68,7 +64,7 @@ public class GroupController {
 		return groupDTOAssembler.toDTO(group);
 	}
 	
-	@PutMapping
+	@PutMapping("/{groupId}")
 	public GroupDTO update(@PathVariable Long groupId, @Valid @RequestBody GroupInput groupInput) {
 		try {
 			Group currentGroup = groupRegistrationService.searchOrFail(groupId);
@@ -83,7 +79,7 @@ public class GroupController {
 
 	@DeleteMapping("/{groupId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void remoe(@PathVariable Long groupId) {
+	public void remove(@PathVariable Long groupId) {
 		groupRegistrationService.remove(groupId);
 	}
 
