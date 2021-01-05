@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.marcusscalet.algafood.domain.exception.RestaurantNotFoundException;
 import com.marcusscalet.algafood.domain.model.City;
 import com.marcusscalet.algafood.domain.model.Cuisine;
+import com.marcusscalet.algafood.domain.model.PaymentMethod;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.repository.RestaurantRepository;
 
@@ -23,6 +24,9 @@ public class RestaurantRegistrationService {
 
 	@Autowired
 	private CityRegistrationService cityRegistrationService;
+
+	@Autowired
+	private PaymentMethodRegistrationService paymentMethodRegistrationService;
 
 	public List<Restaurant> listAll() {
 		return restauranteRepository.findAll();
@@ -62,4 +66,20 @@ public class RestaurantRegistrationService {
 		currentRestaurant.inactivate();
 	}
 
+	@Transactional
+	public void associatePaymentMethod(Long restaurantId, Long paymentMethodId) {
+		Restaurant currentRestaurant = searchOrFail(restaurantId);
+		PaymentMethod currentPaymentMethod = paymentMethodRegistrationService.searchOrFail(paymentMethodId);
+
+		currentRestaurant.addPaymentMethod(currentPaymentMethod);
+	}
+
+	@Transactional
+	public void disassociatePaymentMethod(Long restaurantId, Long paymentMethodId) {
+		Restaurant currentRestaurant = searchOrFail(restaurantId);
+		PaymentMethod currentPaymentMethod = paymentMethodRegistrationService.searchOrFail(paymentMethodId);
+
+		currentRestaurant.removePaymentMethod(currentPaymentMethod);
+	}
+	
 }

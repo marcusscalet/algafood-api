@@ -1,5 +1,6 @@
 package com.marcusscalet.algafood.api.assembler;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,12 +16,12 @@ public class PaymentMethodDTOAssembler {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	public PaymentMethodDTO toDTO(PaymentMethod paymentMethod) {
 		return modelMapper.map(paymentMethod, PaymentMethodDTO.class);
 	}
-	
-	public List<PaymentMethodDTO> toCollectionDTO(List<PaymentMethod> paymentMethods){
+
+	public List<PaymentMethodDTO> toCollectionDTO(Collection<PaymentMethod> paymentMethods) {
 		return paymentMethods.stream().map(paymentMethod -> toDTO(paymentMethod)).collect(Collectors.toList());
 	}
 }

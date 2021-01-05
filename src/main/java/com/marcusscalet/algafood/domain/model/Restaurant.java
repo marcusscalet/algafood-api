@@ -3,7 +3,9 @@ package com.marcusscalet.algafood.domain.model;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -58,7 +60,7 @@ public class Restaurant {
 
 	@ManyToMany
 	@JoinTable(name = "restaurant_payment_method", joinColumns = @JoinColumn(name = "restaurant_id"), inverseJoinColumns = @JoinColumn(name = "payment_method_id"))
-	private List<PaymentMethod> paymentMethod = new ArrayList<>();
+	private Set<PaymentMethod> paymentMethod = new HashSet<>();
 
 	@OneToMany(mappedBy = "restaurant")
 	private List<Product> products = new ArrayList<>();
@@ -69,5 +71,13 @@ public class Restaurant {
 
 	public void inactivate() {
 		setActive(false);
+	}
+	
+	public boolean removePaymentMethod(PaymentMethod paymentMethod) {
+		return getPaymentMethod().remove(paymentMethod);
+	}
+	
+	public boolean addPaymentMethod(PaymentMethod paymentMethod) {
+		return getPaymentMethod().add(paymentMethod);
 	}
 }
