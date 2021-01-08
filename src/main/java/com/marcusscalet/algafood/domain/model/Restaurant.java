@@ -49,7 +49,7 @@ public class Restaurant {
 	private Address address;
 
 	private Boolean active = Boolean.TRUE;
-
+	
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private OffsetDateTime registrationDate;

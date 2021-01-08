@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.marcusscalet.algafood.domain.exception.EntityBeingUsedException;
 import com.marcusscalet.algafood.domain.exception.GroupNotFoundException;
 import com.marcusscalet.algafood.domain.model.Group;
-import com.marcusscalet.algafood.infrastructure.repository.GroupRepository;
+import com.marcusscalet.algafood.domain.repository.GroupRepository;
 
 @Service
 public class GroupRegistrationService {
