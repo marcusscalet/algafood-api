@@ -29,7 +29,7 @@ import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
 @RestController
 @RequestMapping(value = "/restaurants")
 public class RestaurantController {
-	
+
 	@Autowired
 	private RestaurantRegistrationService restaurantRegistrationService;
 
@@ -68,7 +68,7 @@ public class RestaurantController {
 		try {
 
 			Restaurant currentRestaurant = restaurantRegistrationService.searchOrFail(restaurantId);
-			
+
 			restaurantInputDisassembler.copyToDomainObject(restaurantInput, currentRestaurant);
 
 			return restaurantDTOAssembler.toDTO(restaurantRegistrationService.saveRestaurant(currentRestaurant));
@@ -78,16 +78,28 @@ public class RestaurantController {
 
 	}
 
+	@PutMapping("/{restaurantId}/open")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void openRestaurant(@PathVariable Long restaurantId) {
+		restaurantRegistrationService.open(restaurantId);
+	}
+
+	@PutMapping("/{restaurantId}/close")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void closeRestaurant(@PathVariable Long restaurantId) {
+		restaurantRegistrationService.close(restaurantId);
+	}
+
 	@PutMapping("/{restaurantId}/active")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void activate(@PathVariable Long restaurantId) {
 		restaurantRegistrationService.activate(restaurantId);
 	}
-	
+
 	@DeleteMapping("/{restaurantId}/active")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void inactivate(@PathVariable Long restaurantId) {
 		restaurantRegistrationService.inactivate(restaurantId);
 	}
-	
+
 }

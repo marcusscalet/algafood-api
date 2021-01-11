@@ -51,6 +51,18 @@ public class RestaurantRegistrationService {
 
 		return restauranteRepository.save(restaurant);
 	}
+	
+	@Transactional
+	public void open(Long restaurantId) {
+		Restaurant currentRestaurant = searchOrFail(restaurantId);
+		currentRestaurant.open();
+	}
+	
+	@Transactional
+	public void close(Long restaurantId) {
+		Restaurant currentRestaurant = searchOrFail(restaurantId);
+		currentRestaurant.close();
+	}
 
 	@Transactional
 	public void activate(Long restaurantId) {
