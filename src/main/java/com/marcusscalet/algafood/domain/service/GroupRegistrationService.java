@@ -12,15 +12,20 @@ import org.springframework.stereotype.Service;
 import com.marcusscalet.algafood.domain.exception.EntityBeingUsedException;
 import com.marcusscalet.algafood.domain.exception.GroupNotFoundException;
 import com.marcusscalet.algafood.domain.model.Group;
+import com.marcusscalet.algafood.domain.model.Permission;
 import com.marcusscalet.algafood.domain.repository.GroupRepository;
 
 @Service
 public class GroupRegistrationService {
 
 	private static final String MSG_GROUP_BEING_USED = "Grupo com código %d não pode ser removido, pois está em uso";
+	
 	@Autowired
 	private GroupRepository groupRepository;
 
+	@Autowired
+	private PermissionRegistrationService permissionRegistrationService;
+	
 	public List<Group> listAll(){
 		return groupRepository.findAll();
 	}
@@ -47,4 +52,19 @@ public class GroupRegistrationService {
 		}
 	}
 
+	@Transactional
+	public void associatePermission(Long groupId, Long permissionId) {
+		Group currentGroup = searchOrFail(groupId);
+		Permission currentPermission = permissionRegistrationService.searchOrFail(permissionId);
+		
+		currentGroup.addPermission(currentPermission);
+	}
+	
+	@Transactional
+	public void disassociatePermission(Long groupId, Long permissionId) {
+		Group currentGroup = searchOrFail(groupId);
+		Permission currentPermission = permissionRegistrationService.searchOrFail(permissionId);
+		
+		currentGroup.removePermission(currentPermission);
+	}
 }

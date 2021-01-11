@@ -96,7 +96,7 @@ public class RestaurantController {
 		restaurantRegistrationService.activate(restaurantId);
 	}
 
-	@DeleteMapping("/{restaurantId}/active")
+	@DeleteMapping("/{restaurantId}/inactive")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void inactivate(@PathVariable Long restaurantId) {
 		restaurantRegistrationService.inactivate(restaurantId);

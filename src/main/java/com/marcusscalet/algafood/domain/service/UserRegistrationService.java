@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.EntityBeingUsedException;
 import com.marcusscalet.algafood.domain.exception.UserNotFoundException;
+import com.marcusscalet.algafood.domain.model.Group;
 import com.marcusscalet.algafood.domain.model.User;
 import com.marcusscalet.algafood.domain.repository.UserRepository;
 
@@ -20,6 +21,9 @@ public class UserRegistrationService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private GroupRegistrationService groupRegistrationService;
 
 	public List<User> listAll() {
 		return userRepository.findAll();
@@ -31,14 +35,15 @@ public class UserRegistrationService {
 
 	@Transactional
 	public User save(User user) {
-		
+
 		userRepository.detach(user);
 		Optional<User> userExists = userRepository.findByEmail(user.getEmail());
-		
-		if(userExists.isPresent() && !userExists.get().equals(user)) {
-			throw new BusinessException(String.format("Já existe um usuário cadastrado com o e-mail informado %s", user.getEmail()));
+
+		if (userExists.isPresent() && !userExists.get().equals(user)) {
+			throw new BusinessException(
+					String.format("Já existe um usuário cadastrado com o e-mail informado %s", user.getEmail()));
 		}
-		
+
 		return userRepository.save(user);
 	}
 
@@ -64,5 +69,21 @@ public class UserRegistrationService {
 		}
 
 		user.setPassword(newPassword);
+	}
+
+	@Transactional
+	public void associateGroup(Long userId, Long groupId) {
+		User currentUser = searchOrFail(userId);
+		Group currentGroup = groupRegistrationService.searchOrFail(groupId);
+
+		currentUser.addGroup(currentGroup);
+	}
+
+	@Transactional
+	public void disassociateGroup(Long userId, Long groupId) {
+		User currentUser = searchOrFail(userId);
+		Group currentGroup = groupRegistrationService.searchOrFail(groupId);
+
+		currentUser.removeGroup(currentGroup);
 	}
 }

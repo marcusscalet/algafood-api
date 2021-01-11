@@ -11,6 +11,7 @@ import com.marcusscalet.algafood.domain.model.City;
 import com.marcusscalet.algafood.domain.model.Cuisine;
 import com.marcusscalet.algafood.domain.model.PaymentMethod;
 import com.marcusscalet.algafood.domain.model.Restaurant;
+import com.marcusscalet.algafood.domain.model.User;
 import com.marcusscalet.algafood.domain.repository.RestaurantRepository;
 
 @Service
@@ -25,6 +26,9 @@ public class RestaurantRegistrationService {
 	@Autowired
 	private CityRegistrationService cityRegistrationService;
 
+	@Autowired
+	private UserRegistrationService userRegistrationService;
+	
 	@Autowired
 	private PaymentMethodRegistrationService paymentMethodRegistrationService;
 
@@ -92,6 +96,22 @@ public class RestaurantRegistrationService {
 		PaymentMethod currentPaymentMethod = paymentMethodRegistrationService.searchOrFail(paymentMethodId);
 
 		currentRestaurant.removePaymentMethod(currentPaymentMethod);
+	}
+	
+	@Transactional
+	public void associateUser(Long restaurantId, Long userId) {
+		Restaurant restaurant = searchOrFail(restaurantId);
+		User user = userRegistrationService.searchOrFail(userId);
+		
+		restaurant.addUser(user);
+	}
+	
+	@Transactional
+	public void disassociateUser(Long restaurantId, Long userId) {
+		Restaurant restaurant = searchOrFail(restaurantId);
+		User user = userRegistrationService.searchOrFail(userId);
+		
+		restaurant.removeUser(user);
 	}
 	
 }
