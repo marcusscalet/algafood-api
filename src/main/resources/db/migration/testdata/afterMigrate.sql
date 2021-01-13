@@ -12,6 +12,9 @@ delete from restaurant;
 delete from restaurant_payment_method;
 delete from `user`;
 delete from user_ggroup;
+delete from restaurant_accountable_user;
+delete from ordered;
+delete from ordered_item;
 
 set foreign_key_checks = 1;
 
@@ -24,6 +27,8 @@ alter table permission auto_increment = 1;
 alter table product auto_increment = 1;
 alter table restaurant auto_increment = 1;
 alter table `user` auto_increment = 1;
+alter table ordered auto_increment = 1;
+alter table ordered_item auto_increment = 1;
 
 insert into cuisine (id, name) values (1, 'Tailandesa');
 insert into cuisine (id, name) values (2, 'Indiana');
@@ -78,9 +83,24 @@ insert into `user` (id, name, email, password, registration_date) values
 
 insert into user_ggroup (user_id, ggroup_id) values (1, 1), (1, 2), (2, 1);
 
-delete from restaurant_accountable_user;
-
 insert into user (id, name, email, password, registration_date) values
 (5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp);
 
 insert into restaurant_accountable_user(restaurant_id, user_id) values (1, 5), (3, 5);
+
+insert into ordered (id, restaurant_id, user_client_id, payment_method_id, address_city_id, address_zip_code, address_street, address_number, address_neighborhood, status, creation_date, subtotal, shipping_fee, total_cost)
+values (1, 1, 1, 1, 1, '38400-000', '500', 'Rua Floriano Peixoto', 'Brasil',
+'CREATED', utc_timestamp, 298.90, 10, 308.90);
+
+insert into ordered_item (id, ordered_id, product_id, amount, unit_cost, total_cost, note)
+values (1, 1, 1, 1, 78.9, 78.9, null);
+
+insert into ordered_item (id, ordered_id, product_id, amount, unit_cost, total_cost, note)
+values (2, 1, 2, 2, 110, 220, 'Menos picante, por favor');
+
+insert into ordered (id, restaurant_id, user_client_id, payment_method_id, address_city_id, address_zip_code, address_street, address_number, address_neighborhood, status, creation_date, subtotal, shipping_fee, total_cost)
+values (2, 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Centro',
+'CREATED', utc_timestamp, 79, 0, 79);
+
+insert into ordered_item (id, ordered_id, product_id, amount, unit_cost, total_cost, note)
+values (3, 2, 6, 1, 79, 79, 'Ao ponto');

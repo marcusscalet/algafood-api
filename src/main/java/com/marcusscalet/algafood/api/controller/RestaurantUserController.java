@@ -45,4 +45,5 @@ public class RestaurantUserController {
 	public void disassociateUser(@PathVariable Long userId, @PathVariable Long restaurantId) {
 		restaurantRegistrationService.disassociateUser(restaurantId, userId);
 	}
+	
 }

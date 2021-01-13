@@ -23,6 +23,7 @@ import com.marcusscalet.algafood.api.model.input.RestaurantInput;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.CityNotFoundException;
 import com.marcusscalet.algafood.domain.exception.CuisineNotFoundException;
+import com.marcusscalet.algafood.domain.exception.RestaurantNotFoundException;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
 
@@ -100,6 +101,26 @@ public class RestaurantController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void inactivate(@PathVariable Long restaurantId) {
 		restaurantRegistrationService.inactivate(restaurantId);
+	}
+
+	@PutMapping("/activation")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void multipleActivation(@RequestBody List<Long> restaurantIds) {
+		try {
+			restaurantRegistrationService.activate(restaurantIds);
+		} catch (RestaurantNotFoundException e) {
+			throw new BusinessException(e.getMessage());
+		}
+	}
+
+	@DeleteMapping("/activation")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void multipleInactivation(@RequestBody List<Long> restaurantIds) {
+		try {
+			restaurantRegistrationService.inactivate(restaurantIds);
+		} catch (RestaurantNotFoundException e) {
+			throw new BusinessException(e.getMessage());
+		}
 	}
 
 }

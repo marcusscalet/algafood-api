@@ -37,4 +37,19 @@ public class OrderedItem {
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Product product;
+	
+	public void calcTotal() {
+	    BigDecimal precoUnitario = this.getUnitCost();
+	    Integer quantidade = this.getAmount();
+
+	    if (precoUnitario == null) {
+	        precoUnitario = BigDecimal.ZERO;
+	    }
+
+	    if (quantidade == null) {
+	        quantidade = 0;
+		}
+
+		this.setTotalCost(unitCost.multiply(new BigDecimal(amount)));
+	}
 }

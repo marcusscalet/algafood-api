@@ -26,7 +26,7 @@ import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
 
 @RestController
 @RequestMapping(value = "/restaurants/{restaurantId}/products")
-public class ProductController {
+public class RestaurantProductController {
 
 	@Autowired
 	private ProductRegistrationService productRegistrationService;

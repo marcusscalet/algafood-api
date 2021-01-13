@@ -18,7 +18,6 @@ public class GroupInputDisassembler {
 	}
 
 	public void copyToDomainObject(GroupInput groupInput, Group group) {
-		
 		modelMapper.map(groupInput, group);
 	}
 

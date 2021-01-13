@@ -114,4 +114,14 @@ public class RestaurantRegistrationService {
 		restaurant.removeUser(user);
 	}
 	
+	@Transactional
+	public void activate(List<Long> restaurantIds) {
+		restaurantIds.forEach(this::activate);
+	}
+	
+	@Transactional
+	public void inactivate(List<Long> restaurantIds) {
+		restaurantIds.forEach(this::inactivate);
+	}
+	
 }
