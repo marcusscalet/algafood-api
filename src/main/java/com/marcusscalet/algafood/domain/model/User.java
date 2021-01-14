@@ -12,16 +12,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Entity
+@Entity(name = "user_")
 @Data
-@Table(name = "user")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
 
@@ -44,8 +42,8 @@ public class User {
 	private OffsetDateTime registrationDate;
 
 	@ManyToMany
-	@JoinTable(name = "user_ggroup", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "ggroup_id"))
-	private Set<Group> ggroup = new HashSet<>();
+	@JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+	private Set<Group> group = new HashSet<>();
 
 	public boolean passwordMatches(String password) {
 		return getPassword().equals(password);
@@ -56,10 +54,10 @@ public class User {
 	}
 	
 	public boolean addGroup(Group group) {
-		return getGgroup().add(group);
+		return getGroup().add(group);
 	}
 	
 	public boolean removeGroup(Group group) {
-		return getGgroup().remove(group);
+		return getGroup().remove(group);
 	}
 }

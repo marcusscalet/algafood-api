@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderedDTO {
+public class OrderDTO {
 
 	private Long id;
 
@@ -37,7 +37,7 @@ public class OrderedDTO {
 	
 	private AddressDTO deliveryAdrress;
 
-	private List<OrderedItemDTO> itens;
+	private List<OrderItemDTO> itens;
 
 
 }

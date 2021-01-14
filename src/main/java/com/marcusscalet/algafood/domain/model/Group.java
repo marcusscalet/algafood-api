@@ -16,9 +16,9 @@ import javax.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Entity
+
+@Entity(name = "group_")
 @Data
-@Table(name = "ggroup")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Group {
 
@@ -31,7 +31,7 @@ public class Group {
 	private String name;
 
 	@ManyToMany
-	@JoinTable(name = "ggroup_permission", joinColumns = @JoinColumn(name = "ggroup_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
+	@JoinTable(name = "group_permission", joinColumns = @JoinColumn(name = "group_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
 	private Set<Permission> permissions = new HashSet<>();
 	
 	public boolean removePermission(Permission permission) {

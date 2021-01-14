@@ -29,6 +29,6 @@ insert into product(id, description, price, active, restaurant_id) values (2, "S
 
 insert into uuser(id, name, email, password, registration_date) values (1, 'Viola Davis', 'viola@gmail.com', 'vi01#$', utc_timestamp)
 
-insert into ggroup(id, name) values (1, 'Usuários privilegiados')
+insert into `group_`(id, name) values (1, 'Usuários privilegiados')
 
-insert into uuser_ggroup(uuser_id, ggroup_id) values (1,1)
+insert into `user_group`(`user_id`, `group_id`) values (1,1)

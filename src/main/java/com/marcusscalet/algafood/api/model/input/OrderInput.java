@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderedInput {
+public class OrderInput {
 
 	@Valid
 	@NotNull
@@ -28,5 +28,5 @@ public class OrderedInput {
 	@Valid
 	@Size(min = 1)
 	@NotNull
-	private List<OrderedItemInput> itens;
+	private List<OrderItemInput> itens;
 }

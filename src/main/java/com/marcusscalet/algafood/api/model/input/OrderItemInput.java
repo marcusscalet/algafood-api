@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderedItemInput {
+public class OrderItemInput {
 
 	@NotNull
 	private Long productId;

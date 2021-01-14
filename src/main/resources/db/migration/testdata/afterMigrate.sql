@@ -4,17 +4,17 @@ delete from city;
 delete from cuisine;
 delete from state;
 delete from payment_method;
-delete from ggroup;
-delete from ggroup_permission;
+delete from `group_`;
+delete from group_permission;
 delete from permission;
 delete from product;
 delete from restaurant;
 delete from restaurant_payment_method;
-delete from `user`;
-delete from user_ggroup;
+delete from `user_`;
+delete from user_group;
 delete from restaurant_accountable_user;
-delete from ordered;
-delete from ordered_item;
+delete from `order_`;
+delete from `order_item`;
 
 set foreign_key_checks = 1;
 
@@ -22,13 +22,13 @@ alter table city auto_increment = 1;
 alter table cuisine auto_increment = 1;
 alter table state auto_increment = 1;
 alter table payment_method auto_increment = 1;
-alter table ggroup auto_increment = 1;
+alter table `group_` auto_increment = 1;
 alter table permission auto_increment = 1;
 alter table product auto_increment = 1;
 alter table restaurant auto_increment = 1;
-alter table `user` auto_increment = 1;
-alter table ordered auto_increment = 1;
-alter table ordered_item auto_increment = 1;
+alter table `user_` auto_increment = 1;
+alter table `order_` auto_increment = 1;
+alter table `order_item` auto_increment = 1;
 
 insert into cuisine (id, name) values (1, 'Tailandesa');
 insert into cuisine (id, name) values (2, 'Indiana');
@@ -71,36 +71,36 @@ insert into product (name, description, price, active, restaurant_id) values ('T
 insert into product (name, description, price, active, restaurant_id) values ('Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, bacon, ovo, salada e maionese', 19, 1, 5);
 insert into product (name, description, price, active, restaurant_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
 
-insert into ggroup (name) values ('Gerente'), ('Vendedor'), ('Secretária'), ('Cadastrador');
+insert into `group_` (name) values ('Gerente'), ('Vendedor'), ('Secretária'), ('Cadastrador');
 
-insert into ggroup_permission (ggroup_id, permission_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1); 
+insert into group_permission (`group_id`, permission_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1); 
 
-insert into `user` (id, name, email, password, registration_date) values
+insert into `user_` (id, name, email, password, registration_date) values
 (1, 'João da Silva', 'joao.ger@algafood.com', '123', utc_timestamp),
 (2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', utc_timestamp),
 (3, 'José Souza', 'jose.aux@algafood.com', '123', utc_timestamp),
 (4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp);   
 
-insert into user_ggroup (user_id, ggroup_id) values (1, 1), (1, 2), (2, 1);
+insert into user_group (`user_id`, `group_id`) values (1, 1), (1, 2), (2, 1);
 
-insert into user (id, name, email, password, registration_date) values
+insert into `user_` (id, name, email, password, registration_date) values
 (5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp);
 
 insert into restaurant_accountable_user(restaurant_id, user_id) values (1, 5), (3, 5);
 
-insert into ordered (id, restaurant_id, user_client_id, payment_method_id, address_city_id, address_zip_code, address_street, address_number, address_neighborhood, status, creation_date, subtotal, shipping_fee, total_cost)
+insert into `order_` (id, restaurant_id, user_client_id, payment_method_id, address_city_id, address_zip_code, address_street, address_number, address_neighborhood, status, creation_date, subtotal, shipping_fee, total_cost)
 values (1, 1, 1, 1, 1, '38400-000', '500', 'Rua Floriano Peixoto', 'Brasil',
 'CREATED', utc_timestamp, 298.90, 10, 308.90);
 
-insert into ordered_item (id, ordered_id, product_id, amount, unit_cost, total_cost, note)
+insert into `order_item` (id, `order_id`, product_id, amount, unit_cost, total_cost, note)
 values (1, 1, 1, 1, 78.9, 78.9, null);
 
-insert into ordered_item (id, ordered_id, product_id, amount, unit_cost, total_cost, note)
+insert into `order_item` (id, `order_id`, product_id, amount, unit_cost, total_cost, note)
 values (2, 1, 2, 2, 110, 220, 'Menos picante, por favor');
 
-insert into ordered (id, restaurant_id, user_client_id, payment_method_id, address_city_id, address_zip_code, address_street, address_number, address_neighborhood, status, creation_date, subtotal, shipping_fee, total_cost)
+insert into `order_` (id, restaurant_id, user_client_id, payment_method_id, address_city_id, address_zip_code, address_street, address_number, address_neighborhood, status, creation_date, subtotal, shipping_fee, total_cost)
 values (2, 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Centro',
 'CREATED', utc_timestamp, 79, 0, 79);
 
-insert into ordered_item (id, ordered_id, product_id, amount, unit_cost, total_cost, note)
+insert into `order_item` (id, `order_id`, product_id, amount, unit_cost, total_cost, note)
 values (3, 2, 6, 1, 79, 79, 'Ao ponto');

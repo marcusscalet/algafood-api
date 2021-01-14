@@ -26,8 +26,8 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
-public class Ordered {
+@Entity(name = "order_")
+public class Order {
 
 	@EqualsAndHashCode.Include
 	@Id
@@ -65,14 +65,14 @@ public class Ordered {
 	@Embedded
 	private Address deliveryAddress;
 
-	@OneToMany(mappedBy = "ordered", cascade = CascadeType.ALL) //cascade é necessário para quando salvar um pedido, também salvar os itens do pedido
-	private List<OrderedItem> itens = new ArrayList<>();
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL) //cascade é necessário para quando salvar um pedido, também salvar os itens do pedido
+	private List<OrderItem> itens = new ArrayList<>();
 
 	@Enumerated(EnumType.STRING) //esta anotação resolve o problema referente a conversão da String para Enum
-	private Status status = Status.CREATED;
+	private OrderStatus status = OrderStatus.CREATED;
 	
 	public void calcTotalCost() {
-		getItens().forEach(OrderedItem::calcTotal);
+		getItens().forEach(OrderItem::calcTotal);
 		
 	    this.subtotal = getItens().stream()
 	        .map(item -> item.getTotalCost())
@@ -86,6 +86,6 @@ public class Ordered {
 	}
 
 	public void assignItem() {
-	    getItens().forEach(item -> item.setOrdered(this));
+	    getItens().forEach(item -> item.setOrder(this));
 	}
 }

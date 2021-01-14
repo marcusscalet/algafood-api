@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.marcusscalet.algafood.api.model.AddressDTO;
-import com.marcusscalet.algafood.api.model.input.OrderedItemInput;
+import com.marcusscalet.algafood.api.model.input.OrderItemInput;
 import com.marcusscalet.algafood.domain.model.Address;
-import com.marcusscalet.algafood.domain.model.OrderedItem;
+import com.marcusscalet.algafood.domain.model.OrderItem;
 
 @Configuration
 public class ModelMapperConfig {
@@ -16,8 +16,8 @@ public class ModelMapperConfig {
 	public ModelMapper modelMapper() {
 		var modelMapper = new ModelMapper();
 
-		modelMapper.createTypeMap(OrderedItemInput.class, OrderedItem.class)
-				.addMappings(mapper -> mapper.skip(OrderedItem::setId));
+		modelMapper.createTypeMap(OrderItemInput.class, OrderItem.class)
+				.addMappings(mapper -> mapper.skip(OrderItem::setId));
 
 		// mapeia de address to addressDTO
 		var addressToAddressDTOTypeMap = modelMapper.createTypeMap(Address.class, AddressDTO.class);

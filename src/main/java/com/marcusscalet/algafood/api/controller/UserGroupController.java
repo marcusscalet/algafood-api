@@ -31,7 +31,7 @@ public class UserGroupController {
 	public List<GroupDTO> listAll(@PathVariable Long userId){
 		User currentUser = userRegistrationService.searchOrFail(userId);
 		
-		return groupDTOAssembler.toCollectionDTO(currentUser.getGgroup());
+		return groupDTOAssembler.toCollectionDTO(currentUser.getGroup());
 	}
 	
 	@DeleteMapping("/{groupId}")
