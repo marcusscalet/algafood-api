@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,8 +19,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.marcusscalet.algafood.domain.exception.BusinessException;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,6 +38,8 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String code;
+	
 	private BigDecimal subtotal;
 
 	private BigDecimal shippingFee;
@@ -43,7 +49,7 @@ public class Order {
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private OffsetDateTime creationDate;
-	
+
 	private OffsetDateTime cancellationDate;
 
 	private OffsetDateTime deliveredDate;
@@ -65,27 +71,59 @@ public class Order {
 	@Embedded
 	private Address deliveryAddress;
 
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL) //cascade é necessário para quando salvar um pedido, também salvar os itens do pedido
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // cascade é necessário para quando salvar um pedido,
+																// também salvar os itens do pedido
 	private List<OrderItem> itens = new ArrayList<>();
 
-	@Enumerated(EnumType.STRING) //esta anotação resolve o problema referente a conversão da String para Enum
-	private OrderStatus status = OrderStatus.CREATED;
-	
+	@Enumerated(EnumType.STRING) // esta anotação resolve o problema referente a conversão da String para Enum
+	private StatusOrder status = StatusOrder.CREATED;
+
 	public void calcTotalCost() {
 		getItens().forEach(OrderItem::calcTotal);
-		
-	    this.subtotal = getItens().stream()
-	        .map(item -> item.getTotalCost())
-	        .reduce(BigDecimal.ZERO, BigDecimal::add);
-	    
-	    this.totalCost = this.subtotal.add(this.shippingFee);
+
+		this.subtotal = getItens().stream().map(item -> item.getTotalCost()).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+		this.totalCost = this.subtotal.add(this.shippingFee);
 	}
 
-	public void calcShippingFee() {
-	    setShippingFee(getRestaurant().getShippingFee());
+	public void acceptOrder() {
+		setStatus(StatusOrder.ACCEPTED);
+		setConfirmationDate(OffsetDateTime.now());
 	}
 
-	public void assignItem() {
-	    getItens().forEach(item -> item.setOrder(this));
+	public void deliverOrder() {
+		setStatus(StatusOrder.DELIVERED);
+		setDeliveredDate(OffsetDateTime.now());
+	}
+
+	public void cancelOrder() {
+		setStatus(StatusOrder.CANCELED);
+		setCancellationDate(OffsetDateTime.now());
+	}
+
+	private void setStatus(StatusOrder newStatus) {
+		if (getStatus().canNotBeChangedTo(newStatus)) {
+			throw new BusinessException(
+					String.format("Status do pedido %s não pode ser alterado para de %s para %s",
+					getCode(),
+					getStatus().getDescription(),
+					newStatus.getDescription()));
+		}
+
+		this.status = newStatus;
+	}
+	
+	@PrePersist
+	private void generateCode() {
+		setCode(UUID.randomUUID().toString());
 	}
 }
+
+//	public void calcShippingFee() {
+//	    setShippingFee(getRestaurant().getShippingFee());
+//	}
+//
+//	public void assignItem() {
+//	    getItens().forEach(item -> item.setOrder(this));
+//	}
+//}

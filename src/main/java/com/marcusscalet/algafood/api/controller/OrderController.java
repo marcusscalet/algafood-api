@@ -24,14 +24,14 @@ import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
 import com.marcusscalet.algafood.domain.model.Order;
 import com.marcusscalet.algafood.domain.model.User;
-import com.marcusscalet.algafood.domain.service.IssuePurchaseOrderService;
+import com.marcusscalet.algafood.domain.service.OrderService;
 
 @RestController
-@RequestMapping(value = "/order")
+@RequestMapping(value = "/orders")
 public class OrderController {
 
 	@Autowired
-	private IssuePurchaseOrderService orderRegistrationService;
+	private OrderService orderRegistrationService;
 
 	@Autowired
 	private OrderSummaryDTOAssembler orderSummaryDTOAssembler;
@@ -47,9 +47,9 @@ public class OrderController {
 		return orderSummaryDTOAssembler.toCollectionDTO(orderRegistrationService.listAll());
 	}
 
-	@GetMapping("/{orderId}")
-	public OrderDTO find(@PathVariable Long orderId) {
-		Order order = orderRegistrationService.searchOrFail(orderId);
+	@GetMapping("/{orderCode}")
+	public OrderDTO find(@PathVariable String orderCode) {
+		Order order = orderRegistrationService.searchOrFail(orderCode);
 		
 		return orderDTOAssembler.toDTO(order);
 	}

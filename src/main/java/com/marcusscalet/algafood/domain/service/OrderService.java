@@ -18,7 +18,7 @@ import com.marcusscalet.algafood.domain.model.User;
 import com.marcusscalet.algafood.domain.repository.OrderRepository;
 
 @Service
-public class IssuePurchaseOrderService {
+public class OrderService {
 
 	@Autowired
 	private OrderRepository orderRepository;
@@ -42,8 +42,8 @@ public class IssuePurchaseOrderService {
 		return orderRepository.findAll();
 	}
 
-	public Order searchOrFail(Long orderId) {
-		return orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
+	public Order searchOrFail(String orderCode) {
+		return orderRepository.findByCode(orderCode).orElseThrow(() -> new OrderNotFoundException(orderCode));
 	}
 
 	public Order save(Order order) {
