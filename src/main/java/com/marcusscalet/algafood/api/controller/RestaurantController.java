@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.marcusscalet.algafood.api.assembler.RestaurantDTOAssembler;
 import com.marcusscalet.algafood.api.assembler.RestaurantInputDisassembler;
 import com.marcusscalet.algafood.api.model.RestaurantDTO;
 import com.marcusscalet.algafood.api.model.input.RestaurantInput;
+import com.marcusscalet.algafood.api.model.view.RestaurantView;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.CityNotFoundException;
 import com.marcusscalet.algafood.domain.exception.CuisineNotFoundException;
@@ -39,9 +41,37 @@ public class RestaurantController {
 
 	@Autowired
 	private RestaurantInputDisassembler restaurantInputDisassembler;
-
+	
+//	@GetMapping
+//	public MappingJacksonValue listAll(@RequestParam(required=false) String view) {
+//		
+//		List<Restaurant> restaurants = restaurantRegistrationService.listAll();
+//		List<RestaurantDTO> restaurantsDTO = restaurantDTOAssembler.toCollectionDTO(restaurants);
+//		
+//		MappingJacksonValue restaurantsWrapper = new MappingJacksonValue(restaurantsDTO);
+//		
+//		if("only-name".equals(view)) {
+//		restaurantsWrapper.setSerializationView(RestaurantView.OnlyName.class);
+//		} else if("whole".equals(view)) {
+//			restaurantsWrapper.setSerializationView(null);
+//		}
+//		return restaurantsWrapper;
+//	}
+	
+//	@GetMapping
+//	public List<RestaurantDTO> listAll() {
+//		return restaurantDTOAssembler.toCollectionDTO(restaurantRegistrationService.listAll());
+//	}
+//	
+	@JsonView(RestaurantView.Summary.class)
 	@GetMapping
-	public List<RestaurantDTO> listAll() {
+	public List<RestaurantDTO> listAllSummary() {
+		return restaurantDTOAssembler.toCollectionDTO(restaurantRegistrationService.listAll());
+	}
+	
+	@JsonView(RestaurantView.OnlyName.class)
+	@GetMapping(params = "view=only-name")
+	public List<RestaurantDTO> listAllByName() {
 		return restaurantDTOAssembler.toCollectionDTO(restaurantRegistrationService.listAll());
 	}
 
