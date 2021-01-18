@@ -16,6 +16,8 @@ import com.marcusscalet.algafood.domain.model.Product;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.model.User;
 import com.marcusscalet.algafood.domain.repository.OrderRepository;
+import com.marcusscalet.algafood.domain.repository.filter.OrderFilter;
+import com.marcusscalet.algafood.infrastructure.repository.spec.OrderSpecs;
 
 @Service
 public class OrderService {
@@ -38,8 +40,8 @@ public class OrderService {
 	@Autowired
 	private ProductRegistrationService productRegistrationService;
 
-	public List<Order> listAll() {
-		return orderRepository.findAll();
+	public List<Order> listAll(OrderFilter filter) {
+		return orderRepository.findAll(OrderSpecs.withFilter(filter));
 	}
 
 	public Order searchOrFail(String orderCode) {

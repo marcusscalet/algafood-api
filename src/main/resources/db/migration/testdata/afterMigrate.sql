@@ -61,7 +61,7 @@ insert into permission (id, name, description) values (2, 'EDITAR_COZINHAS', 'Pe
 
 insert into restaurant_payment_method (restaurant_id, payment_method_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3), (4, 1), (4, 2), (5, 1), (5, 2), (6, 3);
 
-insert into product (name, description, price, active, restaurant_id) values ('Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 1, 1);
+insert into product (name, description, price, active, restaurant_id) values ('Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 0, 1);
 insert into product (name, description, price, active, restaurant_id) values ('Camarão tailandês', '16 camarões grandes ao molho picante', 110, 1, 1);
 insert into product (name, description, price, active, restaurant_id) values ('Salada picante com carne grelhada', 'Salada de folhas com cortes finos de carne bovina grelhada e nosso molho especial de pimenta vermelha', 87.20, 1, 2);
 insert into product (name, description, price, active, restaurant_id) values ('Garlic Naan', 'Pão tradicional indiano com cobertura de alho', 21, 1, 3);
@@ -98,9 +98,34 @@ values (1, 1, 1, 1, 78.9, 78.9, null);
 insert into `order_item` (id, `order_id`, product_id, amount, unit_cost, total_cost, note)
 values (2, 1, 2, 2, 110, 220, 'Menos picante, por favor');
 
-insert into `order_` (id, code, restaurant_id, user_client_id, payment_method_id, address_city_id, address_zip_code, address_street, address_number, address_neighborhood, status, creation_date, subtotal, shipping_fee, total_cost)
+insert into `order_` (id, code, restaurant_id, user_client_id, payment_method_id, address_city_id, address_zip_code,
+address_street, address_number, address_neighborhood, status, creation_date, subtotal, shipping_fee, total_cost)
 values (2, '25b0b82e-4fec-4275-8143-381c8902009a', 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Centro',
 'CREATED', utc_timestamp, 79, 0, 79);
 
 insert into `order_item` (id, `order_id`, product_id, amount, unit_cost, total_cost, note)
 values (3, 2, 6, 1, 79, 79, 'Ao ponto');
+
+insert into `order_` (id, code, restaurant_id, user_client_id, payment_method_id, address_city_id, address_zip_code,
+address_street, address_number, address_neighborhood, status, creation_date, confirmation_date, delivered_date, subtotal, shipping_fee, total_cost)
+values (3, 'b5741512-8fbc-47fa-9ac1-b530354fc0ff', 1, 1, 1, 1, '38400-222', 'Rua Natal','200', 'Brasil', 
+        'DELIVERED', '2019-10-30 21:10:00', '2019-10-30 21:10:45', '2019-10-30 21:55:44', 110, 10, 120);
+
+insert into `order_item` (id, `order_id`, product_id, amount, unit_cost, total_cost, note)
+values (4, 3, 2, 1, 110, 110, null);
+
+insert into `order_` (id, code, restaurant_id, user_client_id, payment_method_id, address_city_id, address_zip_code,
+address_street, address_number, address_neighborhood, status, creation_date, confirmation_date, delivered_date, subtotal, shipping_fee, total_cost)
+values (4, '5c621c9a-ba61-4454-8631-8aabefe58dc2', 1, 2, 1, 1, '38400-800', '900', 'Rua Fortaleza', 'Centro',
+        'DELIVERED', '2019-11-02 20:34:04', '2019-11-02 20:35:10', '2019-11-02 21:10:32', 174.4, 5, 179.4);
+
+insert into `order_item` (id, `order_id`, product_id, amount, unit_cost, total_cost, note)
+values (5, 4, 3, 2, 87.2, 174.4, null);
+
+insert into `order_` (id, code, restaurant_id, user_client_id, payment_method_id, address_city_id, address_zip_code,
+address_street, address_number, address_neighborhood, status, creation_date, confirmation_date, delivered_date, subtotal, shipping_fee, total_cost)
+values (5, '8d774bcf-b238-42f3-aef1-5fb388754d63', 1, 3, 2, 1, '38400-200', '930', 'Rua 10', 'Martins',
+        'DELIVERED', '2019-11-02 21:00:30', '2019-11-02 21:01:21', '2019-11-02 21:20:10', 87.2, 10, 97.2);
+        
+insert into `order_item` (id, `order_id`, product_id, amount, unit_cost, total_cost, note)
+values (6, 5, 3, 1, 87.2, 87.2, null);
