@@ -1,10 +1,10 @@
 package com.marcusscalet.algafood.domain.service;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.marcusscalet.algafood.domain.exception.BusinessException;
@@ -40,8 +40,8 @@ public class OrderService {
 	@Autowired
 	private ProductRegistrationService productRegistrationService;
 
-	public List<Order> listAll(OrderFilter filter) {
-		return orderRepository.findAll(OrderSpecs.withFilter(filter));
+	public Page<Order> findAll(OrderFilter filter, Pageable pageable) {
+		return orderRepository.findAll(OrderSpecs.withFilter(filter), pageable);
 	}
 
 	public Order searchOrFail(String orderCode) {

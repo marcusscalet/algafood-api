@@ -13,28 +13,30 @@ public class OrderSpecs {
 
 	public static Specification<Order> withFilter(OrderFilter filter) {
 		return (root, query, builder) -> {
-			
-			root.fetch("restaurant").fetch("cuisine");
-			root.fetch("client");
-			
+
+			if (Order.class.equals(query.getResultType())) {
+				root.fetch("restaurant").fetch("cuisine");
+				root.fetch("client");
+			}
+
 			var predicates = new ArrayList<Predicate>();
 
-			if(filter.getClientId() != null) {
+			if (filter.getClientId() != null) {
 				predicates.add(builder.equal(root.get("client"), filter.getClientId()));
 			}
-			
-			if(filter.getRestaurantId() != null) {
+
+			if (filter.getRestaurantId() != null) {
 				predicates.add(builder.equal(root.get("restaurant"), filter.getRestaurantId()));
 			}
-			
-			if(filter.getCreationStartDate() != null) {
+
+			if (filter.getCreationStartDate() != null) {
 				predicates.add(builder.greaterThan(root.get("creationDate"), filter.getCreationStartDate()));
 			}
-			
-			if(filter.getCreationEndDate() != null) {
+
+			if (filter.getCreationEndDate() != null) {
 				predicates.add(builder.lessThan(root.get("creationDate"), filter.getCreationEndDate()));
 			}
-			
+
 			return builder.and(predicates.toArray(new Predicate[0]));
 		};
 	}

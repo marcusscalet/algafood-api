@@ -9,8 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.marcusscalet.algafood.domain.model.Order;
 
 public interface OrderRepository extends 
-CustomJpaRepository<Order, Long>,
-JpaSpecificationExecutor<Order> {
+		CustomJpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
 
 	Optional<Order> findByCode(String code);
 
