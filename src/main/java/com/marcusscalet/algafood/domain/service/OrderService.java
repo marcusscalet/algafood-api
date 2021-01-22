@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.OrderNotFoundException;
+import com.marcusscalet.algafood.domain.filter.OrderFilter;
 import com.marcusscalet.algafood.domain.model.City;
 import com.marcusscalet.algafood.domain.model.Order;
 import com.marcusscalet.algafood.domain.model.PaymentMethod;
@@ -16,7 +17,6 @@ import com.marcusscalet.algafood.domain.model.Product;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.model.User;
 import com.marcusscalet.algafood.domain.repository.OrderRepository;
-import com.marcusscalet.algafood.domain.repository.filter.OrderFilter;
 import com.marcusscalet.algafood.infrastructure.repository.spec.OrderSpecs;
 
 @Service

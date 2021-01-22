@@ -1,4 +1,4 @@
-package com.marcusscalet.algafood.domain.repository.filter;
+package com.marcusscalet.algafood.domain.filter;
 
 import java.time.OffsetDateTime;
 
@@ -10,9 +10,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderFilter {
+public class DailySalesFilter {
 
-	private Long clientId;
 	private Long restaurantId;
 	
 	@DateTimeFormat(iso = ISO.DATE_TIME)

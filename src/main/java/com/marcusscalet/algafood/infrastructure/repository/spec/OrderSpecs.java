@@ -6,8 +6,8 @@ import javax.persistence.criteria.Predicate;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.marcusscalet.algafood.domain.filter.OrderFilter;
 import com.marcusscalet.algafood.domain.model.Order;
-import com.marcusscalet.algafood.domain.repository.filter.OrderFilter;
 
 public class OrderSpecs {
 

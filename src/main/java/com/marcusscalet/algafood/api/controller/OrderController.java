@@ -28,9 +28,9 @@ import com.marcusscalet.algafood.api.model.input.OrderInput;
 import com.marcusscalet.algafood.core.data.PageableTranslator;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
+import com.marcusscalet.algafood.domain.filter.OrderFilter;
 import com.marcusscalet.algafood.domain.model.Order;
 import com.marcusscalet.algafood.domain.model.User;
-import com.marcusscalet.algafood.domain.repository.filter.OrderFilter;
 import com.marcusscalet.algafood.domain.service.OrderService;
 
 @RestController
