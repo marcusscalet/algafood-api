@@ -24,11 +24,12 @@ public class ProductRegistrationService {
 	public Product save(Product product) {
 		return productRepository.save(product);
 	}
-	public List<Product> findAllProductsByRestaurants(Restaurant restaurant){
+
+	public List<Product> findAllProductsByRestaurants(Restaurant restaurant) {
 		return productRepository.findAllProductsByRestaurant(restaurant);
 	}
-	
-	public List<Product> findAllActiveProducts(Restaurant restaurant){
+
+	public List<Product> findAllActiveProducts(Restaurant restaurant) {
 		return productRepository.findActiveByRestaurant(restaurant);
 	}
 

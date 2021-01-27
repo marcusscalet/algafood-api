@@ -16,7 +16,7 @@ import javax.validation.Payload;
 
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = { FileSizeValidator.class })
+@Constraint(validatedBy = { FileContentValidator.class })
 public @interface FileContentType {
 
 	String message() default "formato do arquivo inválido";

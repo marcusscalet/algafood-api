@@ -9,10 +9,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.marcusscalet.algafood.domain.model.Product;
+import com.marcusscalet.algafood.domain.model.ProductImage;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long>{
+public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryQueries{
 
 	@Query("from Product where restaurant.id = :restaurant and id = :product")
 	Optional<Product> findById(@Param("restaurant") Long restaurantId, @Param("product") Long productId);
@@ -21,4 +22,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	
 	@Query("from Product p where p.active = true and p.restaurant = :restaurant")
 	List<Product> findActiveByRestaurant(Restaurant restaurant);
+	
+	@Query("select p from ProductImage p join p.product f "
+			+ "where f.restaurant.id = :restaurantId and p.product.id = :productId")
+	Optional<ProductImage> findImageById(Long restaurantId, Long productId);
 }
