@@ -27,11 +27,13 @@ public class ProductImageCatalogService {
 		Long productId = image.getProduct().getId();
 		
 		String newFileName = imageStorageService.generateFileName(image.getFileName());
+		String fileNameAlreadySaved = null;
 		
 		Optional<ProductImage> savedImage = productRepository
 				.findImageById(restaurantId, productId);
 		
 		if (savedImage.isPresent()) {
+			fileNameAlreadySaved = savedImage.get().getFileName();
 			productRepository.delete(savedImage.get());
 		}
 		
@@ -43,7 +45,11 @@ public class ProductImageCatalogService {
 				.fileName(image.getFileName())
 				.inputStream(fileUploaded).build();
 
-		imageStorageService.store(newImage);
+		if(fileNameAlreadySaved != null) {	
+		imageStorageService.remove(fileNameAlreadySaved);
+		
+		}
+		imageStorageService.substitute(fileNameAlreadySaved, newImage);
 		
 		return image;
 	}

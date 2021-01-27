@@ -33,4 +33,16 @@ public class LocalImageStorageService implements ImageStorageService {
 		return imagesDirectory.resolve(Path.of(fileName));
 	}
 
+	@Override
+	public void remove(String fileName) {
+		
+		try {
+			Path filePath = getFilePath(fileName);
+			
+			Files.deleteIfExists(filePath);
+		} catch (IOException e) {
+			throw new StorageException("Não foi possível excluir arquivo.", e);
+		}
+	}
+
 }
