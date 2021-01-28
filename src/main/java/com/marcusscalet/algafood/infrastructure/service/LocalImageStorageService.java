@@ -1,6 +1,7 @@
 package com.marcusscalet.algafood.infrastructure.service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -43,6 +44,18 @@ public class LocalImageStorageService implements ImageStorageService {
 		} catch (IOException e) {
 			throw new StorageException("Não foi possível excluir arquivo.", e);
 		}
+	}
+
+	@Override
+	public InputStream recover(String fileName) {
+		
+		try {
+	        Path arquivoPath = getFilePath(fileName);
+
+	        return Files.newInputStream(arquivoPath);
+	    } catch (Exception e) {
+	        throw new StorageException("Não foi possível recuperar arquivo.", e);
+	    }
 	}
 
 }
