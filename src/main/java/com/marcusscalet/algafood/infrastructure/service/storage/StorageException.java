@@ -1,4 +1,4 @@
-package com.marcusscalet.algafood.domain.exception;
+package com.marcusscalet.algafood.infrastructure.service.storage;
 
 public class StorageException extends RuntimeException{
 

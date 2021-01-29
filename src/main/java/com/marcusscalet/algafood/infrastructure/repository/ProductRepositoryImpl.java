@@ -23,7 +23,7 @@ public class ProductRepositoryImpl implements ProductRepositoryQueries {
 
 	@Transactional
 	@Override
-	public void delete(ProductImage image) {
-		manager.remove(image);
+	public void remove(ProductImage image) {
+		manager.remove(image);		
 	}
 }

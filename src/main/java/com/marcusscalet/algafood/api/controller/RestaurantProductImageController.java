@@ -1,13 +1,13 @@
 package com.marcusscalet.algafood.api.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +29,7 @@ import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
 import com.marcusscalet.algafood.domain.model.Product;
 import com.marcusscalet.algafood.domain.model.ProductImage;
 import com.marcusscalet.algafood.domain.service.ImageStorageService;
+import com.marcusscalet.algafood.domain.service.ImageStorageService.RecoveredImage;
 import com.marcusscalet.algafood.domain.service.ProductImageCatalogService;
 import com.marcusscalet.algafood.domain.service.ProductRegistrationService;
 
@@ -77,7 +78,7 @@ public class RestaurantProductImageController {
 	}
 
 	@GetMapping
-	public ResponseEntity<InputStreamResource> showImage(@PathVariable Long restaurantId, @PathVariable Long productId,
+	public ResponseEntity<?> showImage(@PathVariable Long restaurantId, @PathVariable Long productId,
 			@RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
 
 		try {
@@ -88,17 +89,23 @@ public class RestaurantProductImageController {
 
 			checkImageCompatibility(acceptedMediaTypes, mediaTypeImage);
 
-			InputStream inputStream = imageStorageService.recover(image.getFileName());
+			RecoveredImage recoveredImage = imageStorageService.recover(image.getFileName());
 
-			return ResponseEntity.ok()
-					.contentType(mediaTypeImage)
-					.body(new InputStreamResource(inputStream));
-			
+			if (recoveredImage.hasUrl()) {
+				return ResponseEntity
+						.status(HttpStatus.FOUND)
+						.header(HttpHeaders.LOCATION, recoveredImage.getUrl())
+						.build();
+			} else {
+
+				return ResponseEntity.ok().contentType(mediaTypeImage)
+						.body(new InputStreamResource(recoveredImage.getInputStream()));
+			}
 		} catch (EntityNotFoundException e) {
 			return ResponseEntity.notFound().build();
 		}
 	}
-	
+
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remove(@PathVariable Long restaurantId, @PathVariable Long productId) {

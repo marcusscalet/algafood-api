@@ -1,22 +1,20 @@
-package com.marcusscalet.algafood.infrastructure.service;
+package com.marcusscalet.algafood.infrastructure.service.storage;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 
-import com.marcusscalet.algafood.domain.exception.StorageException;
+import com.marcusscalet.algafood.core.storage.StorageProperties;
 import com.marcusscalet.algafood.domain.service.ImageStorageService;
 
-@Service
+//@Service
 public class LocalImageStorageService implements ImageStorageService {
 
-	@Value("${algafood.storage.local.image-directory}")
-	private Path imagesDirectory;
+	@Autowired
+	private StorageProperties storageProperties;
 	
 	@Override
 	public void store(NewImage newImage) {
@@ -31,7 +29,9 @@ public class LocalImageStorageService implements ImageStorageService {
 	}
 	
 	private Path getFilePath(String fileName) {
-		return imagesDirectory.resolve(Path.of(fileName));
+		return storageProperties.getLocal()
+				.getImageDirectory()
+				.resolve(Path.of(fileName));
 	}
 
 	@Override
@@ -47,12 +47,16 @@ public class LocalImageStorageService implements ImageStorageService {
 	}
 
 	@Override
-	public InputStream recover(String fileName) {
+	public RecoveredImage recover(String fileName) {
 		
 		try {
 	        Path arquivoPath = getFilePath(fileName);
 
-	        return Files.newInputStream(arquivoPath);
+	        RecoveredImage recoveredImage = RecoveredImage.builder()
+	        		.inputStream(Files.newInputStream(arquivoPath)).build();
+	        
+	        return recoveredImage;
+	        
 	    } catch (Exception e) {
 	        throw new StorageException("Não foi possível recuperar arquivo.", e);
 	    }

@@ -31,7 +31,7 @@ public class ProductImageCatalogService {
 	public void remove(Long restaurantId, Long productId) {
 		ProductImage image = searchOrFail(restaurantId, productId);
 		
-		productRepository.delete(image);
+		productRepository.remove(image);
 		productRepository.flush();
 		
 		imageStorageService.remove(image.getFileName());
@@ -50,7 +50,7 @@ public class ProductImageCatalogService {
 		
 		if (savedImage.isPresent()) {
 			storedFileName = savedImage.get().getFileName();
-			productRepository.delete(savedImage.get());
+			productRepository.remove(savedImage.get());
 		}
 		
 		image.setFileName(newFileName);
@@ -59,6 +59,7 @@ public class ProductImageCatalogService {
 		
 		NewImage newImage = NewImage.builder()
 				.fileName(image.getFileName())
+				.contentType(image.getContentType())
 				.inputStream(dataFile).build();
 
 		if(storedFileName != null) {	
