@@ -17,10 +17,10 @@ public class OrderStatusController {
 	@Autowired
 	private OrderStatusService orderStatusChangeService;
 
-	@PutMapping("/accept")
+	@PutMapping("/confirmed")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void acceptStatus(@PathVariable String orderCode) {
-		orderStatusChangeService.acceptStatus(orderCode);
+	public void confirmedStatus(@PathVariable String orderCode) {
+		orderStatusChangeService.confirmedStatus(orderCode);
 	}
 	
 	@PutMapping("/delivered")

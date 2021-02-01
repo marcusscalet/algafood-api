@@ -10,7 +10,6 @@ import org.springframework.util.FileCopyUtils;
 import com.marcusscalet.algafood.core.storage.StorageProperties;
 import com.marcusscalet.algafood.domain.service.ImageStorageService;
 
-//@Service
 public class LocalImageStorageService implements ImageStorageService {
 
 	@Autowired

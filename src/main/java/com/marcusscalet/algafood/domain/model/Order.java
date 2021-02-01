@@ -86,17 +86,17 @@ public class Order {
 		this.totalCost = this.subtotal.add(this.shippingFee);
 	}
 
-	public void acceptOrder() {
-		setStatus(StatusOrder.ACCEPTED);
+	public void confirm() {
+		setStatus(StatusOrder.CONFIRMED);
 		setConfirmationDate(OffsetDateTime.now());
 	}
 
-	public void deliverOrder() {
+	public void deliver() {
 		setStatus(StatusOrder.DELIVERED);
 		setDeliveredDate(OffsetDateTime.now());
 	}
 
-	public void cancelOrder() {
+	public void cancel() {
 		setStatus(StatusOrder.CANCELED);
 		setCancellationDate(OffsetDateTime.now());
 	}
@@ -118,12 +118,3 @@ public class Order {
 		setCode(UUID.randomUUID().toString());
 	}
 }
-
-//	public void calcShippingFee() {
-//	    setShippingFee(getRestaurant().getShippingFee());
-//	}
-//
-//	public void assignItem() {
-//	    getItens().forEach(item -> item.setOrder(this));
-//	}
-//}

@@ -17,18 +17,22 @@ import lombok.Setter;
 public class StorageProperties {
 
 	private Local local = new Local();
-	
 	private S3 s3 = new S3();
-	
+	private StorageType storageType = StorageType.LOCAL;
+
+	public enum StorageType {
+		LOCAL, S3
+	}
+
 	@Getter
 	@Setter
-	public class Local{
+	public class Local {
 		private Path imageDirectory;
 	}
-	
+
 	@Getter
 	@Setter
-	public class S3{
+	public class S3 {
 		private String accessKeyId;
 		private String secretAccessKey;
 		private String bucket;

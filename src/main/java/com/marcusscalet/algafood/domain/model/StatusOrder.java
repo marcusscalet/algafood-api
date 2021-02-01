@@ -6,8 +6,8 @@ import java.util.List;
 public enum StatusOrder {
 
 	CREATED("Criado"),
-	ACCEPTED("Aceito", CREATED),
-	DELIVERED("Entregue", ACCEPTED),
+	CONFIRMED("Confirmado", CREATED),
+	DELIVERED("Entregue", CONFIRMED),
 	CANCELED("Cancelado", CREATED);
 
 	private String description;

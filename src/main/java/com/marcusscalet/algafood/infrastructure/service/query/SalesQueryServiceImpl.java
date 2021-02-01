@@ -59,7 +59,7 @@ public class SalesQueryServiceImpl implements SalesQueryService {
 			predicates.add(builder.lessThanOrEqualTo(root.get("creationDate"), filter.getCreationEndDate()));
 		}
 		
-		predicates.add(root.get("status").in(StatusOrder.ACCEPTED, StatusOrder.DELIVERED));
+		predicates.add(root.get("status").in(StatusOrder.CONFIRMED, StatusOrder.DELIVERED));
 
 		query.select(selection);
 		query.where(predicates.toArray(new Predicate[0]));
