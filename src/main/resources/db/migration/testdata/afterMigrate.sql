@@ -85,8 +85,7 @@ insert into `user_` (id, name, email, password, registration_date) values
 insert into user_group (`user_id`, `group_id`) values (1, 1), (1, 2), (2, 1);
 
 insert into `user_` (id, name, email, password, registration_date) values
-(5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp),
-(6, 'Marcus Scalet', 'marcus.scalet@hotmail.com', '123', utc_timestamp);  
+(5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp);
 
 insert into restaurant_accountable_user(restaurant_id, user_id) values (1, 5), (3, 5);
 
@@ -126,7 +125,7 @@ values (5, 4, 3, 2, 87.2, 174.4, null);
 
 insert into `order_` (id, code, restaurant_id, user_client_id, payment_method_id, address_city_id, address_zip_code,
 address_street, address_number, address_neighborhood, status, creation_date, confirmation_date, delivered_date, subtotal, shipping_fee, total_cost)
-values (5, '8d774bcf-b238-42f3-aef1-5fb388754d63', 1, 6, 2, 1, '38400-200', '930', 'Rua 10', 'Martins',
+values (5, '8d774bcf-b238-42f3-aef1-5fb388754d63', 1, 5, 2, 1, '38400-200', '930', 'Rua 10', 'Martins',
         'CREATED', '2019-11-02 21:00:30', '2019-11-02 21:01:21', '2019-11-02 21:20:10', 87.2, 10, 97.2);
         
 insert into `order_item` (id, `order_id`, product_id, amount, unit_cost, total_cost, note)

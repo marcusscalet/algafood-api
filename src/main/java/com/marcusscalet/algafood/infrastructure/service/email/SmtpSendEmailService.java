@@ -1,11 +1,11 @@
 package com.marcusscalet.algafood.infrastructure.service.email;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.marcusscalet.algafood.core.email.EmailProperties;
@@ -14,8 +14,6 @@ import com.marcusscalet.algafood.domain.service.SendEmailService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
-
-@Service
 public class SmtpSendEmailService implements SendEmailService {
 
 	@Autowired
@@ -30,15 +28,7 @@ public class SmtpSendEmailService implements SendEmailService {
 	@Override
 	public void send(Message message) {
 		try {
-			String body = processTemplate(message);
-
-			MimeMessage mimeMessage = mailSender.createMimeMessage();
-
-			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
-			helper.setFrom(emailProperties.getSender());
-			helper.setTo(message.getRecipients().toArray(new String[0]));
-			helper.setSubject(message.getTopic());
-			helper.setText(body, true);
+			MimeMessage mimeMessage = createMimeMessage(message);
 
 			mailSender.send(mimeMessage);
 		} catch (Exception e) {
@@ -46,7 +36,22 @@ public class SmtpSendEmailService implements SendEmailService {
 		}
 	}
 
-	private String processTemplate(Message message) {
+	protected MimeMessage createMimeMessage(Message message) throws MessagingException {
+		String body = processTemplate(message);
+
+		MimeMessage mimeMessage = mailSender.createMimeMessage();
+
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+		helper.setFrom(emailProperties.getSender());
+		helper.setTo(message.getRecipients().toArray(new String[0]));
+		helper.setSubject(message.getTopic());
+		helper.setText(body, true);
+
+		return mimeMessage;
+
+	}
+
+	protected String processTemplate(Message message) {
 		try {
 			Template template = freeMarkerConfig.getTemplate(message.getBody());
 

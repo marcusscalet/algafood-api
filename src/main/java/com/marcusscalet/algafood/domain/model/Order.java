@@ -72,8 +72,7 @@ public class Order {
 	private Address deliveryAddress;
 
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL) // cascade é necessário para quando salvar um pedido,
-																// também salvar os itens do pedido
-	private List<OrderItem> itens = new ArrayList<>();
+	private List<OrderItem> itens = new ArrayList<>();// também salvar os itens do pedido
 
 	@Enumerated(EnumType.STRING) // esta anotação resolve o problema referente a conversão da String para Enum
 	private StatusOrder status = StatusOrder.CREATED;
@@ -104,7 +103,7 @@ public class Order {
 	private void setStatus(StatusOrder newStatus) {
 		if (getStatus().canNotBeChangedTo(newStatus)) {
 			throw new BusinessException(
-					String.format("Status do pedido %s não pode ser alterado para de %s para %s",
+					String.format("Status do pedido %s não pode ser alterado de %s para %s",
 					getCode(),
 					getStatus().getDescription(),
 					newStatus.getDescription()));
