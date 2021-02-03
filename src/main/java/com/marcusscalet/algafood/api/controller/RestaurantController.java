@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ import com.marcusscalet.algafood.domain.exception.RestaurantNotFoundException;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
 
+@CrossOrigin(origins = "http://www.algafood.local:8000")
 @RestController
 @RequestMapping(value = "/restaurants")
 public class RestaurantController {
@@ -42,27 +44,6 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantInputDisassembler restaurantInputDisassembler;
 	
-//	@GetMapping
-//	public MappingJacksonValue listAll(@RequestParam(required=false) String view) {
-//		
-//		List<Restaurant> restaurants = restaurantRegistrationService.listAll();
-//		List<RestaurantDTO> restaurantsDTO = restaurantDTOAssembler.toCollectionDTO(restaurants);
-//		
-//		MappingJacksonValue restaurantsWrapper = new MappingJacksonValue(restaurantsDTO);
-//		
-//		if("only-name".equals(view)) {
-//		restaurantsWrapper.setSerializationView(RestaurantView.OnlyName.class);
-//		} else if("whole".equals(view)) {
-//			restaurantsWrapper.setSerializationView(null);
-//		}
-//		return restaurantsWrapper;
-//	}
-	
-//	@GetMapping
-//	public List<RestaurantDTO> listAll() {
-//		return restaurantDTOAssembler.toCollectionDTO(restaurantRegistrationService.listAll());
-//	}
-//	
 	@JsonView(RestaurantView.Summary.class)
 	@GetMapping
 	public List<RestaurantDTO> listAllSummary() {
