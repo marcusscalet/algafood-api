@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.marcusscalet.algafood.domain.model.Order;
-import com.marcusscalet.algafood.domain.service.SendEmailService.Message;
+import com.marcusscalet.algafood.domain.repository.OrderRepository;
 
 @Service
 public class OrderStatusService {
@@ -15,21 +15,14 @@ public class OrderStatusService {
 	private OrderService orderRegistrationService;
 
 	@Autowired
-	private SendEmailService sendEmail;
+	private OrderRepository orderRepository;
 	
 	@Transactional
 	public void confirmedStatus(String orderCode) {
 		Order order = orderRegistrationService.searchOrFail(orderCode);
 		order.confirm();
 		
-		var message = Message.builder()
-				.topic(order.getRestaurant().getName() + " - Pedido Confirmado")
-				.body("order-accepted.html")
-				.variable("order", order)
-				.recipient(order.getClient().getEmail())
-				.build();
-		
-		sendEmail.send(message);
+		orderRepository.save(order);
 	}
 
 	@Transactional
@@ -42,7 +35,8 @@ public class OrderStatusService {
 	@Transactional
 	public void canceledStatus(String orderCode) {
 		Order order = orderRegistrationService.searchOrFail(orderCode);
-
 		order.cancel();
+		
+		orderRepository.save(order);
 	}
 }
