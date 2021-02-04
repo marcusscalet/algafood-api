@@ -1,11 +1,14 @@
 package com.marcusscalet.algafood.api.controller;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,15 +42,26 @@ public class PaymentMethodController {
 	private PaymentMethodInputDisassembler paymentMethodInputDisassembler;
 
 	@GetMapping
-	public List<PaymentMethodDTO> listAll() {
-		return paymentMethodDTOAssembler.toCollectionDTO(paymentMethodRegistrationService.listAll());
+	public ResponseEntity<List<PaymentMethodDTO>> listAll() {
+		List<PaymentMethod> paymentMethodsList = paymentMethodRegistrationService.listAll();
+		
+		List<PaymentMethodDTO> paymentMethodsDTO = paymentMethodDTOAssembler
+				.toCollectionDTO(paymentMethodsList);
+		
+		return ResponseEntity.ok()
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+				.body(paymentMethodsDTO);
 	}
 
 	@GetMapping("/{paymentMethodId}")
-	public PaymentMethodDTO find(@PathVariable Long paymentMethodId) {
+	public ResponseEntity<PaymentMethodDTO> find(@PathVariable Long paymentMethodId) {
 		PaymentMethod paymentMethod = paymentMethodRegistrationService.searchOrFail(paymentMethodId);
 
-		return paymentMethodDTOAssembler.toDTO(paymentMethod);
+		PaymentMethodDTO paymentMethodDTO = paymentMethodDTOAssembler.toDTO(paymentMethod);
+		
+		return ResponseEntity.ok()
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
+				.body(paymentMethodDTO);
 	}
 
 	@PostMapping
