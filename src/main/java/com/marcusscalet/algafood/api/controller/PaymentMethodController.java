@@ -1,5 +1,6 @@
 package com.marcusscalet.algafood.api.controller;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 import com.marcusscalet.algafood.api.assembler.PaymentMethodDTOAssembler;
 import com.marcusscalet.algafood.api.assembler.PaymentMethodInputDisassembler;
@@ -26,6 +29,7 @@ import com.marcusscalet.algafood.api.model.input.PaymentMethodInput;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.PaymentMethodNotFoundException;
 import com.marcusscalet.algafood.domain.model.PaymentMethod;
+import com.marcusscalet.algafood.domain.repository.PaymentMethodRepository;
 import com.marcusscalet.algafood.domain.service.PaymentMethodRegistrationService;
 
 @RestController
@@ -41,8 +45,25 @@ public class PaymentMethodController {
 	@Autowired
 	private PaymentMethodInputDisassembler paymentMethodInputDisassembler;
 
+	@Autowired
+	private PaymentMethodRepository paymentMethodRepository;
+	
 	@GetMapping
-	public ResponseEntity<List<PaymentMethodDTO>> listAll() {
+	public ResponseEntity<List<PaymentMethodDTO>> listAll(ServletWebRequest request) {
+		
+		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
+		String eTag = "0";
+		
+		OffsetDateTime lastUpdateDate = paymentMethodRepository.getLastUpdateDate();
+		
+		if(lastUpdateDate != null) {
+			eTag = String.valueOf(lastUpdateDate.toEpochSecond());
+		}
+		
+		if(request.checkNotModified(eTag)) {
+			return null;
+		}
+		
 		List<PaymentMethod> paymentMethodsList = paymentMethodRegistrationService.listAll();
 		
 		List<PaymentMethodDTO> paymentMethodsDTO = paymentMethodDTOAssembler
@@ -50,17 +71,33 @@ public class PaymentMethodController {
 		
 		return ResponseEntity.ok()
 				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+				.eTag(eTag)
 				.body(paymentMethodsDTO);
 	}
 
 	@GetMapping("/{paymentMethodId}")
-	public ResponseEntity<PaymentMethodDTO> find(@PathVariable Long paymentMethodId) {
+	public ResponseEntity<PaymentMethodDTO> find(@PathVariable Long paymentMethodId, ServletWebRequest request) {
+		
+		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
+		String eTag = "0";
+		
+		OffsetDateTime lastUpdateDate = paymentMethodRepository.getLastUpdateDateById(paymentMethodId);
+		
+		if(lastUpdateDate != null) {
+			eTag = String.valueOf(lastUpdateDate.toEpochSecond());
+		}
+		
+		if(request.checkNotModified(eTag)) {
+			return null;
+		}
+		
 		PaymentMethod paymentMethod = paymentMethodRegistrationService.searchOrFail(paymentMethodId);
 
 		PaymentMethodDTO paymentMethodDTO = paymentMethodDTOAssembler.toDTO(paymentMethod);
 		
 		return ResponseEntity.ok()
-				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS).cachePublic())
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+				.eTag(eTag)
 				.body(paymentMethodDTO);
 	}
 
