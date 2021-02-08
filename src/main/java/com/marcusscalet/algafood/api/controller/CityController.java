@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marcusscalet.algafood.api.assembler.CityDTOAssembler;
 import com.marcusscalet.algafood.api.assembler.CityInputDisassembler;
-import com.marcusscalet.algafood.api.controller.openapi.CityControllerOpenApi;
 import com.marcusscalet.algafood.api.model.CityDTO;
 import com.marcusscalet.algafood.api.model.input.CityInput;
+import com.marcusscalet.algafood.api.openapi.controller.CityControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.StateNotFoundException;
 import com.marcusscalet.algafood.domain.model.City;

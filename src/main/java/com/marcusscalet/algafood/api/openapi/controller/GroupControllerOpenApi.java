@@ -1,4 +1,4 @@
-package com.marcusscalet.algafood.api.controller.openapi;
+package com.marcusscalet.algafood.api.openapi.controller;
 
 import java.util.List;
 
@@ -20,22 +20,23 @@ public interface GroupControllerOpenApi {
 
 	@ApiOperation("Busca um grupo por ID")
 	@ApiResponses({ @ApiResponse(code = 400, message = "ID de grupo inválido", response = Problem.class),
-		@ApiResponse(code = 404, message = "Grupo não encontrado", response = Problem.class) })
-	public GroupDTO find(@ApiParam("ID do grupo") Long groupId);
+			@ApiResponse(code = 404, message = "Grupo não encontrado", response = Problem.class) })
+	public GroupDTO find(@ApiParam(value = "ID do grupo", example = "1") Long groupId);
 
 	@ApiResponses({ @ApiResponse(code = 201, message = "Grupo cadastrado"),
-		@ApiResponse(code = 404, message = "Grupo não encontrado", response = Problem.class) })
+			@ApiResponse(code = 404, message = "Grupo não encontrado", response = Problem.class) })
 	@ApiOperation("Cria um novo grupo")
-	public GroupDTO add(GroupInput groupInput);
+	public GroupDTO add(@ApiParam(name = "body", value = "Representação de um grupo") GroupInput groupInput);
 
 	@ApiOperation("Atualiza grupo por ID")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Grupo atualizado"),
-		@ApiResponse(code = 404, message = "Grupo não encontrado", response = Problem.class) })
-	public GroupDTO update(@ApiParam("ID do grupo") Long groupId, GroupInput groupInput);
+			@ApiResponse(code = 404, message = "Grupo não encontrado", response = Problem.class) })
+	public GroupDTO update(@ApiParam(value = "ID do grupo", example = "1") Long groupId,
+			@ApiParam(name = "body", value = "Representação de um grupo com os novos dados") GroupInput groupInput);
 
 	@ApiOperation("Remove grupo por ID")
 	@ApiResponses({ @ApiResponse(code = 204, message = "Grupo removido"),
-		@ApiResponse(code = 404, message = "Grupo não encontrado", response = Problem.class) })
-	public void remove(@ApiParam("ID do grupo") Long groupId);
+			@ApiResponse(code = 404, message = "Grupo não encontrado", response = Problem.class) })
+	public void remove(@ApiParam(value = "ID do grupo", example = "1") Long groupId);
 
 }

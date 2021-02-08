@@ -24,12 +24,13 @@ import com.marcusscalet.algafood.api.assembler.CuisineDTOAssembler;
 import com.marcusscalet.algafood.api.assembler.CuisineInputDisassembler;
 import com.marcusscalet.algafood.api.model.CuisineDTO;
 import com.marcusscalet.algafood.api.model.input.CuisineInput;
+import com.marcusscalet.algafood.api.openapi.controller.CuisineControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.Cuisine;
 import com.marcusscalet.algafood.domain.service.CuisineRegistrationService;
 
 @RestController
 @RequestMapping(value = "/cuisines")
-public class CuisineController {
+public class CuisineController implements CuisineControllerOpenApi{
 
 	@Autowired
 	private CuisineRegistrationService cuisineRegistrationService;

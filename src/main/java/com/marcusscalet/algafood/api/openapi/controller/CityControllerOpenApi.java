@@ -1,4 +1,4 @@
-package com.marcusscalet.algafood.api.controller.openapi;
+package com.marcusscalet.algafood.api.openapi.controller;
 
 import java.util.List;
 
@@ -21,21 +21,21 @@ public interface CityControllerOpenApi {
 	@ApiOperation("Busca cidade por ID")
 	@ApiResponses({ @ApiResponse(code = 400, message = "ID de cidade inválido", response = Problem.class),
 			@ApiResponse(code = 404, message = "Cidade não encontrada", response = Problem.class) })
-	public CityDTO find(@ApiParam("ID da cidade") Long cityId);
+	public CityDTO find(@ApiParam(value = "ID da cidade", example = "1") Long cityId);
 
 	@ApiOperation("Cria uma nova cidade")
 	@ApiResponses({ @ApiResponse(code = 201, message = "Cidade cadastrada"),
 			@ApiResponse(code = 404, message = "Cidade não encontrada", response = Problem.class) })
-	public CityDTO add(CityInput cityInput);
+	public CityDTO add(@ApiParam(name = "body", value = "Representação de uma cidade") CityInput cityInput);
 
 	@ApiOperation("Atualiza cidade por ID")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Cidade atualizada"),
 			@ApiResponse(code = 404, message = "Cidade não encontrada", response = Problem.class) })
-	public CityDTO update(@ApiParam("ID da cidade") Long cityId,
+	public CityDTO update(@ApiParam(value = "ID da cidade", example = "1") Long cityId,
 			@ApiParam(name = "body", value = "Representação de uma cidade com os novos dados") CityInput cityInput);
 
 	@ApiOperation("Remove cidade por ID")
 	@ApiResponses({ @ApiResponse(code = 204, message = "Cidade removida"),
 			@ApiResponse(code = 404, message = "Cidade não encontrada", response = Problem.class) })
-	public void remove(@ApiParam("ID da cidade") Long cityId);
+	public void remove(@ApiParam(value = "ID da cidade", example = "1") Long cityId);
 }

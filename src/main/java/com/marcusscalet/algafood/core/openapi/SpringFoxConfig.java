@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +17,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
+import com.marcusscalet.algafood.api.model.CuisineDTO;
+import com.marcusscalet.algafood.api.openapi.model.CuisinesDTOOpenApi;
+import com.marcusscalet.algafood.api.openapi.model.PageableModelOpenApi;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -22,6 +27,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RepresentationBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseBuilder;
+import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Response;
@@ -50,6 +56,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.globalResponses(HttpMethod.PUT, globalPostPutResponses())
 				.globalResponses(HttpMethod.DELETE, globalDeleteResponses())
 				.additionalModels(typeResolver.resolve(Problem.class))
+				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(Page.class, CuisineDTO.class), CuisinesDTOOpenApi.class))
 			.apiInfo(apiInfo())
 			.tags(tags()[0], tags());
 	}
@@ -57,7 +66,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 	private Tag[] tags(){
 		return new Tag[] {
 				new Tag("City", "Manage cities"),
-				new Tag("Group", "Manage groups")
+				new Tag("Group", "Manage groups"),
+				new Tag("Cuisine", "Manage cuisines")
 		};
 	}
 	

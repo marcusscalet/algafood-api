@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marcusscalet.algafood.api.assembler.GroupDTOAssembler;
 import com.marcusscalet.algafood.api.assembler.GroupInputDisassembler;
-import com.marcusscalet.algafood.api.controller.openapi.GroupControllerOpenApi;
 import com.marcusscalet.algafood.api.model.GroupDTO;
 import com.marcusscalet.algafood.api.model.input.GroupInput;
+import com.marcusscalet.algafood.api.openapi.controller.GroupControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.GroupNotFoundException;
 import com.marcusscalet.algafood.domain.model.Group;
@@ -45,7 +45,6 @@ public class GroupController implements GroupControllerOpenApi{
 		
 		return groupDTOAssembler.toCollectionDTO(groupsList);
 	}
-	
 
 	@GetMapping("/{groupId}")
 	public GroupDTO find(@PathVariable Long groupId) {
