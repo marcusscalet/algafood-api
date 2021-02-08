@@ -2,8 +2,6 @@ package com.marcusscalet.algafood.api.controller.openapi;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.PutMapping;
-
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
 import com.marcusscalet.algafood.api.model.CityDTO;
 import com.marcusscalet.algafood.api.model.input.CityInput;
@@ -17,28 +15,27 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags = "City")
 public interface CityControllerOpenApi {
 
-	@ApiOperation("List all cities")
+	@ApiOperation("Lista todas as cidades")
 	public List<CityDTO> listAll();
 
-	@ApiOperation("Find city by ID")
-	@ApiResponses({ @ApiResponse(code = 400, message = "City ID invalid", response = Problem.class),
-			@ApiResponse(code = 404, message = "City not found", response = Problem.class) })
-	public CityDTO find(@ApiParam("ID of a city") Long cityId);
+	@ApiOperation("Busca cidade por ID")
+	@ApiResponses({ @ApiResponse(code = 400, message = "ID de cidade inválido", response = Problem.class),
+			@ApiResponse(code = 404, message = "Cidade não encontrada", response = Problem.class) })
+	public CityDTO find(@ApiParam("ID da cidade") Long cityId);
 
-	@ApiOperation("Register a new city")
-	@ApiResponses({ @ApiResponse(code = 201, message = "City created"),
-			@ApiResponse(code = 404, message = "City not found", response = Problem.class) })
+	@ApiOperation("Cria uma nova cidade")
+	@ApiResponses({ @ApiResponse(code = 201, message = "Cidade cadastrada"),
+			@ApiResponse(code = 404, message = "Cidade não encontrada", response = Problem.class) })
 	public CityDTO add(CityInput cityInput);
 
-	@ApiOperation("Update city By Id")
-	@ApiResponses({ @ApiResponse(code = 200, message = "City updated"),
-			@ApiResponse(code = 404, message = "City not found", response = Problem.class) })
-	@PutMapping("/{cityId}")
-	public CityDTO update(@ApiParam("ID of a city") Long cityId,
+	@ApiOperation("Atualiza cidade por ID")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Cidade atualizada"),
+			@ApiResponse(code = 404, message = "Cidade não encontrada", response = Problem.class) })
+	public CityDTO update(@ApiParam("ID da cidade") Long cityId,
 			@ApiParam(name = "body", value = "Representação de uma cidade com os novos dados") CityInput cityInput);
 
-	@ApiOperation("Delete city by ID")
-	@ApiResponses({ @ApiResponse(code = 204, message = "City removed"),
-			@ApiResponse(code = 404, message = "City not found", response = Problem.class) })
-	public void remove(@ApiParam("ID of a city") Long cityId);
+	@ApiOperation("Remove cidade por ID")
+	@ApiResponses({ @ApiResponse(code = 204, message = "Cidade removida"),
+			@ApiResponse(code = 404, message = "Cidade não encontrada", response = Problem.class) })
+	public void remove(@ApiParam("ID da cidade") Long cityId);
 }

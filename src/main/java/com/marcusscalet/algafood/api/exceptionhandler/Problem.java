@@ -6,10 +6,12 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 
+@ApiModel("Problem")
 @JsonInclude(Include.NON_NULL)
 @Getter
 @Builder // através do builder temos um "construtor" mais fluente ex em CityController
@@ -18,7 +20,7 @@ public class Problem {
 	@ApiModelProperty(example = "400", position = 1)
 	private Integer status;
 	
-	@ApiModelProperty(example = "2020-12-01T18:09:02.70844Z", position = 5)
+	@ApiModelProperty(example = "2020-12-01T18:09:02.70844Z", dataType = "ISO_OFFSET_DATE_TIME", position = 5)
 	private OffsetDateTime timestamp;
 	
 	@ApiModelProperty(example = "https://algafood.com.br/invalid-data", position = 10)
@@ -28,7 +30,7 @@ public class Problem {
 	private String title;
 	
 	@ApiModelProperty(example = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.",
-			position = 25)
+			position = 20)
 	private String detail;
 	
 	@ApiModelProperty(example = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.",
@@ -36,14 +38,17 @@ public class Problem {
 	private String userMessage;
 	
 	
-	@ApiModelProperty(value = "Objetos ou campos que geraram o erro.", position = 30)
+	@ApiModelProperty(value = "Lista de objetos ou campos que geraram o erro. (opcional)", position = 30)
 	private List<Object> objects;
 	
 	@Getter
 	@Builder
 	public static class Object{
 		
+		@ApiModelProperty(example = "preço")
 		private String name;
+		
+		@ApiModelProperty(example = "O preço é obrigatório")
 		private String userMessage;
 	}
 }

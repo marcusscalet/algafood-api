@@ -45,13 +45,20 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.paths(PathSelectors.any())
 				.build()
 				.useDefaultResponseMessages(false)
-				.globalResponses(HttpMethod.GET, globalGetResponseMessages())
-				.globalResponses(HttpMethod.POST, globalPostPutResponseMessages())
-				.globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
-				.globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
+				.globalResponses(HttpMethod.GET, globalGetResponses())
+				.globalResponses(HttpMethod.POST, globalPostPutResponses())
+				.globalResponses(HttpMethod.PUT, globalPostPutResponses())
+				.globalResponses(HttpMethod.DELETE, globalDeleteResponses())
 				.additionalModels(typeResolver.resolve(Problem.class))
 			.apiInfo(apiInfo())
-			.tags(new Tag("City", "Manage cities"));
+			.tags(tags()[0], tags());
+	}
+	
+	private Tag[] tags(){
+		return new Tag[] {
+				new Tag("City", "Manage cities"),
+				new Tag("Group", "Manage groups")
+		};
 	}
 	
 	private ApiInfo apiInfo() {
@@ -68,10 +75,10 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("index.html").addResourceLocations("classpath:/META-INF/resources/");
 	}
 	
-	private List<Response> globalGetResponseMessages() {
+	private List<Response> globalGetResponses() {
 		return Arrays.asList(
 				new ResponseBuilder()
-				.code(codeDescription(HttpStatus.INTERNAL_SERVER_ERROR))
+				.code(codeDescription(HttpStatus.BAD_REQUEST))
 				.description("Requisição inválida (erro do cliente)")
 				.representation(MediaType.APPLICATION_JSON )
                 .apply(builderModelProblem())
@@ -85,13 +92,11 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				new ResponseBuilder()
 					.code(codeDescription(HttpStatus.NOT_ACCEPTABLE))
 					.description("Recurso não possui representação que poderia ser aceita pelo consumidor")
-					.representation(MediaType.APPLICATION_JSON )
-					.apply(builderModelProblem())
 					.build()
 			);
 	}
 	
-	private List<Response> globalPostPutResponseMessages() {
+	private List<Response> globalPostPutResponses() {
 		return Arrays.asList(
 				new ResponseBuilder()
 					.code(codeDescription(HttpStatus.INTERNAL_SERVER_ERROR))
@@ -102,8 +107,6 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 					new ResponseBuilder()
 					.code(codeDescription(HttpStatus.NOT_ACCEPTABLE))
 					.description("Recurso não possui representação que pode ser aceita pelo consumidor")
-					.representation(MediaType.APPLICATION_JSON)
-					.apply(builderModelProblem())
 					.build(),
 					new ResponseBuilder()
 					.code(codeDescription(HttpStatus.BAD_REQUEST))
@@ -111,7 +114,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 					.representation(MediaType.APPLICATION_JSON)
 					.apply(builderModelProblem())
 					.build(),
-					new ResponseBuilder()
+					new ResponseBuilder() 
 					.code(codeDescription(HttpStatus.UNSUPPORTED_MEDIA_TYPE))
 					.description("Requisição recusada porque o corpo está em um formato não suportado")
 					.representation(MediaType.APPLICATION_JSON)
@@ -119,7 +122,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 					.build());
 	}
 
-	private List<Response> globalDeleteResponseMessages() {
+	private List<Response> globalDeleteResponses() {
 		return Arrays.asList(
 				new ResponseBuilder()
 					.code(codeDescription(HttpStatus.BAD_REQUEST))

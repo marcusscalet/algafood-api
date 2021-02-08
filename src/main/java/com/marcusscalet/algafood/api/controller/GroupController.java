@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marcusscalet.algafood.api.assembler.GroupDTOAssembler;
 import com.marcusscalet.algafood.api.assembler.GroupInputDisassembler;
+import com.marcusscalet.algafood.api.controller.openapi.GroupControllerOpenApi;
 import com.marcusscalet.algafood.api.model.GroupDTO;
 import com.marcusscalet.algafood.api.model.input.GroupInput;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
@@ -26,8 +27,8 @@ import com.marcusscalet.algafood.domain.model.Group;
 import com.marcusscalet.algafood.domain.service.GroupRegistrationService;
 
 @RestController
-@RequestMapping(value = "/groups")
-public class GroupController {
+@RequestMapping(path = "/groups")
+public class GroupController implements GroupControllerOpenApi{
 
 	@Autowired
 	private GroupRegistrationService groupRegistrationService;

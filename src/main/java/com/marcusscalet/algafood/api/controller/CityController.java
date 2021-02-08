@@ -28,7 +28,7 @@ import com.marcusscalet.algafood.domain.service.CityRegistrationService;
 
 
 @RestController
-@RequestMapping(value = "/cities")
+@RequestMapping(path = "/cities")
 public class CityController implements CityControllerOpenApi{
 
 	@Autowired
