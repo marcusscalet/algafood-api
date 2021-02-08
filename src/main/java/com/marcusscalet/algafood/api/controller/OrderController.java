@@ -25,6 +25,7 @@ import com.marcusscalet.algafood.api.assembler.OrderSummaryDTOAssembler;
 import com.marcusscalet.algafood.api.model.OrderDTO;
 import com.marcusscalet.algafood.api.model.OrderSummaryDTO;
 import com.marcusscalet.algafood.api.model.input.OrderInput;
+import com.marcusscalet.algafood.api.openapi.controller.OrderControllerOpenApi;
 import com.marcusscalet.algafood.core.data.PageableTranslator;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
@@ -35,7 +36,7 @@ import com.marcusscalet.algafood.domain.service.OrderService;
 
 @RestController
 @RequestMapping(value = "/orders")
-public class OrderController {
+public class OrderController implements OrderControllerOpenApi {
 
 	@Autowired
 	private OrderService orderService;

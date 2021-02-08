@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +22,7 @@ import com.marcusscalet.algafood.api.assembler.RestaurantInputDisassembler;
 import com.marcusscalet.algafood.api.model.RestaurantDTO;
 import com.marcusscalet.algafood.api.model.input.RestaurantInput;
 import com.marcusscalet.algafood.api.model.view.RestaurantView;
+import com.marcusscalet.algafood.api.openapi.controller.RestaurantControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.CityNotFoundException;
 import com.marcusscalet.algafood.domain.exception.CuisineNotFoundException;
@@ -30,10 +30,9 @@ import com.marcusscalet.algafood.domain.exception.RestaurantNotFoundException;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
 
-@CrossOrigin(origins = "http://www.algafood.local:8000")
 @RestController
 @RequestMapping(value = "/restaurants")
-public class RestaurantController {
+public class RestaurantController implements RestaurantControllerOpenApi{
 
 	@Autowired
 	private RestaurantRegistrationService restaurantRegistrationService;
