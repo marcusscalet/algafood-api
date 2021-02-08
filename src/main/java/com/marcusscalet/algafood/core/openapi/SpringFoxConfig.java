@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -23,13 +24,18 @@ import com.marcusscalet.algafood.api.openapi.model.PageableModelOpenApi;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RepresentationBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.RequestParameterBuilder;
 import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.schema.AlternateTypeRules;
+import springfox.documentation.schema.ScalarType;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.ParameterType;
+import springfox.documentation.service.RequestParameter;
 import springfox.documentation.service.Response;
 import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
@@ -55,7 +61,16 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.globalResponses(HttpMethod.POST, globalPostPutResponses())
 				.globalResponses(HttpMethod.PUT, globalPostPutResponses())
 				.globalResponses(HttpMethod.DELETE, globalDeleteResponses())
+				.globalRequestParameters(Arrays.asList(
+						new RequestParameterBuilder()
+						.name("fields")
+						.description("Nomes das propriedades para filtrar na resposta, separados por vírgula")
+						.in(ParameterType.QUERY)
+						.required(false)
+						.query(q-> q.model(m-> m.scalarModel(ScalarType.STRING)))
+								.build()))
 				.additionalModels(typeResolver.resolve(Problem.class))
+				.ignoredParameterTypes(ServletWebRequest.class)
 				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(Page.class, CuisineDTO.class), CuisinesDTOOpenApi.class))
@@ -67,7 +82,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 		return new Tag[] {
 				new Tag("City", "Manage cities"),
 				new Tag("Group", "Manage groups"),
-				new Tag("Cuisine", "Manage cuisines")
+				new Tag("Cuisine", "Manage cuisines"),
+				new Tag("Payment Method", "Manage payment methods")
 		};
 	}
 	

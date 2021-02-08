@@ -26,6 +26,7 @@ import com.marcusscalet.algafood.api.assembler.PaymentMethodDTOAssembler;
 import com.marcusscalet.algafood.api.assembler.PaymentMethodInputDisassembler;
 import com.marcusscalet.algafood.api.model.PaymentMethodDTO;
 import com.marcusscalet.algafood.api.model.input.PaymentMethodInput;
+import com.marcusscalet.algafood.api.openapi.controller.PaymentMethodControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.PaymentMethodNotFoundException;
 import com.marcusscalet.algafood.domain.model.PaymentMethod;
@@ -34,7 +35,7 @@ import com.marcusscalet.algafood.domain.service.PaymentMethodRegistrationService
 
 @RestController
 @RequestMapping(value = "/payment-method")
-public class PaymentMethodController {
+public class PaymentMethodController implements PaymentMethodControllerOpenApi{
 
 	@Autowired
 	private PaymentMethodRegistrationService paymentMethodRegistrationService;
