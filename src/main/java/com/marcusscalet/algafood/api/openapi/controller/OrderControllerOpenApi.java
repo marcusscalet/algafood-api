@@ -24,18 +24,18 @@ public interface OrderControllerOpenApi {
 			@ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula",
 					name = "fields", paramType = "query", type = "string") })
 	@ApiOperation("Pesquisa os pedidos")
-	public Page<OrderSummaryDTO> search(OrderFilter filter, Pageable pageable);
+	 Page<OrderSummaryDTO> search(OrderFilter filter, Pageable pageable);
 
 	@ApiImplicitParams({
 			@ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula",
 					name = "fields", paramType = "query", type = "string") })
 	@ApiOperation("Busca um pedido por código")
 	@ApiResponses({ @ApiResponse(code = 404, message = "Pedido não encontrado", response = Problem.class) })
-	public OrderDTO find(
+	 OrderDTO find(
 			@ApiParam(value = "Código de um pedido", example = "f9981ca4-5a5e-4da3-af04-933861df3e55", required = true) String orderCode);
 
 	@ApiResponses({ @ApiResponse(code = 201, message = "Pedido cadastrado") })
 	@ApiOperation("Cria um novo pedido")
-	public OrderDTO save(@ApiParam(name = "body", value = "Representação de um pedido", required = true) OrderInput orderInput);
+	 OrderDTO save(@ApiParam(name = "body", value = "Representação de um pedido", required = true) OrderInput orderInput);
 
 } 

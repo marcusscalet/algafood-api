@@ -20,6 +20,7 @@ import com.marcusscalet.algafood.api.assembler.ProductDTOAssembler;
 import com.marcusscalet.algafood.api.assembler.ProductInputDisassembler;
 import com.marcusscalet.algafood.api.model.ProductDTO;
 import com.marcusscalet.algafood.api.model.input.ProductInput;
+import com.marcusscalet.algafood.api.openapi.controller.RestaurantProductControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.Product;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.service.ProductRegistrationService;
@@ -27,7 +28,7 @@ import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
 
 @RestController
 @RequestMapping(value = "/restaurants/{restaurantId}/products")
-public class RestaurantProductController {
+public class RestaurantProductController implements RestaurantProductControllerOpenApi{
 
 	@Autowired
 	private ProductRegistrationService productRegistrationService;

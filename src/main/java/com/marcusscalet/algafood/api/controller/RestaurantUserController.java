@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marcusscalet.algafood.api.assembler.UserDTOAssembler;
 import com.marcusscalet.algafood.api.model.UserDTO;
+import com.marcusscalet.algafood.api.openapi.controller.RestaurantUserControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
 
 @RestController
 @RequestMapping(value = "/restaurants/{restaurantId}/accountable")
-public class RestaurantUserController {
+public class RestaurantUserController implements RestaurantUserControllerOpenApi {
 
 	@Autowired
 	private RestaurantRegistrationService restaurantRegistrationService;

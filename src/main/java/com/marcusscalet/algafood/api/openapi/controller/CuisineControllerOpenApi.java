@@ -17,25 +17,25 @@ import io.swagger.annotations.ApiResponses;
 public interface CuisineControllerOpenApi {
 
 	@ApiOperation("Lista as cozinhas com paginação")
-	public Page<CuisineDTO> listAll(Pageable pageable);
+	Page<CuisineDTO> listAll(Pageable pageable);
 
 	@ApiOperation("Busca cozinha por ID")
 	@ApiResponses({ @ApiResponse(code = 400, message = "ID de cozinha inválido", response = Problem.class),
 			@ApiResponse(code = 404, message = "Cozinha não encontrada", response = Problem.class) })
-	public CuisineDTO find(@ApiParam(value = "ID da cozinha", example = "1", required = true) Long cuisineId);
+	CuisineDTO find(@ApiParam(value = "ID da cozinha", example = "1", required = true) Long cuisineId);
 
 	@ApiOperation("Cria uma nova cozinha")
 	@ApiResponses({ @ApiResponse(code = 201, message = "Cozinha cadastrada")})
-	public CuisineDTO add(@ApiParam(name = "body", value = "Representação de uma cozinha", required = true) CuisineInput cuisineInput);
+	CuisineDTO add(@ApiParam(name = "body", value = "Representação de uma cozinha", required = true) CuisineInput cuisineInput);
 
 	@ApiOperation("Atualiza cozinha por ID")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Cozinha atualizada"),
 			@ApiResponse(code = 404, message = "Cozinha não encontrada", response = Problem.class) })
-	public CuisineDTO update(@ApiParam(value = "ID da cozinha", example = "1", required = true) Long cuisineId,
+	CuisineDTO update(@ApiParam(value = "ID da cozinha", example = "1", required = true) Long cuisineId,
 			@ApiParam(name = "body", value = "Representação de uma cozinha com os novos dados", required = true) CuisineInput cuisineInput);
 
 	@ApiOperation("Remove cozinha por ID")
 	@ApiResponses({ @ApiResponse(code = 204, message = "Cozinha removida"),
 			@ApiResponse(code = 404, message = "Cozinha não encontrada", response = Problem.class) })
-	public void remove(@ApiParam(value = "ID da cozinha", example = "1", required = true) Long cuisineId);
+	void remove(@ApiParam(value = "ID da cozinha", example = "1", required = true) Long cuisineId);
 }

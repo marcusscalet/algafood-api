@@ -17,7 +17,6 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-
 @Api(tags = "Restaurant")
 public interface RestaurantControllerOpenApi {
 
@@ -27,30 +26,30 @@ public interface RestaurantControllerOpenApi {
 				name = "view", paramType = "query", type = "string")
 	})
 	@JsonView(RestaurantView.Summary.class)
-	public List<RestaurantDTO> listAllSummary();
+	 List<RestaurantDTO> listAllSummary();
 	
 	@ApiOperation(value = "Restaurants list", hidden = true)
-	public List<RestaurantDTO> listAllByName();
+	 List<RestaurantDTO> listAllByName();
 	
 	@ApiOperation("Busca um restaurante por ID")
 	@ApiResponses({
 	    @ApiResponse(code = 400, message = "ID do restaurante inválido", response = Problem.class),
 	    @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
 	})
-	public RestaurantDTO find(
+	 RestaurantDTO find(
 		@ApiParam(value =  "ID do restaurante", example = "1", required = true) Long restaurantId);
 	
 	@ApiOperation("Cadastra um restaurante")
 	@ApiResponses({
 	    @ApiResponse(code = 201, message = "Restaurante cadastrado"),
 	})
-	public RestaurantDTO add(
+	 RestaurantDTO add(
 		@ApiParam(name = "body", value = "Representação de um restaurante", required = true) RestaurantInput restaurantInput);
 
 	@ApiOperation("Atualiza restaurante por ID")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Restaurante atualizado"),
 		@ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class) })
-	public RestaurantDTO update(
+	 RestaurantDTO update(
 		@ApiParam(value =  "ID do restaurante", example = "1", required = true) Long restaurantId,
 		@ApiParam(name = "body", value = "Representação de um restaurante", required = true) RestaurantInput restaurantInput);
 
@@ -59,40 +58,40 @@ public interface RestaurantControllerOpenApi {
         @ApiResponse(code = 204, message = "Restaurante aberto com sucesso"),
         @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
     })
-	public void openRestaurant(@ApiParam(value =  "ID do restaurante", example = "1", required = true) Long restaurantId);
+	 void openRestaurant(@ApiParam(value =  "ID do restaurante", example = "1", required = true) Long restaurantId);
 
 	@ApiOperation("Fecha um restaurante por ID")
     @ApiResponses({
         @ApiResponse(code = 204, message = "Restaurante fechado com sucesso"),
         @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
     })
-	public void closeRestaurant(@ApiParam(value =  "ID do restaurante", example = "1", required = true) Long restaurantId);
+	 void closeRestaurant(@ApiParam(value =  "ID do restaurante", example = "1", required = true) Long restaurantId);
 	
 	@ApiOperation("Ativa um restaurante por ID")
     @ApiResponses({
         @ApiResponse(code = 204, message = "Restaurante ativado com sucesso"),
         @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
     })
-	public void activate(@ApiParam(value =  "ID do restaurante", example = "1", required = true) Long restaurantId);
+	 void activate(@ApiParam(value =  "ID do restaurante", example = "1", required = true) Long restaurantId);
 
 	@ApiOperation("Inativa um restaurante por ID")
     @ApiResponses({
         @ApiResponse(code = 204, message = "Restaurante inativado com sucesso"),
         @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
     })
-	public void inactivate(@ApiParam(value =  "ID do restaurante", example = "1", required = true) Long restaurantId);
+	 void inactivate(@ApiParam(value =  "ID do restaurante", example = "1", required = true) Long restaurantId);
 
 	@ApiOperation("Ativa múltiplos restaurantes")
     @ApiResponses({
         @ApiResponse(code = 204, message = "Restaurantes ativados com sucesso")
     })
-	public void multipleActivation(
-			@ApiParam(name = "corpo", value = "IDs de restaurantes", required = true) List<Long> restaurantIds);
+	 void multipleActivation(
+			@ApiParam(name = "body", value = "IDs de restaurantes", required = true) List<Long> restaurantIds);
 
 	@ApiOperation("Inativa múltiplos restaurantes")
     @ApiResponses({
         @ApiResponse(code = 204, message = "Restaurantes ativados com sucesso")
     })
-	public void multipleInactivation(
-			@ApiParam(name = "corpo", value = "IDs de restaurantes", required = true) List<Long> restaurantIds);
+	 void multipleInactivation(
+			@ApiParam(name = "body", value = "IDs de restaurantes", required = true) List<Long> restaurantIds);
 }

@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.marcusscalet.algafood.api.assembler.ProductImageDTOAssembler;
 import com.marcusscalet.algafood.api.model.ProductImageDTO;
 import com.marcusscalet.algafood.api.model.input.ProductImageInput;
+import com.marcusscalet.algafood.api.openapi.controller.RestaurantProductImageControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
 import com.marcusscalet.algafood.domain.model.Product;
 import com.marcusscalet.algafood.domain.model.ProductImage;
@@ -35,7 +36,7 @@ import com.marcusscalet.algafood.domain.service.ProductRegistrationService;
 
 @RestController
 @RequestMapping("/restaurants/{restaurantId}/products/{productId}/image")
-public class RestaurantProductImageController {
+public class RestaurantProductImageController implements RestaurantProductImageControllerOpenApi{
 
 	@Autowired
 	private ProductImageDTOAssembler productImageDTOAssembler;
@@ -77,7 +78,7 @@ public class RestaurantProductImageController {
 		return productImageDTOAssembler.toDTO(fds);
 	}
 
-	@GetMapping
+	@GetMapping(produces = MediaType.ALL_VALUE)
 	public ResponseEntity<?> showImage(@PathVariable Long restaurantId, @PathVariable Long productId,
 			@RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
 

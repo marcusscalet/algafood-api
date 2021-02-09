@@ -20,12 +20,13 @@ import com.marcusscalet.algafood.api.assembler.StateDTOAssembler;
 import com.marcusscalet.algafood.api.assembler.StateInputDisassembler;
 import com.marcusscalet.algafood.api.model.StateDTO;
 import com.marcusscalet.algafood.api.model.input.StateInput;
+import com.marcusscalet.algafood.api.openapi.controller.StateControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.State;
 import com.marcusscalet.algafood.domain.service.StateRegistrationService;
 
 @RestController
 @RequestMapping("/states")
-public class StateController {
+public class StateController implements StateControllerOpenApi{
 
 	@Autowired
 	private StateRegistrationService stateRegistrationService;
