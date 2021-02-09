@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marcusscalet.algafood.api.assembler.PermissionDTOAssembler;
 import com.marcusscalet.algafood.api.model.PermissionDTO;
+import com.marcusscalet.algafood.api.openapi.controller.GroupPermissionControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.Group;
 import com.marcusscalet.algafood.domain.service.GroupRegistrationService;
 
 @RestController
 @RequestMapping(value = "/groups/{groupId}/permissions")
-public class GroupPermissionController {
+public class GroupPermissionController implements GroupPermissionControllerOpenApi {
 
 	@Autowired
 	private GroupRegistrationService groupRegistrationService;

@@ -22,6 +22,7 @@ import com.marcusscalet.algafood.api.model.UserDTO;
 import com.marcusscalet.algafood.api.model.input.PasswordInput;
 import com.marcusscalet.algafood.api.model.input.UserInput;
 import com.marcusscalet.algafood.api.model.input.UserWithPasswordInput;
+import com.marcusscalet.algafood.api.openapi.controller.UserControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.UserNotFoundException;
 import com.marcusscalet.algafood.domain.model.User;
@@ -29,7 +30,7 @@ import com.marcusscalet.algafood.domain.service.UserRegistrationService;
 
 @RestController
 @RequestMapping(value = "/users")
-public class UserController {
+public class UserController implements UserControllerOpenApi {
 
 	@Autowired
 	private UserDTOAssembler userDTOAssembler;

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,14 +50,23 @@ public class RestaurantProductImageController implements RestaurantProductImageC
 
 	@Autowired
 	private ImageStorageService imageStorageService;
+	
+//	@Override
+//	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//	public ProductImageDTO updateImage(@PathVariable Long restaurantId, @PathVariable Long productId,
+//			@Valid ProductImageInput productImageInput,
+//			@RequestPart(required = true) MultipartFile file) throws IOException {
 
+
+	@Override
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ProductImageDTO updateImage(@PathVariable Long restaurantId, @PathVariable Long productId,
+	public ProductImageDTO updateImage(@PathVariable Long restaurantId, @PathVariable Long productId, 
+			@RequestPart(required = true) MultipartFile file, 
 			@Valid ProductImageInput productImageInput) throws IOException {
-
+	
 		Product product = productRegistrationService.searchOrFail(restaurantId, productId);
 
-		MultipartFile file = productImageInput.getFile();
+//		MultipartFile file = productImageInput.getFile();
 
 		ProductImage image = new ProductImage();
 		image.setProduct(product);
@@ -123,4 +133,5 @@ public class RestaurantProductImageController implements RestaurantProductImageC
 			throw new HttpMediaTypeNotAcceptableException(acceptedMediaTypes);
 		}
 	}
+
 }

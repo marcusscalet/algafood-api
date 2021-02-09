@@ -2,12 +2,9 @@ package com.marcusscalet.algafood.api.openapi.controller;
 
 import java.io.IOException;
 
-import javax.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
 import com.marcusscalet.algafood.api.model.ProductImageDTO;
@@ -27,24 +24,25 @@ public interface RestaurantProductImageControllerOpenApi {
         @ApiResponse(code = 200, message = "Foto do produto atualizada"),
         @ApiResponse(code = 404, message = "Produto de restaurante não encontrado", response = Problem.class)
     })
-	public ProductImageDTO updateImage(
+	ProductImageDTO updateImage(
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId, 
 			@ApiParam(value = "ID do produto", example = "1", required = true) Long productId,
-			@Valid ProductImageInput productImageInput)throws IOException;
-
+			@ApiParam(value = "Arquivo da foto do produto (máximo 500KB, apenas JPG e PNG)", required = true) MultipartFile file,
+			ProductImageInput productImageInput) throws IOException;
+	
 	@ApiOperation(value = "Busca a foto do produto de um restaurante",
             produces = "application/json, image/jpeg, image/png")
     @ApiResponses({
         @ApiResponse(code = 400, message = "ID do restaurante ou produto inválido", response = Problem.class),
         @ApiResponse(code = 404, message = "Foto de produto não encontrada", response = Problem.class)
     })
-	public ProductImageDTO searchImage(
+	ProductImageDTO searchImage(
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId, 
 			@ApiParam(value = "ID do produto", example = "1", required = true) Long productId);
 
     @ApiOperation(value = "Busca a foto do produto de um restaurante", hidden = true)
-	public ResponseEntity<?> showImage(@PathVariable Long restaurantId, @PathVariable Long productId,
-			@RequestHeader(name = "accept") String acceptHeader)throws HttpMediaTypeNotAcceptableException;
+	ResponseEntity<?> showImage(Long restaurantId, Long productId,
+			String acceptHeader)throws HttpMediaTypeNotAcceptableException;
 
     
     @ApiOperation("Exclui a foto do produto de um restaurante")
@@ -53,6 +51,8 @@ public interface RestaurantProductImageControllerOpenApi {
         @ApiResponse(code = 400, message = "ID do restaurante ou produto inválido", response = Problem.class),
         @ApiResponse(code = 404, message = "Foto de produto não encontrada", response = Problem.class)
     })
-	public void remove(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
+	void remove(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
 			@ApiParam(value = "ID do produto", example = "1", required = true)Long productId);
+
+
 }
