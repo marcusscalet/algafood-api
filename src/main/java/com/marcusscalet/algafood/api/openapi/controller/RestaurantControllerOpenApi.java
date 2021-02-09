@@ -23,7 +23,7 @@ public interface RestaurantControllerOpenApi {
 	@ApiOperation(value = "Restaurants list", response = RestaurantEssentialDTOOpenApi.class) //used here just because JsonView
 	@ApiImplicitParams({
 		@ApiImplicitParam(value = "Nome da projeção de pedidos", allowableValues = "only-name",
-				name = "view", paramType = "query", type = "string")
+				name = "view", paramType = "query", dataTypeClass = String.class)
 	})
 	@JsonView(RestaurantView.Summary.class)
 	 List<RestaurantDTO> listAllSummary();

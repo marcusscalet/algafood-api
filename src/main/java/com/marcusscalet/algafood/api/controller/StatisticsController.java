@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marcusscalet.algafood.api.openapi.controller.StatisticsControllerOpenApi;
 import com.marcusscalet.algafood.domain.filter.DailySalesFilter;
 import com.marcusscalet.algafood.domain.model.dto.DailySales;
 import com.marcusscalet.algafood.domain.service.SalesReportService;
@@ -18,7 +19,7 @@ import com.marcusscalet.algafood.infrastructure.service.query.SalesQueryServiceI
 
 @RestController
 @RequestMapping(path = "/statistics")
-public class StatisticsController {
+public class StatisticsController implements StatisticsControllerOpenApi {
 
 	@Autowired
 	private SalesQueryServiceImpl salesQueryServiceImpl;
@@ -47,4 +48,5 @@ public class StatisticsController {
 				.headers(headers)
 				.body(bytesPdf);
 	}
+
 }

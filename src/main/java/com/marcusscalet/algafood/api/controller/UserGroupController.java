@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marcusscalet.algafood.api.assembler.GroupDTOAssembler;
 import com.marcusscalet.algafood.api.model.GroupDTO;
+import com.marcusscalet.algafood.api.openapi.controller.UserGroupControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.User;
 import com.marcusscalet.algafood.domain.service.UserRegistrationService;
 
 @RestController
 @RequestMapping(value = "/users/{userId}/groups")
-public class UserGroupController {
+public class UserGroupController implements UserGroupControllerOpenApi {
 
 	@Autowired
 	private GroupDTOAssembler groupDTOAssembler;
