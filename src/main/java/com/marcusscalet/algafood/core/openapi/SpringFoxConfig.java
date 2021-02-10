@@ -71,15 +71,15 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 	
 	private Tag[] tags(){
 		return new Tag[] {
-				new Tag("City", "Manage cities"),
-				new Tag("Group", "Manage groups"),
-				new Tag("Cuisine", "Manage cuisines"),
-				new Tag("Payment Method", "Manage payment methods"),
-				new Tag("Order", "Manage orders"),
-				new Tag("Restaurant", "Manage restaurants"),
-				new Tag("State", "Manage states"),
-				new Tag("Product", "Manage products from restaurants"),
-				new Tag("User", "Manage users"),
+				new Tag("Cities", "Manage cities"),
+				new Tag("Groups", "Manage groups"),
+				new Tag("Cuisines", "Manage cuisines"),
+				new Tag("Payment Methods", "Manage payment methods"),
+				new Tag("Orders", "Manage orders"),
+				new Tag("Restaurants", "Manage restaurants"),
+				new Tag("States", "Manage states"),
+				new Tag("Products", "Manage products from restaurants"),
+				new Tag("Users", "Manage users"),
 		        new Tag("Statistics", "Algafood Statistics")
 		};
 	}

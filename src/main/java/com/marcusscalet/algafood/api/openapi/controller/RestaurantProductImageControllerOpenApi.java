@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = "Product")
+@Api(tags = "Products")
 public interface RestaurantProductImageControllerOpenApi {
 
 	@ApiOperation("Atualiza a foto do produto de um restaurante")

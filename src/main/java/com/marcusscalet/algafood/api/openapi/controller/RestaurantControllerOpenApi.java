@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = "Restaurant")
+@Api(tags = "Restaurants")
 public interface RestaurantControllerOpenApi {
 
 	@ApiOperation(value = "Restaurants list", response = RestaurantEssentialDTOOpenApi.class) //used here just because JsonView

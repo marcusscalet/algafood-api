@@ -1,5 +1,7 @@
 package com.marcusscalet.algafood.api.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marcusscalet.algafood.api.ResourceUriHelper;
 import com.marcusscalet.algafood.api.assembler.CityDTOAssembler;
 import com.marcusscalet.algafood.api.assembler.CityInputDisassembler;
 import com.marcusscalet.algafood.api.model.CityDTO;
@@ -25,7 +28,6 @@ import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.StateNotFoundException;
 import com.marcusscalet.algafood.domain.model.City;
 import com.marcusscalet.algafood.domain.service.CityRegistrationService;
-
 
 @RestController
 @RequestMapping(path = "/cities")
@@ -51,7 +53,23 @@ public class CityController implements CityControllerOpenApi{
 	public CityDTO find(@PathVariable Long cityId) {
 		City city = cityRegistrationService.searchOrFail(cityId);
 		
-		return cityDTOAssembler.toDTO(city);
+		CityDTO cityDTO = cityDTOAssembler.toDTO(city);
+		
+		cityDTO.add(linkTo(CityController.class)
+				.slash(cityDTO.getId()).withSelfRel());
+		
+//		cityDTO.add(new Link("http://api.algafood.local:8080/city/1"));
+
+		cityDTO.add(linkTo(CityController.class)
+				.withRel("cities"));
+		
+	//	cityDTO.add(new Link("http://api.algafood.local:8080/cities", "cities"));
+		
+		cityDTO.getState().add(linkTo(StateController.class)
+				.slash(cityDTO.getState().getId()).withSelfRel());
+		
+//		cityDTO.getState().add(new Link("http://api.algafood.local:8080/states/1"));
+		return cityDTO;
 	}
 
 	@PostMapping
@@ -62,8 +80,11 @@ public class CityController implements CityControllerOpenApi{
 
 			city = cityRegistrationService.saveCity(city);
 			
-			return cityDTOAssembler.toDTO(city);
+			CityDTO cityDTO = cityDTOAssembler.toDTO(city);
 			
+			ResourceUriHelper.addUriInReponseHeader(cityDTO.getId());
+			
+			return cityDTO;
 		} catch (StateNotFoundException e) {
 			throw new BusinessException(e.getMessage());
 		}

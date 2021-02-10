@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = "Product")
+@Api(tags = "Products")
 public interface RestaurantProductControllerOpenApi {
 
 	@ApiOperation("Lista os produtos de um restaurante")

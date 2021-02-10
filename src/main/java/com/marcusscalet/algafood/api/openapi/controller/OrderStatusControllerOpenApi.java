@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = "Order")
+@Api(tags = "Orders")
 public interface OrderStatusControllerOpenApi {
 
 	@ApiOperation("Confirmação de pedido")
