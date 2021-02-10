@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = "State")
+@Api(tags = "States")
 public interface StateControllerOpenApi {
 	
 	@ApiOperation("Lista todos os estados")

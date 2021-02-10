@@ -15,7 +15,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = "Payment Method")
+@Api(tags = "Payment Methods")
 public interface PaymentMethodControllerOpenApi {
 
 	@ApiOperation("Lista todos os métodos de pagamento")

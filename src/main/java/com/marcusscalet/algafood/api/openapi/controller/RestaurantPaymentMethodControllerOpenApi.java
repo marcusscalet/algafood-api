@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = "Restaurant")
+@Api(tags = "Restaurants")
 public interface RestaurantPaymentMethodControllerOpenApi {
 
 	@ApiOperation("Lista as formas de pagamento associadas a restaurante")
