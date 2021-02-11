@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.RestaurantDTO;
+import com.marcusscalet.algafood.api.model.RestaurantModel;
 import com.marcusscalet.algafood.api.model.input.RestaurantInput;
 import com.marcusscalet.algafood.api.model.view.RestaurantView;
-import com.marcusscalet.algafood.api.openapi.model.RestaurantEssentialDTOOpenApi;
+import com.marcusscalet.algafood.api.openapi.model.RestaurantEssentialModelOpenApi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -20,36 +20,36 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags = "Restaurants")
 public interface RestaurantControllerOpenApi {
 
-	@ApiOperation(value = "Restaurants list", response = RestaurantEssentialDTOOpenApi.class) //used here just because JsonView
+	@ApiOperation(value = "Restaurants list", response = RestaurantEssentialModelOpenApi.class) //used here just because JsonView
 	@ApiImplicitParams({
 		@ApiImplicitParam(value = "Nome da projeção de pedidos", allowableValues = "only-name",
 				name = "view", paramType = "query", dataTypeClass = String.class)
 	})
 	@JsonView(RestaurantView.Summary.class)
-	 List<RestaurantDTO> listAllSummary();
+	 List<RestaurantModel> listAllSummary();
 	
 	@ApiOperation(value = "Restaurants list", hidden = true)
-	 List<RestaurantDTO> listAllByName();
+	 List<RestaurantModel> listAllByName();
 	
 	@ApiOperation("Busca um restaurante por ID")
 	@ApiResponses({
 	    @ApiResponse(code = 400, message = "ID do restaurante inválido", response = Problem.class),
 	    @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
 	})
-	 RestaurantDTO find(
+	 RestaurantModel find(
 		@ApiParam(value =  "ID do restaurante", example = "1", required = true) Long restaurantId);
 	
 	@ApiOperation("Cadastra um restaurante")
 	@ApiResponses({
 	    @ApiResponse(code = 201, message = "Restaurante cadastrado"),
 	})
-	 RestaurantDTO add(
+	 RestaurantModel add(
 		@ApiParam(name = "body", value = "Representação de um restaurante", required = true) RestaurantInput restaurantInput);
 
 	@ApiOperation("Atualiza restaurante por ID")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Restaurante atualizado"),
 		@ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class) })
-	 RestaurantDTO update(
+	 RestaurantModel update(
 		@ApiParam(value =  "ID do restaurante", example = "1", required = true) Long restaurantId,
 		@ApiParam(name = "body", value = "Representação de um restaurante", required = true) RestaurantInput restaurantInput);
 

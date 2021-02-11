@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.PermissionDTOAssembler;
-import com.marcusscalet.algafood.api.model.PermissionDTO;
+import com.marcusscalet.algafood.api.assembler.PermissionModelAssembler;
+import com.marcusscalet.algafood.api.model.PermissionModel;
 import com.marcusscalet.algafood.api.openapi.controller.GroupPermissionControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.Group;
 import com.marcusscalet.algafood.domain.service.GroupRegistrationService;
@@ -26,13 +26,13 @@ public class GroupPermissionController implements GroupPermissionControllerOpenA
 	private GroupRegistrationService groupRegistrationService;
 
 	@Autowired
-	private PermissionDTOAssembler permissionDTOAssembler;
+	private PermissionModelAssembler permissionModelAssembler;
 
 	@GetMapping
-	public List<PermissionDTO> listAll(@PathVariable Long groupId) {
+	public List<PermissionModel> listAll(@PathVariable Long groupId) {
 		Group group = groupRegistrationService.searchOrFail(groupId);
 
-		return permissionDTOAssembler.toDTOCollection(group.getPermissions());
+		return permissionModelAssembler.toModelCollection(group.getPermissions());
 	}
 
 	@PutMapping("/{permissionId}")

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.UserDTO;
+import com.marcusscalet.algafood.api.model.UserModel;
 import com.marcusscalet.algafood.api.model.input.PasswordInput;
 import com.marcusscalet.algafood.api.model.input.UserInput;
 import com.marcusscalet.algafood.api.model.input.UserWithPasswordInput;
@@ -20,24 +20,24 @@ import io.swagger.annotations.ApiResponses;
 public interface UserControllerOpenApi {
     
 	@ApiOperation("Lista os usuários")
-	public List<UserDTO> list();
+	public List<UserModel> list();
 	
 	@ApiOperation("Busca um usuário por ID")
     @ApiResponses({
         @ApiResponse(code = 400, message = "ID do usuário inválido", response = Problem.class),
         @ApiResponse(code = 404, message = "Usuário não encontrado", response = Problem.class)
     })
-	UserDTO find(@ApiParam(value = "ID do usuário", example = "1", required = true) Long userId);
+	UserModel find(@ApiParam(value = "ID do usuário", example = "1", required = true) Long userId);
 
 	@ApiOperation("Cadastra um usuário")
 	@ApiResponses({ @ApiResponse(code = 201, message = "Usuário cadastrado"), })
-	UserDTO add(
+	UserModel add(
 			@ApiParam(name = "body", value = "Representação de um novo usuário", required = true) UserWithPasswordInput userWithPasswordInput);
 
 	@ApiOperation("Atualiza um usuário por ID")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Usuário atualizado"),
 			@ApiResponse(code = 404, message = "Usuário não encontrado", response = Problem.class) })
-	UserDTO update(@ApiParam(value = "ID do usuário", example = "1", required = true) Long userId,
+	UserModel update(@ApiParam(value = "ID do usuário", example = "1", required = true) Long userId,
 			@ApiParam(name = "body", value = "Representação de um usuário com os novos dados", required = true) UserInput userInput);
 
 	void remove(@PathVariable Long userId);

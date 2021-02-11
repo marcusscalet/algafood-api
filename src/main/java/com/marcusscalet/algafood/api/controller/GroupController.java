@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.GroupDTOAssembler;
+import com.marcusscalet.algafood.api.assembler.GroupModelAssembler;
 import com.marcusscalet.algafood.api.assembler.GroupInputDisassembler;
-import com.marcusscalet.algafood.api.model.GroupDTO;
+import com.marcusscalet.algafood.api.model.GroupModel;
 import com.marcusscalet.algafood.api.model.input.GroupInput;
 import com.marcusscalet.algafood.api.openapi.controller.GroupControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
@@ -37,41 +37,41 @@ public class GroupController implements GroupControllerOpenApi{
 	private GroupInputDisassembler groupInputDisassembler;
 
 	@Autowired
-	private GroupDTOAssembler groupDTOAssembler;
+	private GroupModelAssembler groupModelAssembler;
 
 	@GetMapping
-	public List<GroupDTO> listAll() {
+	public List<GroupModel> listAll() {
 		List<Group> groupsList = groupRegistrationService.listAll();
 		
-		return groupDTOAssembler.toCollectionDTO(groupsList);
+		return groupModelAssembler.toCollectionModel(groupsList);
 	}
 
 	@GetMapping("/{groupId}")
-	public GroupDTO find(@PathVariable Long groupId) {
+	public GroupModel find(@PathVariable Long groupId) {
 		Group group = groupRegistrationService.searchOrFail(groupId);
 
-		return groupDTOAssembler.toDTO(group);
+		return groupModelAssembler.toModel(group);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public GroupDTO add(@Valid @RequestBody GroupInput groupInput) {
+	public GroupModel add(@Valid @RequestBody GroupInput groupInput) {
 
 		Group group = groupInputDisassembler.toDomainObject(groupInput);
 
 		group = groupRegistrationService.saveGroup(group);
 
-		return groupDTOAssembler.toDTO(group);
+		return groupModelAssembler.toModel(group);
 	}
 	
 	@PutMapping("/{groupId}")
-	public GroupDTO update(@PathVariable Long groupId, @Valid @RequestBody GroupInput groupInput) {
+	public GroupModel update(@PathVariable Long groupId, @Valid @RequestBody GroupInput groupInput) {
 		try {
 			Group currentGroup = groupRegistrationService.searchOrFail(groupId);
 			
 			groupInputDisassembler.copyToDomainObject(groupInput, currentGroup);
 			
-			return groupDTOAssembler.toDTO(groupRegistrationService.saveGroup(currentGroup));
+			return groupModelAssembler.toModel(groupRegistrationService.saveGroup(currentGroup));
 		} catch(GroupNotFoundException e) {
 			throw new BusinessException(e.getMessage());
 		}

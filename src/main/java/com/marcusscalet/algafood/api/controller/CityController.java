@@ -1,12 +1,11 @@
 package com.marcusscalet.algafood.api.controller;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +18,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcusscalet.algafood.api.ResourceUriHelper;
-import com.marcusscalet.algafood.api.assembler.CityDTOAssembler;
+import com.marcusscalet.algafood.api.assembler.CityModelAssembler;
 import com.marcusscalet.algafood.api.assembler.CityInputDisassembler;
-import com.marcusscalet.algafood.api.model.CityDTO;
+import com.marcusscalet.algafood.api.model.CityModel;
 import com.marcusscalet.algafood.api.model.input.CityInput;
 import com.marcusscalet.algafood.api.openapi.controller.CityControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
@@ -37,61 +36,46 @@ public class CityController implements CityControllerOpenApi{
 	private CityRegistrationService cityRegistrationService;
 
 	@Autowired
-	private CityDTOAssembler cityDTOAssembler;
+	private CityModelAssembler cityModelAssembler;
 	
 	@Autowired
 	private CityInputDisassembler cityInputDisassembler;
 	
 	@GetMapping
-	public List<CityDTO> listAll() {
+	public CollectionModel<CityModel> listAll() {
 		List<City> citiesList = cityRegistrationService.listAll();
 		
-		return cityDTOAssembler.toCollectionDTO(citiesList);
+		return cityModelAssembler.toCollectionModel(citiesList);
 	}
 
 	@GetMapping("/{cityId}")
-	public CityDTO find(@PathVariable Long cityId) {
+	public CityModel find(@PathVariable Long cityId) {
 		City city = cityRegistrationService.searchOrFail(cityId);
 		
-		CityDTO cityDTO = cityDTOAssembler.toDTO(city);
-		
-		cityDTO.add(linkTo(CityController.class)
-				.slash(cityDTO.getId()).withSelfRel());
-		
-//		cityDTO.add(new Link("http://api.algafood.local:8080/city/1"));
+		return cityModelAssembler.toModel(city);
 
-		cityDTO.add(linkTo(CityController.class)
-				.withRel("cities"));
-		
-	//	cityDTO.add(new Link("http://api.algafood.local:8080/cities", "cities"));
-		
-		cityDTO.getState().add(linkTo(StateController.class)
-				.slash(cityDTO.getState().getId()).withSelfRel());
-		
-//		cityDTO.getState().add(new Link("http://api.algafood.local:8080/states/1"));
-		return cityDTO;
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CityDTO add(@Valid @RequestBody CityInput cityInput) {
+	public CityModel add(@Valid @RequestBody CityInput cityInput) {
 		try {
 			City city = cityInputDisassembler.toDomainObject(cityInput);
 
 			city = cityRegistrationService.saveCity(city);
 			
-			CityDTO cityDTO = cityDTOAssembler.toDTO(city);
+			CityModel cityModel = cityModelAssembler.toModel(city);
 			
-			ResourceUriHelper.addUriInReponseHeader(cityDTO.getId());
+			ResourceUriHelper.addUriInReponseHeader(cityModel.getId());
 			
-			return cityDTO;
+			return cityModel;
 		} catch (StateNotFoundException e) {
 			throw new BusinessException(e.getMessage());
 		}
 	}
 
 	@PutMapping("/{cityId}")
-	public CityDTO update(
+	public CityModel update(
 			@PathVariable Long cityId,
 			@Valid @RequestBody CityInput cityInput) {
 		
@@ -100,7 +84,7 @@ public class CityController implements CityControllerOpenApi{
 
 			cityInputDisassembler.copyToDomainObject(cityInput, currentCity);
 			
-			return cityDTOAssembler.toDTO(cityRegistrationService.saveCity(currentCity));
+			return cityModelAssembler.toModel(cityRegistrationService.saveCity(currentCity));
 			
 		} catch (StateNotFoundException e) {
 			throw new BusinessException(e.getMessage());

@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.marcusscalet.algafood.api.assembler.ProductImageDTOAssembler;
-import com.marcusscalet.algafood.api.model.ProductImageDTO;
+import com.marcusscalet.algafood.api.assembler.ProductImageModelAssembler;
+import com.marcusscalet.algafood.api.model.ProductImageModel;
 import com.marcusscalet.algafood.api.model.input.ProductImageInput;
 import com.marcusscalet.algafood.api.openapi.controller.RestaurantProductImageControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
@@ -40,7 +40,7 @@ import com.marcusscalet.algafood.domain.service.ProductRegistrationService;
 public class RestaurantProductImageController implements RestaurantProductImageControllerOpenApi{
 
 	@Autowired
-	private ProductImageDTOAssembler productImageDTOAssembler;
+	private ProductImageModelAssembler productImageModelAssembler;
 
 	@Autowired
 	private ProductImageCatalogService productImageCatalogService;
@@ -53,14 +53,14 @@ public class RestaurantProductImageController implements RestaurantProductImageC
 	
 //	@Override
 //	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//	public ProductImageDTO updateImage(@PathVariable Long restaurantId, @PathVariable Long productId,
+//	public ProductImageModel updateImage(@PathVariable Long restaurantId, @PathVariable Long productId,
 //			@Valid ProductImageInput productImageInput,
 //			@RequestPart(required = true) MultipartFile file) throws IOException {
 
 
 	@Override
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ProductImageDTO updateImage(@PathVariable Long restaurantId, @PathVariable Long productId, 
+	public ProductImageModel updateImage(@PathVariable Long restaurantId, @PathVariable Long productId, 
 			@RequestPart(required = true) MultipartFile file, 
 			@Valid ProductImageInput productImageInput) throws IOException {
 	
@@ -77,15 +77,15 @@ public class RestaurantProductImageController implements RestaurantProductImageC
 
 		ProductImage savedImage = productImageCatalogService.save(image, file.getInputStream());
 
-		return productImageDTOAssembler.toDTO(savedImage);
+		return productImageModelAssembler.toModel(savedImage);
 	}
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ProductImageDTO searchImage(@PathVariable Long restaurantId, @PathVariable Long productId) {
+	public ProductImageModel searchImage(@PathVariable Long restaurantId, @PathVariable Long productId) {
 
 		ProductImage fds = productImageCatalogService.searchOrFail(restaurantId, productId);
 
-		return productImageDTOAssembler.toDTO(fds);
+		return productImageModelAssembler.toModel(fds);
 	}
 
 	@GetMapping(produces = MediaType.ALL_VALUE)

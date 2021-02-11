@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.ImmutableMap;
-import com.marcusscalet.algafood.api.assembler.OrderDTOAssembler;
+import com.marcusscalet.algafood.api.assembler.OrderModelAssembler;
 import com.marcusscalet.algafood.api.assembler.OrderInputDisassembler;
-import com.marcusscalet.algafood.api.assembler.OrderSummaryDTOAssembler;
-import com.marcusscalet.algafood.api.model.OrderDTO;
-import com.marcusscalet.algafood.api.model.OrderSummaryDTO;
+import com.marcusscalet.algafood.api.assembler.OrderSummaryModelAssembler;
+import com.marcusscalet.algafood.api.model.OrderModel;
+import com.marcusscalet.algafood.api.model.OrderSummaryModel;
 import com.marcusscalet.algafood.api.model.input.OrderInput;
 import com.marcusscalet.algafood.api.openapi.controller.OrderControllerOpenApi;
 import com.marcusscalet.algafood.core.data.PageableTranslator;
@@ -42,38 +42,38 @@ public class OrderController implements OrderControllerOpenApi {
 	private OrderService orderService;
 
 	@Autowired
-	private OrderSummaryDTOAssembler orderSummaryDTOAssembler;
+	private OrderSummaryModelAssembler orderSummaryModelAssembler;
 
 	@Autowired
-	private OrderDTOAssembler orderDTOAssembler;
+	private OrderModelAssembler orderModelAssembler;
 
 	@Autowired
 	private OrderInputDisassembler orderInputDisassembler;
 
 	@GetMapping
-	public Page<OrderSummaryDTO> search(OrderFilter filter, 
+	public Page<OrderSummaryModel> search(OrderFilter filter, 
 			@PageableDefault(size = 10) Pageable pageable) {
 		pageable = translatePageable(pageable);
 		
 		Page<Order> ordersPage= orderService.findAll(filter, pageable);
 		
-		List<OrderSummaryDTO> ordersList = orderSummaryDTOAssembler.toCollectionDTO(ordersPage.getContent());
+		List<OrderSummaryModel> ordersList = orderSummaryModelAssembler.toCollectionModel(ordersPage.getContent());
 		
-		Page<OrderSummaryDTO> ordersDTOPage = new PageImpl<OrderSummaryDTO>(ordersList, pageable, ordersPage.getTotalElements());
+		Page<OrderSummaryModel> ordersModelPage = new PageImpl<OrderSummaryModel>(ordersList, pageable, ordersPage.getTotalElements());
 		
-		return ordersDTOPage;
+		return ordersModelPage;
 	}
 
 	@GetMapping("/{orderCode}")
-	public OrderDTO find(@PathVariable String orderCode) {
+	public OrderModel find(@PathVariable String orderCode) {
 		Order order = orderService.searchOrFail(orderCode);
 
-		return orderDTOAssembler.toDTO(order);
+		return orderModelAssembler.toModel(order);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public OrderDTO save(@RequestBody @Valid OrderInput orderInput) {
+	public OrderModel save(@RequestBody @Valid OrderInput orderInput) {
 		try {
 			Order order = orderInputDisassembler.toDomainObject(orderInput);
 
@@ -83,7 +83,7 @@ public class OrderController implements OrderControllerOpenApi {
 			
 			order = orderService.generateOrder(order);
 
-			return orderDTOAssembler.toDTO(order);
+			return orderModelAssembler.toModel(order);
 		} catch (EntityNotFoundException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}

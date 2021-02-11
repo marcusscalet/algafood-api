@@ -3,7 +3,7 @@ package com.marcusscalet.algafood.api.openapi.controller;
 import java.util.List;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.PermissionDTO;
+import com.marcusscalet.algafood.api.model.PermissionModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,7 +18,7 @@ public interface GroupPermissionControllerOpenApi {
     @ApiResponses({
         @ApiResponse(code = 400, message = "ID do grupo inválido", response = Problem.class),
         @ApiResponse(code = 404, message = "Grupo não encontrado", response = Problem.class)})
-	List<PermissionDTO> listAll(@ApiParam(value = "ID do grupo", example = "1", required = true) Long groupId);
+	List<PermissionModel> listAll(@ApiParam(value = "ID do grupo", example = "1", required = true) Long groupId);
 
 	@ApiOperation("Associação de permissão com grupo")
     @ApiResponses({

@@ -1,9 +1,9 @@
 package com.marcusscalet.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.CityDTO;
+import com.marcusscalet.algafood.api.model.CityModel;
 import com.marcusscalet.algafood.api.model.input.CityInput;
 
 import io.swagger.annotations.Api;
@@ -16,21 +16,21 @@ import io.swagger.annotations.ApiResponses;
 public interface CityControllerOpenApi {
 
 	@ApiOperation("Lista todas as cidades")
-	List<CityDTO> listAll();
+	CollectionModel<CityModel> listAll();
 
 	@ApiOperation("Busca cidade por ID")
 	@ApiResponses({ @ApiResponse(code = 400, message = "ID de cidade inválido", response = Problem.class),
 			@ApiResponse(code = 404, message = "Cidade não encontrada", response = Problem.class) })
-	CityDTO find(@ApiParam(value = "ID da cidade", example = "1", required = true) Long cityId);
+	CityModel find(@ApiParam(value = "ID da cidade", example = "1", required = true) Long cityId);
 
 	@ApiOperation("Cria uma nova cidade")
 	@ApiResponses({ @ApiResponse(code = 201, message = "Cidade cadastrada") })
-	CityDTO add(@ApiParam(name = "body", value = "Representação de uma cidade", required = true) CityInput cityInput);
+	CityModel add(@ApiParam(name = "body", value = "Representação de uma cidade", required = true) CityInput cityInput);
 
 	@ApiOperation("Atualiza cidade por ID")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Cidade atualizada"),
 			@ApiResponse(code = 404, message = "Cidade não encontrada", response = Problem.class) })
-	CityDTO update(@ApiParam(value = "ID da cidade", example = "1", required = true) Long cityId,
+	CityModel update(@ApiParam(value = "ID da cidade", example = "1", required = true) Long cityId,
 			@ApiParam(name = "body", value = "Representação de uma cidade com os novos dados", required = true) CityInput cityInput);
 
 	@ApiOperation("Remove cidade por ID")

@@ -18,10 +18,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.CuisineDTO;
-import com.marcusscalet.algafood.api.model.OrderSummaryDTO;
-import com.marcusscalet.algafood.api.openapi.model.CuisinesDTOOpenApi;
-import com.marcusscalet.algafood.api.openapi.model.OrdersSummaryDTOOpenApi;
+import com.marcusscalet.algafood.api.model.CuisineModel;
+import com.marcusscalet.algafood.api.model.OrderSummaryModel;
+import com.marcusscalet.algafood.api.openapi.model.CuisinesModelOpenApi;
+import com.marcusscalet.algafood.api.openapi.model.OrdersSummaryModelOpenApi;
 import com.marcusscalet.algafood.api.openapi.model.PageableModelOpenApi;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
@@ -62,9 +62,9 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.ignoredParameterTypes(ServletWebRequest.class)
 				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
 				.alternateTypeRules(AlternateTypeRules.newRule(
-						typeResolver.resolve(Page.class, CuisineDTO.class), CuisinesDTOOpenApi.class))
+						typeResolver.resolve(Page.class, CuisineModel.class), CuisinesModelOpenApi.class))
 				.alternateTypeRules(AlternateTypeRules.newRule(
-						typeResolver.resolve(Page.class, OrderSummaryDTO.class), OrdersSummaryDTOOpenApi.class))
+						typeResolver.resolve(Page.class, OrderSummaryModel.class), OrdersSummaryModelOpenApi.class))
 			.apiInfo(apiInfo())
 			.tags(tags()[0], tags());
 	}

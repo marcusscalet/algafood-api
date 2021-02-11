@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.StateDTOAssembler;
+import com.marcusscalet.algafood.api.assembler.StateModelAssembler;
 import com.marcusscalet.algafood.api.assembler.StateInputDisassembler;
-import com.marcusscalet.algafood.api.model.StateDTO;
+import com.marcusscalet.algafood.api.model.StateModel;
 import com.marcusscalet.algafood.api.model.input.StateInput;
 import com.marcusscalet.algafood.api.openapi.controller.StateControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.State;
@@ -32,36 +32,36 @@ public class StateController implements StateControllerOpenApi{
 	private StateRegistrationService stateRegistrationService;
 
 	@Autowired
-	private StateDTOAssembler stateModelAssembler;
+	private StateModelAssembler stateModelAssembler;
 	
 	@Autowired
 	private StateInputDisassembler stateInputDisassembler;
 	
 	@GetMapping
-	public List<StateDTO> listAll() {
+	public List<StateModel> listAll() {
 		List<State> stateList = stateRegistrationService.listAll();
 		
-		return stateModelAssembler.toCollectionDTO(stateList); 
+		return stateModelAssembler.toCollectionModel(stateList); 
 	}
 
 	@GetMapping("/{stateId}")
-	public StateDTO find(@PathVariable Long stateId) {
+	public StateModel find(@PathVariable Long stateId) {
 		State state = stateRegistrationService.searchOrFail(stateId);
 		
-		return stateModelAssembler.toDTO(state);
+		return stateModelAssembler.toModel(state);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public StateDTO add(@Valid @RequestBody StateInput stateInput) {
+	public StateModel add(@Valid @RequestBody StateInput stateInput) {
 		State state = stateInputDisassembler.toDomainObject(stateInput);
 		state = stateRegistrationService.saveState(state);
 		
-		return stateModelAssembler.toDTO(state);
+		return stateModelAssembler.toModel(state);
 	}
 
 	@PutMapping("/{stateId}")
-	public StateDTO update(@PathVariable Long stateId, @Valid @RequestBody StateInput stateInput) {
+	public StateModel update(@PathVariable Long stateId, @Valid @RequestBody StateInput stateInput) {
 
 		State currentState = stateRegistrationService.searchOrFail(stateId);
 
@@ -69,7 +69,7 @@ public class StateController implements StateControllerOpenApi{
 
 		currentState = stateRegistrationService.saveState(currentState);
 		
-		return stateModelAssembler.toDTO(currentState);
+		return stateModelAssembler.toModel(currentState);
 
 	}
 

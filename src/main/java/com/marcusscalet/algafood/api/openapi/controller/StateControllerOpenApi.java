@@ -3,7 +3,7 @@ package com.marcusscalet.algafood.api.openapi.controller;
 import java.util.List;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.StateDTO;
+import com.marcusscalet.algafood.api.model.StateModel;
 import com.marcusscalet.algafood.api.model.input.StateInput;
 
 import io.swagger.annotations.Api;
@@ -16,21 +16,21 @@ import io.swagger.annotations.ApiResponses;
 public interface StateControllerOpenApi {
 	
 	@ApiOperation("Lista todos os estados")
-	 List<StateDTO> listAll();
+	 List<StateModel> listAll();
 	
 	@ApiOperation("Busca estado por ID")
 	@ApiResponses({ @ApiResponse(code = 400, message = "ID de estado inválido", response = Problem.class),
 			@ApiResponse(code = 404, message = "Estado não encontrado", response = Problem.class) })
-	 StateDTO find(@ApiParam(value = "ID do estado", example = "1", required = true) Long stateId);
+	 StateModel find(@ApiParam(value = "ID do estado", example = "1", required = true) Long stateId);
 	
 	@ApiOperation("Cria um novo estado")
 	@ApiResponses({ @ApiResponse(code = 201, message = "Estado cadastrado") })
-	 StateDTO add(@ApiParam(name = "body", value = "Representação de um estado com os novos dados", required = true)  StateInput stateInput);
+	 StateModel add(@ApiParam(name = "body", value = "Representação de um estado com os novos dados", required = true)  StateInput stateInput);
 	
 	@ApiOperation("Atualiza estado por ID")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Estado atualizado"),
 			@ApiResponse(code = 404, message = "Estado não encontrado", response = Problem.class) })
-	 StateDTO update(@ApiParam(value = "ID do estado", example = "1", required = true) Long stateId,
+	 StateModel update(@ApiParam(value = "ID do estado", example = "1", required = true) Long stateId,
 			@ApiParam(name = "body", value = "Representação de um estado com os novos dados", required = true)  StateInput stateInput);
 
 	@ApiOperation("Remove estado por ID")

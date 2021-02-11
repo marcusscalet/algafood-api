@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.marcusscalet.algafood.api.assembler.RestaurantDTOAssembler;
+import com.marcusscalet.algafood.api.assembler.RestaurantModelAssembler;
 import com.marcusscalet.algafood.api.assembler.RestaurantInputDisassembler;
-import com.marcusscalet.algafood.api.model.RestaurantDTO;
+import com.marcusscalet.algafood.api.model.RestaurantModel;
 import com.marcusscalet.algafood.api.model.input.RestaurantInput;
 import com.marcusscalet.algafood.api.model.view.RestaurantView;
 import com.marcusscalet.algafood.api.openapi.controller.RestaurantControllerOpenApi;
@@ -38,51 +38,51 @@ public class RestaurantController implements RestaurantControllerOpenApi{
 	private RestaurantRegistrationService restaurantRegistrationService;
 
 	@Autowired
-	private RestaurantDTOAssembler restaurantDTOAssembler;
+	private RestaurantModelAssembler restaurantModelAssembler;
 
 	@Autowired
 	private RestaurantInputDisassembler restaurantInputDisassembler;
 	
 	@JsonView(RestaurantView.Summary.class)
 	@GetMapping
-	public List<RestaurantDTO> listAllSummary() {
-		return restaurantDTOAssembler.toCollectionDTO(restaurantRegistrationService.listAll());
+	public List<RestaurantModel> listAllSummary() {
+		return restaurantModelAssembler.toCollectionModel(restaurantRegistrationService.listAll());
 	}
 	
 	@JsonView(RestaurantView.OnlyName.class)
 	@GetMapping(params = "view=only-name")
-	public List<RestaurantDTO> listAllByName() {
-		return restaurantDTOAssembler.toCollectionDTO(restaurantRegistrationService.listAll());
+	public List<RestaurantModel> listAllByName() {
+		return restaurantModelAssembler.toCollectionModel(restaurantRegistrationService.listAll());
 	}
 
 	@GetMapping("/{restaurantId}")
-	public RestaurantDTO find(@PathVariable Long restaurantId) {
+	public RestaurantModel find(@PathVariable Long restaurantId) {
 		Restaurant restaurant = restaurantRegistrationService.searchOrFail(restaurantId);
 
-		return restaurantDTOAssembler.toDTO(restaurant);
+		return restaurantModelAssembler.toModel(restaurant);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public RestaurantDTO add(@RequestBody @Valid RestaurantInput restaurantInput) {
+	public RestaurantModel add(@RequestBody @Valid RestaurantInput restaurantInput) {
 		try {
 			Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
 
-			return restaurantDTOAssembler.toDTO(restaurantRegistrationService.saveRestaurant(restaurant));
+			return restaurantModelAssembler.toModel(restaurantRegistrationService.saveRestaurant(restaurant));
 		} catch (CuisineNotFoundException | CityNotFoundException e) {
 			throw new BusinessException(e.getMessage());
 		}
 	}
 
 	@PutMapping("/{restaurantId}")
-	public RestaurantDTO update(@PathVariable Long restaurantId, @Valid @RequestBody RestaurantInput restaurantInput) {
+	public RestaurantModel update(@PathVariable Long restaurantId, @Valid @RequestBody RestaurantInput restaurantInput) {
 		try {
 
 			Restaurant currentRestaurant = restaurantRegistrationService.searchOrFail(restaurantId);
 
 			restaurantInputDisassembler.copyToDomainObject(restaurantInput, currentRestaurant);
 
-			return restaurantDTOAssembler.toDTO(restaurantRegistrationService.saveRestaurant(currentRestaurant));
+			return restaurantModelAssembler.toModel(restaurantRegistrationService.saveRestaurant(currentRestaurant));
 		} catch (CuisineNotFoundException | CityNotFoundException e) {
 			throw new BusinessException(e.getMessage());
 		}

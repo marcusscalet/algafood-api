@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.UserDTOAssembler;
+import com.marcusscalet.algafood.api.assembler.UserModelAssembler;
 import com.marcusscalet.algafood.api.assembler.UserInputDisassembler;
-import com.marcusscalet.algafood.api.model.UserDTO;
+import com.marcusscalet.algafood.api.model.UserModel;
 import com.marcusscalet.algafood.api.model.input.PasswordInput;
 import com.marcusscalet.algafood.api.model.input.UserInput;
 import com.marcusscalet.algafood.api.model.input.UserWithPasswordInput;
@@ -33,7 +33,7 @@ import com.marcusscalet.algafood.domain.service.UserRegistrationService;
 public class UserController implements UserControllerOpenApi {
 
 	@Autowired
-	private UserDTOAssembler userDTOAssembler;
+	private UserModelAssembler userModelAssembler;
 
 	@Autowired
 	private UserInputDisassembler userInputDisassembler;
@@ -42,35 +42,35 @@ public class UserController implements UserControllerOpenApi {
 	private UserRegistrationService userRegistrationService;
 
 	@GetMapping
-	public List<UserDTO> list() {
-		return userDTOAssembler.toCollectionDTO(userRegistrationService.listAll());
+	public List<UserModel> list() {
+		return userModelAssembler.toCollectionModel(userRegistrationService.listAll());
 	}
 
 	@GetMapping("/{userId}")
-	public UserDTO find(@PathVariable Long userId) {
+	public UserModel find(@PathVariable Long userId) {
 
-		return userDTOAssembler.toDTO(userRegistrationService.searchOrFail(userId));
+		return userModelAssembler.toModel(userRegistrationService.searchOrFail(userId));
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public UserDTO add(@Valid @RequestBody UserWithPasswordInput userWithPasswordInput) {
+	public UserModel add(@Valid @RequestBody UserWithPasswordInput userWithPasswordInput) {
 
 		User user = userInputDisassembler.toDomainObject(userWithPasswordInput);
 
 		user = userRegistrationService.save(user);
 
-		return userDTOAssembler.toDTO(user);
+		return userModelAssembler.toModel(user);
 	}
 
 	@PutMapping("/{userId}")
-	public UserDTO update(@PathVariable Long userId, @Valid @RequestBody UserInput userInput) {
+	public UserModel update(@PathVariable Long userId, @Valid @RequestBody UserInput userInput) {
 		try {
 			User currentUser = userRegistrationService.searchOrFail(userId);
 
 			userInputDisassembler.copyToDomainObject(userInput, currentUser);
 
-			return userDTOAssembler.toDTO(userRegistrationService.save(currentUser));
+			return userModelAssembler.toModel(userRegistrationService.save(currentUser));
 		} catch (UserNotFoundException e) {
 			throw new BusinessException(e.getMessage());
 		}

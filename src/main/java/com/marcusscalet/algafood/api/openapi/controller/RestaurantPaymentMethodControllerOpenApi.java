@@ -3,7 +3,7 @@ package com.marcusscalet.algafood.api.openapi.controller;
 import java.util.List;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.PaymentMethodDTO;
+import com.marcusscalet.algafood.api.model.PaymentMethodModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +16,7 @@ public interface RestaurantPaymentMethodControllerOpenApi {
 
 	@ApiOperation("Lista as formas de pagamento associadas a restaurante")
     @ApiResponses({@ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)})
-	List<PaymentMethodDTO> listAll(
+	List<PaymentMethodModel> listAll(
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId);
 
 	@ApiOperation("Associação de restaurante com forma de pagamento")

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.UserDTOAssembler;
-import com.marcusscalet.algafood.api.model.UserDTO;
+import com.marcusscalet.algafood.api.assembler.UserModelAssembler;
+import com.marcusscalet.algafood.api.model.UserModel;
 import com.marcusscalet.algafood.api.openapi.controller.RestaurantUserControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
@@ -26,13 +26,13 @@ public class RestaurantUserController implements RestaurantUserControllerOpenApi
 	private RestaurantRegistrationService restaurantRegistrationService;
 	
 	@Autowired
-	private UserDTOAssembler userDTOAssembler;
+	private UserModelAssembler userModelAssembler;
 	
 	@GetMapping
-	public List<UserDTO> listAll(@PathVariable Long restaurantId){
+	public List<UserModel> listAll(@PathVariable Long restaurantId){
 		Restaurant restaurant = restaurantRegistrationService.searchOrFail(restaurantId);
 		
-		return userDTOAssembler.toCollectionDTO(restaurant.getAccountable());
+		return userModelAssembler.toCollectionModel(restaurant.getAccountable());
 	}
 	
 	@PutMapping("/{userId}")

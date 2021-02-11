@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.PaymentMethodDTOAssembler;
-import com.marcusscalet.algafood.api.model.PaymentMethodDTO;
+import com.marcusscalet.algafood.api.assembler.PaymentMethodModelAssembler;
+import com.marcusscalet.algafood.api.model.PaymentMethodModel;
 import com.marcusscalet.algafood.api.openapi.controller.RestaurantPaymentMethodControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
@@ -26,13 +26,13 @@ public class RestaurantPaymentMethodController implements RestaurantPaymentMetho
 	private RestaurantRegistrationService restaurantRegistrationService;
 
 	@Autowired
-	private PaymentMethodDTOAssembler paymentMethodDTOAssembler;
+	private PaymentMethodModelAssembler paymentMethodModelAssembler;
 
 	@GetMapping
-	public List<PaymentMethodDTO> listAll(@PathVariable Long restaurantId) {
+	public List<PaymentMethodModel> listAll(@PathVariable Long restaurantId) {
 		Restaurant restaurant = restaurantRegistrationService.searchOrFail(restaurantId);
 
-		return paymentMethodDTOAssembler.toCollectionDTO(restaurant.getPaymentMethod());
+		return paymentMethodModelAssembler.toCollectionModel(restaurant.getPaymentMethod());
 	}
 
 	@PutMapping("/{paymentMethodId}")

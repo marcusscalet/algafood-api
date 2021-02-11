@@ -7,7 +7,7 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.ProductImageDTO;
+import com.marcusscalet.algafood.api.model.ProductImageModel;
 import com.marcusscalet.algafood.api.model.input.ProductImageInput;
 
 import io.swagger.annotations.Api;
@@ -24,7 +24,7 @@ public interface RestaurantProductImageControllerOpenApi {
         @ApiResponse(code = 200, message = "Foto do produto atualizada"),
         @ApiResponse(code = 404, message = "Produto de restaurante não encontrado", response = Problem.class)
     })
-	ProductImageDTO updateImage(
+	ProductImageModel updateImage(
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId, 
 			@ApiParam(value = "ID do produto", example = "1", required = true) Long productId,
 			@ApiParam(value = "Arquivo da foto do produto (máximo 500KB, apenas JPG e PNG)", required = true) MultipartFile file,
@@ -36,7 +36,7 @@ public interface RestaurantProductImageControllerOpenApi {
         @ApiResponse(code = 400, message = "ID do restaurante ou produto inválido", response = Problem.class),
         @ApiResponse(code = 404, message = "Foto de produto não encontrada", response = Problem.class)
     })
-	ProductImageDTO searchImage(
+	ProductImageModel searchImage(
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId, 
 			@ApiParam(value = "ID do produto", example = "1", required = true) Long productId);
 

@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
-import com.marcusscalet.algafood.api.assembler.PaymentMethodDTOAssembler;
+import com.marcusscalet.algafood.api.assembler.PaymentMethodModelAssembler;
 import com.marcusscalet.algafood.api.assembler.PaymentMethodInputDisassembler;
-import com.marcusscalet.algafood.api.model.PaymentMethodDTO;
+import com.marcusscalet.algafood.api.model.PaymentMethodModel;
 import com.marcusscalet.algafood.api.model.input.PaymentMethodInput;
 import com.marcusscalet.algafood.api.openapi.controller.PaymentMethodControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
@@ -41,7 +41,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi{
 	private PaymentMethodRegistrationService paymentMethodRegistrationService;
 
 	@Autowired
-	private PaymentMethodDTOAssembler paymentMethodDTOAssembler;
+	private PaymentMethodModelAssembler paymentMethodModelAssembler;
 
 	@Autowired
 	private PaymentMethodInputDisassembler paymentMethodInputDisassembler;
@@ -50,7 +50,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi{
 	private PaymentMethodRepository paymentMethodRepository;
 	
 	@GetMapping
-	public ResponseEntity<List<PaymentMethodDTO>> listAll(ServletWebRequest request) {
+	public ResponseEntity<List<PaymentMethodModel>> listAll(ServletWebRequest request) {
 		
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 		String eTag = "0";
@@ -67,17 +67,17 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi{
 		
 		List<PaymentMethod> paymentMethodsList = paymentMethodRegistrationService.listAll();
 		
-		List<PaymentMethodDTO> paymentMethodsDTO = paymentMethodDTOAssembler
-				.toCollectionDTO(paymentMethodsList);
+		List<PaymentMethodModel> paymentMethodsModel = paymentMethodModelAssembler
+				.toCollectionModel(paymentMethodsList);
 		
 		return ResponseEntity.ok()
 				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
 				.eTag(eTag)
-				.body(paymentMethodsDTO);
+				.body(paymentMethodsModel);
 	}
 
 	@GetMapping("/{paymentMethodId}")
-	public ResponseEntity<PaymentMethodDTO> find(@PathVariable Long paymentMethodId, ServletWebRequest request) {
+	public ResponseEntity<PaymentMethodModel> find(@PathVariable Long paymentMethodId, ServletWebRequest request) {
 		
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 		String eTag = "0";
@@ -94,21 +94,21 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi{
 		
 		PaymentMethod paymentMethod = paymentMethodRegistrationService.searchOrFail(paymentMethodId);
 
-		PaymentMethodDTO paymentMethodDTO = paymentMethodDTOAssembler.toDTO(paymentMethod);
+		PaymentMethodModel paymentMethodModel = paymentMethodModelAssembler.toModel(paymentMethod);
 		
 		return ResponseEntity.ok()
 				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
 				.eTag(eTag)
-				.body(paymentMethodDTO);
+				.body(paymentMethodModel);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public PaymentMethodDTO add(@RequestBody @Valid PaymentMethodInput paymentMethodInput) {
+	public PaymentMethodModel add(@RequestBody @Valid PaymentMethodInput paymentMethodInput) {
 		try {
 			PaymentMethod paymentMethod = paymentMethodInputDisassembler.toDomainObject(paymentMethodInput);
 
-			return paymentMethodDTOAssembler.toDTO(paymentMethodRegistrationService.savePaymentMethod(paymentMethod));
+			return paymentMethodModelAssembler.toModel(paymentMethodRegistrationService.savePaymentMethod(paymentMethod));
 		} catch (PaymentMethodNotFoundException e) {
 			throw new BusinessException(e.getMessage());
 		}
@@ -116,7 +116,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi{
 	}
 
 	@PutMapping("/{paymentMethodId}")
-	public PaymentMethodDTO update(@PathVariable Long paymentMethodId,
+	public PaymentMethodModel update(@PathVariable Long paymentMethodId,
 			@Valid @RequestBody PaymentMethodInput paymentMethodInput) {
 
 		PaymentMethod currentPaymentMethod = paymentMethodRegistrationService.searchOrFail(paymentMethodId);
@@ -125,7 +125,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi{
 
 		currentPaymentMethod = paymentMethodRegistrationService.savePaymentMethod(currentPaymentMethod);
 
-		return paymentMethodDTOAssembler.toDTO(currentPaymentMethod);
+		return paymentMethodModelAssembler.toModel(currentPaymentMethod);
 	}
 
 	@DeleteMapping("/{paymentMethodId}")

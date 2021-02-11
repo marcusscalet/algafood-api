@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.GroupDTOAssembler;
-import com.marcusscalet.algafood.api.model.GroupDTO;
+import com.marcusscalet.algafood.api.assembler.GroupModelAssembler;
+import com.marcusscalet.algafood.api.model.GroupModel;
 import com.marcusscalet.algafood.api.openapi.controller.UserGroupControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.User;
 import com.marcusscalet.algafood.domain.service.UserRegistrationService;
@@ -23,16 +23,16 @@ import com.marcusscalet.algafood.domain.service.UserRegistrationService;
 public class UserGroupController implements UserGroupControllerOpenApi {
 
 	@Autowired
-	private GroupDTOAssembler groupDTOAssembler;
+	private GroupModelAssembler groupModelAssembler;
 	
 	@Autowired
 	private UserRegistrationService userRegistrationService;
 	
 	@GetMapping
-	public List<GroupDTO> listAll(@PathVariable Long userId){
+	public List<GroupModel> listAll(@PathVariable Long userId){
 		User currentUser = userRegistrationService.searchOrFail(userId);
 		
-		return groupDTOAssembler.toCollectionDTO(currentUser.getGroup());
+		return groupModelAssembler.toCollectionModel(currentUser.getGroup());
 	}
 	
 	@DeleteMapping("/{groupId}")
