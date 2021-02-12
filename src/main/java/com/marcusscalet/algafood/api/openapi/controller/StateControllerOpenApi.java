@@ -1,6 +1,6 @@
 package com.marcusscalet.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
 import com.marcusscalet.algafood.api.model.StateModel;
@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiResponses;
 public interface StateControllerOpenApi {
 	
 	@ApiOperation("Lista todos os estados")
-	 List<StateModel> listAll();
+	 CollectionModel<StateModel> listAll();
 	
 	@ApiOperation("Busca estado por ID")
 	@ApiResponses({ @ApiResponse(code = 400, message = "ID de estado inválido", response = Problem.class),

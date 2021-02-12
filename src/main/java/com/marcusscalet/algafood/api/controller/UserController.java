@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.UserModelAssembler;
 import com.marcusscalet.algafood.api.assembler.UserInputDisassembler;
+import com.marcusscalet.algafood.api.assembler.UserModelAssembler;
 import com.marcusscalet.algafood.api.model.UserModel;
 import com.marcusscalet.algafood.api.model.input.PasswordInput;
 import com.marcusscalet.algafood.api.model.input.UserInput;
@@ -42,8 +43,10 @@ public class UserController implements UserControllerOpenApi {
 	private UserRegistrationService userRegistrationService;
 
 	@GetMapping
-	public List<UserModel> list() {
-		return userModelAssembler.toCollectionModel(userRegistrationService.listAll());
+	public CollectionModel<UserModel> list() {
+		List<User> usersList = userRegistrationService.listAll();
+		
+		return userModelAssembler.toCollectionModel(usersList);
 	}
 
 	@GetMapping("/{userId}")

@@ -1,7 +1,6 @@
 package com.marcusscalet.algafood.api.openapi.controller;
 
-import java.util.List;
-
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
@@ -20,7 +19,7 @@ import io.swagger.annotations.ApiResponses;
 public interface UserControllerOpenApi {
     
 	@ApiOperation("Lista os usuários")
-	public List<UserModel> list();
+	public CollectionModel<UserModel> list();
 	
 	@ApiOperation("Busca um usuário por ID")
     @ApiResponses({

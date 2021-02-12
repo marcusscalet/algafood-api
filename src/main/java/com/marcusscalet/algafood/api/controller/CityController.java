@@ -50,9 +50,8 @@ public class CityController implements CityControllerOpenApi{
 
 	@GetMapping("/{cityId}")
 	public CityModel find(@PathVariable Long cityId) {
-		City city = cityRegistrationService.searchOrFail(cityId);
 		
-		return cityModelAssembler.toModel(city);
+		return cityModelAssembler.toModel(cityRegistrationService.searchOrFail(cityId));
 
 	}
 

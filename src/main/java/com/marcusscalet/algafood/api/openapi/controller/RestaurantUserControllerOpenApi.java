@@ -1,6 +1,6 @@
 package com.marcusscalet.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
 import com.marcusscalet.algafood.api.model.UserModel;
@@ -18,7 +18,7 @@ public interface RestaurantUserControllerOpenApi {
     @ApiResponses({
         @ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)
     })
-	List<UserModel> listAll(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId);
+	CollectionModel<UserModel> listAll(@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId);
 	
 	@ApiOperation("Associação de restaurante com usuário responsável")
     @ApiResponses({

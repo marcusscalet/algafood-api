@@ -1,8 +1,10 @@
 package com.marcusscalet.algafood.api.controller;
 
-import java.util.List;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +31,13 @@ public class RestaurantUserController implements RestaurantUserControllerOpenApi
 	private UserModelAssembler userModelAssembler;
 	
 	@GetMapping
-	public List<UserModel> listAll(@PathVariable Long restaurantId){
+	public CollectionModel<UserModel> listAll(@PathVariable Long restaurantId){
 		Restaurant restaurant = restaurantRegistrationService.searchOrFail(restaurantId);
 		
-		return userModelAssembler.toCollectionModel(restaurant.getAccountable());
+		return userModelAssembler.toCollectionModel(restaurant.getAccountable())
+				.removeLinks()
+				.add(linkTo(methodOn(RestaurantUserController.class)
+						.listAll(restaurantId)).withSelfRel());
 	}
 	
 	@PutMapping("/{userId}")

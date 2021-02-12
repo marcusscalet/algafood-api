@@ -28,11 +28,6 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
 		CityModel cityModel = createModelWithId(city.getId(), city);
 		modelMapper.map(city, cityModel);
 		
-//		CityModel cityModel =  modelMapper.map(city, CityModel.class);
-		
-//		cityModel.add(linkTo(methodOn(CityController.class)
-//				.find(cityModel.getId())).withSelfRel());
-			
 		cityModel.add(linkTo(methodOn(CityController.class)
 				.listAll()).withRel("cities"));
 		

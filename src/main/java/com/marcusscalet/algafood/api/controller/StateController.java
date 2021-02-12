@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +39,7 @@ public class StateController implements StateControllerOpenApi{
 	private StateInputDisassembler stateInputDisassembler;
 	
 	@GetMapping
-	public List<StateModel> listAll() {
+	public CollectionModel<StateModel> listAll() {
 		List<State> stateList = stateRegistrationService.listAll();
 		
 		return stateModelAssembler.toCollectionModel(stateList); 
