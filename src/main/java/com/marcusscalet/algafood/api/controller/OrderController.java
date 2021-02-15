@@ -1,14 +1,15 @@
 package com.marcusscalet.algafood.api.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.collect.ImmutableMap;
-import com.marcusscalet.algafood.api.assembler.OrderModelAssembler;
 import com.marcusscalet.algafood.api.assembler.OrderInputDisassembler;
+import com.marcusscalet.algafood.api.assembler.OrderModelAssembler;
 import com.marcusscalet.algafood.api.assembler.OrderSummaryModelAssembler;
 import com.marcusscalet.algafood.api.model.OrderModel;
 import com.marcusscalet.algafood.api.model.OrderSummaryModel;
 import com.marcusscalet.algafood.api.model.input.OrderInput;
 import com.marcusscalet.algafood.api.openapi.controller.OrderControllerOpenApi;
+import com.marcusscalet.algafood.core.data.PageWrapper;
 import com.marcusscalet.algafood.core.data.PageableTranslator;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
@@ -49,19 +50,19 @@ public class OrderController implements OrderControllerOpenApi {
 
 	@Autowired
 	private OrderInputDisassembler orderInputDisassembler;
+	
+	@Autowired
+	private PagedResourcesAssembler<Order> pagedResourcesAssembler;
 
 	@GetMapping
-	public Page<OrderSummaryModel> search(OrderFilter filter, 
-			@PageableDefault(size = 10) Pageable pageable) {
-		pageable = translatePageable(pageable);
+	public PagedModel<OrderSummaryModel> search(OrderFilter filter, @PageableDefault(size = 10) Pageable pageable) {
+		Pageable pageableTranslated = translatePageable(pageable);
 		
-		Page<Order> ordersPage= orderService.findAll(filter, pageable);
+		Page<Order> ordersPage = orderService.findAll(filter, pageableTranslated);
 		
-		List<OrderSummaryModel> ordersList = orderSummaryModelAssembler.toCollectionModel(ordersPage.getContent());
+		ordersPage = new PageWrapper<>(ordersPage, pageable);
 		
-		Page<OrderSummaryModel> ordersModelPage = new PageImpl<OrderSummaryModel>(ordersList, pageable, ordersPage.getTotalElements());
-		
-		return ordersModelPage;
+		return pagedResourcesAssembler.toModel(ordersPage, orderSummaryModelAssembler);
 	}
 
 	@GetMapping("/{orderCode}")
@@ -90,11 +91,16 @@ public class OrderController implements OrderControllerOpenApi {
 	}
 	
 	private Pageable translatePageable(Pageable apiPageable) {
-		var mapper = ImmutableMap.of(
+		var mapper = Map.of(
 				"code", "code",
+				"subtotal", "subtotal",
+				"shippingFee", "shippingFee",
+				"totalCost", "totalCost",
+				"creationDate", "creationDate",
 				"clientName", "client.name",
+				"client.id", "client.id",
 				"restaurant.name", "restaurant.name",
-				"totalCost", "totalCost"
+				"restaurant.id", "restaurant.id"
 			);
 		
 		return PageableTranslator.translate(apiPageable, mapper);

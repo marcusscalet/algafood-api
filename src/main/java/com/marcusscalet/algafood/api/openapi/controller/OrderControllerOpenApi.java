@@ -1,7 +1,7 @@
 package com.marcusscalet.algafood.api.openapi.controller;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
 import com.marcusscalet.algafood.api.model.OrderModel;
@@ -24,7 +24,7 @@ public interface OrderControllerOpenApi {
 			@ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula",
 					name = "fields", paramType = "query", dataTypeClass = String.class) })
 	@ApiOperation("Pesquisa os pedidos")
-	 Page<OrderSummaryModel> search(OrderFilter filter, Pageable pageable);
+	 PagedModel<OrderSummaryModel> search(OrderFilter filter, Pageable pageable);
 
 	@ApiImplicitParams({
 			@ApiImplicitParam(value = "Nomes das propriedades para filtrar na resposta, separados por vírgula",

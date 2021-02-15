@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AddressModel {
+public class AddressModel{
 
 	@ApiModelProperty(example = "38400-000")
 	private String zipCode;

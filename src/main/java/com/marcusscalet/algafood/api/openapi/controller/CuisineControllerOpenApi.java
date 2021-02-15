@@ -1,7 +1,7 @@
 package com.marcusscalet.algafood.api.openapi.controller;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
 import com.marcusscalet.algafood.api.model.CuisineModel;
@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiResponses;
 public interface CuisineControllerOpenApi {
 
 	@ApiOperation("Lista as cozinhas com paginação")
-	Page<CuisineModel> listAll(Pageable pageable);
+	PagedModel<CuisineModel> listAll(Pageable pageable);
 
 	@ApiOperation("Busca cozinha por ID")
 	@ApiResponses({ @ApiResponse(code = 400, message = "ID de cozinha inválido", response = Problem.class),
