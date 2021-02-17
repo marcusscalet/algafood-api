@@ -5,7 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.marcusscalet.algafood.api.assembler.RestaurantModelAssembler;
+import com.marcusscalet.algafood.api.assembler.RestaurantBasicModelAssembler;
 import com.marcusscalet.algafood.api.assembler.RestaurantInputDisassembler;
+import com.marcusscalet.algafood.api.assembler.RestaurantModelAssembler;
+import com.marcusscalet.algafood.api.assembler.RestaurantOnlyNameModelAssembler;
+import com.marcusscalet.algafood.api.model.RestaurantBasicModel;
 import com.marcusscalet.algafood.api.model.RestaurantModel;
+import com.marcusscalet.algafood.api.model.RestaurantOnlyNameModel;
 import com.marcusscalet.algafood.api.model.input.RestaurantInput;
-import com.marcusscalet.algafood.api.model.view.RestaurantView;
 import com.marcusscalet.algafood.api.openapi.controller.RestaurantControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.CityNotFoundException;
@@ -43,16 +47,22 @@ public class RestaurantController implements RestaurantControllerOpenApi{
 	@Autowired
 	private RestaurantInputDisassembler restaurantInputDisassembler;
 	
-	@JsonView(RestaurantView.Summary.class)
+	@Autowired
+	private RestaurantBasicModelAssembler restaurantBasicModelAssembler;
+
+	@Autowired
+	private RestaurantOnlyNameModelAssembler restaurantOnlyNameModelAssembler;  
+
+//	@JsonView(RestaurantView.Summary.class)
 	@GetMapping
-	public List<RestaurantModel> listAllSummary() {
-		return restaurantModelAssembler.toCollectionModel(restaurantRegistrationService.listAll());
+	public CollectionModel<RestaurantBasicModel> listAllSummary() {
+		return restaurantBasicModelAssembler.toCollectionModel(restaurantRegistrationService.listAll());
 	}
 	
-	@JsonView(RestaurantView.OnlyName.class)
+//	@JsonView(RestaurantView.OnlyName.class)
 	@GetMapping(params = "view=only-name")
-	public List<RestaurantModel> listAllByName() {
-		return restaurantModelAssembler.toCollectionModel(restaurantRegistrationService.listAll());
+	public CollectionModel<RestaurantOnlyNameModel> listAllByName() {
+		return restaurantOnlyNameModelAssembler.toCollectionModel(restaurantRegistrationService.listAll());
 	}
 
 	@GetMapping("/{restaurantId}")
@@ -89,28 +99,40 @@ public class RestaurantController implements RestaurantControllerOpenApi{
 
 	}
 
+	@Override
 	@PutMapping("/{restaurantId}/open")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void openRestaurant(@PathVariable Long restaurantId) {
+	public ResponseEntity<Void> openRestaurant(@PathVariable Long restaurantId) {
 		restaurantRegistrationService.open(restaurantId);
+		
+	    return ResponseEntity.noContent().build();
 	}
-
+	
+	@Override
 	@PutMapping("/{restaurantId}/close")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void closeRestaurant(@PathVariable Long restaurantId) {
+	public ResponseEntity<Void> closeRestaurant(@PathVariable Long restaurantId) {
 		restaurantRegistrationService.close(restaurantId);
+		
+		 return ResponseEntity.noContent().build();
 	}
 
+	@Override
 	@PutMapping("/{restaurantId}/active")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void activate(@PathVariable Long restaurantId) {
+	public ResponseEntity<Void> activate(@PathVariable Long restaurantId) {
 		restaurantRegistrationService.activate(restaurantId);
+		
+	    return ResponseEntity.noContent().build();
 	}
 
+	@Override
 	@DeleteMapping("/{restaurantId}/inactive")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void inactivate(@PathVariable Long restaurantId) {
+	public ResponseEntity<Void> inactivate(@PathVariable Long restaurantId) {
 		restaurantRegistrationService.inactivate(restaurantId);
+
+	    return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping("/activation")

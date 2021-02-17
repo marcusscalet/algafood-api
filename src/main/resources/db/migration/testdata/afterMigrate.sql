@@ -46,12 +46,12 @@ insert into city (id, name, state_id) values (3, 'São Paulo', 2);
 insert into city (id, name, state_id) values (4, 'Campinas', 2);
 insert into city (id, name, state_id) values (5, 'Fortaleza', 3);
 
-insert into restaurant (id, name, shipping_fee, cuisine_id, registration_date, update_date, active, open, address_city_id, address_zip_code, address_street, address_number, address_neighborhood) values (1, 'Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, true, true,1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
-insert into restaurant (id, name, shipping_fee, cuisine_id, registration_date, update_date, active, open) values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp, true, true);
-insert into restaurant (id, name, shipping_fee, cuisine_id, registration_date, update_date, active, open) values (3, 'Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp, true, true);
-insert into restaurant (id, name, shipping_fee, cuisine_id, registration_date, update_date, active, open) values (4, 'Java Steakhouse', 12, 3, utc_timestamp, utc_timestamp, true, true);
-insert into restaurant (id, name, shipping_fee, cuisine_id, registration_date, update_date, active, open) values (5, 'Lanchonete do Tio Sam', 11, 4, utc_timestamp, utc_timestamp, true, true);
-insert into restaurant (id, name, shipping_fee, cuisine_id, registration_date, update_date, active, open) values (6, 'Bar da Maria', 6, 4, utc_timestamp, utc_timestamp, true, true);
+insert into restaurant (id, name, shipping_fee, cuisine_id, registration_date, update_date, active, open, address_city_id, address_zip_code, address_street, address_number, address_neighborhood) values (1, 'Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, true, true, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
+insert into restaurant (id, name, shipping_fee, cuisine_id, registration_date, update_date, active, open, address_city_id, address_zip_code, address_street, address_number, address_neighborhood) values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp, true, true, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
+insert into restaurant (id, name, shipping_fee, cuisine_id, registration_date, update_date, active, open, address_city_id, address_zip_code, address_street, address_number, address_neighborhood) values (3, 'Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp, true, true, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
+insert into restaurant (id, name, shipping_fee, cuisine_id, registration_date, update_date, active, open, address_city_id, address_zip_code, address_street, address_number, address_neighborhood) values (4, 'Java Steakhouse', 12, 3, utc_timestamp, utc_timestamp, true, true, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
+insert into restaurant (id, name, shipping_fee, cuisine_id, registration_date, update_date, active, open, address_city_id, address_zip_code, address_street, address_number, address_neighborhood) values (5, 'Lanchonete do Tio Sam', 11, 4, utc_timestamp, utc_timestamp, true, true, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
+insert into restaurant (id, name, shipping_fee, cuisine_id, registration_date, update_date, active, open, address_city_id, address_zip_code, address_street, address_number, address_neighborhood) values (6, 'Bar da Maria', 6, 4, utc_timestamp, utc_timestamp, true, true, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
 
 insert into payment_method (id, description, update_date) values (1, 'Cartão de crédito', utc_timestamp);
 insert into payment_method (id, description, update_date) values (2, 'Cartão de débito', utc_timestamp);

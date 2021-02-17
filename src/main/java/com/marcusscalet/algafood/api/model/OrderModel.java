@@ -42,13 +42,13 @@ public class OrderModel extends RepresentationModel<OrderModel>{
 	@ApiModelProperty(example = "2019-12-01T20:35:10Z", dataType = "ISO_OFFSET_DATE_TIME")
 	private OffsetDateTime confirmationDate;
 
-	private RestaurantSummaryModel restaurant;
+	private RestaurantOnlyNameModel restaurant;
 
 	private UserModel client;
 
 	private PaymentMethodModel paymentMethod;
 
-	private AddressModel deliveryAdrress;
+	private AddressModel deliveryAddress;
 
 	private List<OrderItemModel> itens;
 

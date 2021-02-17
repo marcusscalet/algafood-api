@@ -1,16 +1,12 @@
 package com.marcusscalet.algafood.api.assembler;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.marcusscalet.algafood.api.AlgaLinks;
 import com.marcusscalet.algafood.api.controller.OrderController;
-import com.marcusscalet.algafood.api.controller.RestaurantController;
-import com.marcusscalet.algafood.api.controller.UserController;
 import com.marcusscalet.algafood.api.model.OrderSummaryModel;
 import com.marcusscalet.algafood.domain.model.Order;
 
@@ -19,7 +15,10 @@ public class OrderSummaryModelAssembler extends RepresentationModelAssemblerSupp
 
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
+	@Autowired
+	private AlgaLinks algaLinks;
+	
 	public OrderSummaryModelAssembler() {
 		super(OrderController.class, OrderSummaryModel.class);
 	}
@@ -28,13 +27,11 @@ public class OrderSummaryModelAssembler extends RepresentationModelAssemblerSupp
 		OrderSummaryModel orderSummaryModel = createModelWithId(order.getId(), order);
 		modelMapper.map(order, orderSummaryModel);
 		
-		orderSummaryModel.add(linkTo(OrderController.class).withRel("orders"));
+		orderSummaryModel.add(algaLinks.linkToOrders());
 		 
-		orderSummaryModel.getRestaurant().add(linkTo(methodOn(RestaurantController.class)
-				.find(order.getRestaurant().getId())).withSelfRel());
+		orderSummaryModel.getRestaurant().add(algaLinks.linkToRestaurant(order.getRestaurant().getId()));
 		
-		orderSummaryModel.getClient().add(linkTo(methodOn(UserController.class)
-				.find(order.getClient().getId())).withSelfRel());
+		orderSummaryModel.getClient().add(algaLinks.linkToUser(order.getClient().getId()));
 		
 		return orderSummaryModel;
 	}

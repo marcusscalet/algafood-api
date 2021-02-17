@@ -2,6 +2,7 @@ package com.marcusscalet.algafood.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,20 +21,26 @@ public class OrderStatusController implements OrderStatusControllerOpenApi {
 
 	@PutMapping("/confirmed")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void confirmedStatus(@PathVariable String orderCode) {
+	public ResponseEntity<Void> confirmedStatus(@PathVariable String orderCode) {
 		orderStatusChangeService.confirmedStatus(orderCode);
+		
+		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping("/delivered")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deliveredStatus(@PathVariable String orderCode) {
+	public ResponseEntity<Void> deliveredStatus(@PathVariable String orderCode) {
 		orderStatusChangeService.deliveredStatus(orderCode);
+		
+		return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping("/canceled")
+	@PutMapping("/cancelled")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void cancelledStatus(@PathVariable String orderCode) {
+	public ResponseEntity<Void> cancelledStatus(@PathVariable String orderCode) {
 		orderStatusChangeService.canceledStatus(orderCode);
+
+		return ResponseEntity.noContent().build();
 	}
 
 }

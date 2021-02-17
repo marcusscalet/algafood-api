@@ -12,7 +12,7 @@ import lombok.Setter;
 @ApiModel("RestaurantEssentialModel")
 @Getter
 @Setter
-public class RestaurantEssentialModelOpenApi {
+public class RestaurantBasicModelOpenApi {
 
 	@ApiModelProperty(example = "1")
 	private Long id;
