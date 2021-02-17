@@ -43,6 +43,26 @@ public class RestaurantModelAssembler extends RepresentationModelAssemblerSuppor
         restaurantModel.add(algaLinks.linkToRestaurantAccountables(restaurant.getId(), 
                 "accountables"));
         
+        if (restaurant.allowedToActivate()) {
+        	restaurantModel.add(
+        			algaLinks.linkToActivateRestaurant(restaurant.getId(), "active"));
+        }
+
+        if (restaurant.allowedToInactivate()) {
+        	restaurantModel.add(
+        			algaLinks.linkToInactivateRestaurant(restaurant.getId(), "inactive"));
+        }
+
+        if (restaurant.allowedToOpen()) {
+        	restaurantModel.add(
+        			algaLinks.linkToOpenRestaurant(restaurant.getId(), "open"));
+        }
+
+        if (restaurant.allowedToClose()) {
+        	restaurantModel.add(
+        			algaLinks.linkToCloseRestaurant(restaurant.getId(), "close"));
+        }
+        
         return restaurantModel;
     }
 

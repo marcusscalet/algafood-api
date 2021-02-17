@@ -186,5 +186,25 @@ public class AlgaLinks {
 
 	public Link linkToCuisine(Long cuisineId) {
 	    return linkToCuisine(cuisineId, IanaLinkRelations.SELF.value());
-	}       
+	}  
+	
+	public Link linkToOpenRestaurant(Long restauranteId, String rel) {
+	    return linkTo(methodOn(RestaurantController.class)
+	            .openRestaurant(restauranteId)).withRel(rel);
+	}
+
+	public Link linkToCloseRestaurant(Long restaurantId, String rel) {
+	    return linkTo(methodOn(RestaurantController.class)
+	            .closeRestaurant(restaurantId)).withRel(rel);
+	}
+
+	public Link linkToInactivateRestaurant(Long restaurantId, String rel) {
+	    return linkTo(methodOn(RestaurantController.class)
+	            .inactivate(restaurantId)).withRel(rel);
+	}
+
+	public Link linkToActivateRestaurant(Long restaurantId, String rel) {
+	    return linkTo(methodOn(RestaurantController.class)
+	            .activate(restaurantId)).withRel(rel);
+	}
 }
