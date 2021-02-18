@@ -27,7 +27,7 @@ public class OrderSummaryModelAssembler extends RepresentationModelAssemblerSupp
 		OrderSummaryModel orderSummaryModel = createModelWithId(order.getId(), order);
 		modelMapper.map(order, orderSummaryModel);
 		
-		orderSummaryModel.add(algaLinks.linkToOrders());
+		orderSummaryModel.add(algaLinks.linkToOrders("orders"));
 		 
 		orderSummaryModel.getRestaurant().add(algaLinks.linkToRestaurant(order.getRestaurant().getId()));
 		

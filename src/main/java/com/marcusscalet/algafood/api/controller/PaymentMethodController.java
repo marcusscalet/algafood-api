@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ import com.marcusscalet.algafood.domain.repository.PaymentMethodRepository;
 import com.marcusscalet.algafood.domain.service.PaymentMethodRegistrationService;
 
 @RestController
-@RequestMapping(value = "/payment-method")
+@RequestMapping(value = "/payment-methods")
 public class PaymentMethodController implements PaymentMethodControllerOpenApi{
 
 	@Autowired
@@ -50,7 +51,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi{
 	private PaymentMethodRepository paymentMethodRepository;
 	
 	@GetMapping
-	public ResponseEntity<List<PaymentMethodModel>> listAll(ServletWebRequest request) {
+	public ResponseEntity<CollectionModel<PaymentMethodModel>> listAll(ServletWebRequest request) {
 		
 		ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 		String eTag = "0";
@@ -67,7 +68,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi{
 		
 		List<PaymentMethod> paymentMethodsList = paymentMethodRegistrationService.listAll();
 		
-		List<PaymentMethodModel> paymentMethodsModel = paymentMethodModelAssembler
+		CollectionModel<PaymentMethodModel> paymentMethodsModel = paymentMethodModelAssembler
 				.toCollectionModel(paymentMethodsList);
 		
 		return ResponseEntity.ok()

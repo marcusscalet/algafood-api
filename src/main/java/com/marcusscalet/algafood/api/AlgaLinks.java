@@ -27,23 +27,26 @@ import com.marcusscalet.algafood.api.controller.UserGroupController;
 @Component
 public class AlgaLinks {
 
+	public static final TemplateVariables PROJECTION_VARIABLES = new TemplateVariables(
+			new TemplateVariable("projection", VariableType.REQUEST_PARAM)); 
+	
 	public static final TemplateVariables PAGINATION_VARIABLES = new TemplateVariables(
 			new TemplateVariable("page", VariableType.REQUEST_PARAM),
 			new TemplateVariable("size", VariableType.REQUEST_PARAM),
 			new TemplateVariable("sort", VariableType.REQUEST_PARAM));
 	 
-	public Link linkToOrders() {
+	public Link linkToOrders(String rel) {
 
 		TemplateVariables filtroVariables = new TemplateVariables(
 				new TemplateVariable("clientId", VariableType.REQUEST_PARAM),
 				new TemplateVariable("restaurantId", VariableType.REQUEST_PARAM),
 				new TemplateVariable("creationStartDate", VariableType.REQUEST_PARAM),
-				new TemplateVariable("dataEndDate", VariableType.REQUEST_PARAM));
+				new TemplateVariable("creationEndDate", VariableType.REQUEST_PARAM));
 		
-		String orderUrl = linkTo(OrderController.class).toUri().toString();
+		String ordersUrl = linkTo(OrderController.class).toUri().toString();
 		
-		return new Link(UriTemplate.of(orderUrl, 
-				PAGINATION_VARIABLES.concat(filtroVariables)), "orders");
+		return new Link(UriTemplate.of(ordersUrl, 
+				PAGINATION_VARIABLES.concat(filtroVariables)), rel);
 	}
 	
 	public Link linkToConfirmationOrder(String orderCode, String rel) {
@@ -167,14 +170,16 @@ public class AlgaLinks {
 	}
 	
 	public Link linkToRestaurants(String rel) {
-	    return linkTo(RestaurantController.class).withRel(rel);
+	    String restaurantsUrl = linkTo(RestaurantController.class).toUri().toString();
+	    
+	    return new Link(UriTemplate.of(restaurantsUrl, PROJECTION_VARIABLES),rel);
 	}
-
+	
 	public Link linkToRestaurants() {
 	    return linkToRestaurants(IanaLinkRelations.SELF.value());
 	}
 
-	public Link linkToRestaurantPaymentMethod(Long restaurantId, String rel) {
+	public Link linkToRestaurantPaymentMethods(Long restaurantId, String rel) {
 	    return linkTo(methodOn(RestaurantPaymentMethodController.class)
 	            .listAll(restaurantId)).withRel(rel);
 	}
@@ -206,5 +211,27 @@ public class AlgaLinks {
 	public Link linkToActivateRestaurant(Long restaurantId, String rel) {
 	    return linkTo(methodOn(RestaurantController.class)
 	            .activate(restaurantId)).withRel(rel);
+	}
+	
+	public Link linkToRestaurantPaymentMethods(Long restaurantId) {
+	    return linkToRestaurantPaymentMethods(restaurantId, IanaLinkRelations.SELF.value());
+	}
+
+	public Link linkToPaymentMethods(String rel) {
+	    return linkTo(PaymentMethodController.class).withRel(rel);
+	}
+
+	public Link linkToPaymentMethods() {
+	    return linkToPaymentMethods(IanaLinkRelations.SELF.value());
+	} 
+	
+	public Link linkToRestaurantPaymentMethodDetach(Long restaurantId, Long paymentMethodId, String rel) {
+		return linkTo(methodOn(RestaurantPaymentMethodController.class)
+				.detach(restaurantId, paymentMethodId)).withRel(rel);
+	}
+	
+	public Link linkToRestaurantPaymentMethodAttach(Long restaurantId, String rel) {
+		return linkTo(methodOn(RestaurantPaymentMethodController.class)
+				.attach(restaurantId, null)).withRel(rel);
 	}
 }

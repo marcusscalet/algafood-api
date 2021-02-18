@@ -1,6 +1,7 @@
 package com.marcusscalet.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
 import com.marcusscalet.algafood.api.model.PaymentMethodModel;
@@ -16,7 +17,7 @@ public interface RestaurantPaymentMethodControllerOpenApi {
 
 	@ApiOperation("Lista as formas de pagamento associadas a restaurante")
     @ApiResponses({@ApiResponse(code = 404, message = "Restaurante não encontrado", response = Problem.class)})
-	List<PaymentMethodModel> listAll(
+	CollectionModel<PaymentMethodModel> listAll(
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId);
 
 	@ApiOperation("Associação de restaurante com forma de pagamento")
@@ -24,7 +25,7 @@ public interface RestaurantPaymentMethodControllerOpenApi {
         @ApiResponse(code = 204, message = "Associação realizada com sucesso"),
         @ApiResponse(code = 404, message = "Restaurante ou forma de pagamento não encontrado", 
             response = Problem.class)})
-	void attach(
+	ResponseEntity<Void> attach(
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
 			@ApiParam(value = "ID da forma de pagamento", example = "1", required = true) Long paymentMethodId);
 
@@ -33,7 +34,7 @@ public interface RestaurantPaymentMethodControllerOpenApi {
         @ApiResponse(code = 204, message = "Desassociação realizada com sucesso"),
         @ApiResponse(code = 404, message = "Restaurante ou forma de pagamento não encontrado", 
             response = Problem.class)})
-	void detach(
+	ResponseEntity<Void> detach(
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId,
 			@ApiParam(value = "ID da forma de pagamento", example = "1", required = true) Long paymentMethodId);
 

@@ -28,7 +28,7 @@ public class OrderModelAssembler extends RepresentationModelAssemblerSupport<Ord
 		OrderModel orderModel = createModelWithId(order.getCode(), order);
 		modelMapper.map(order, orderModel);
 		
-		orderModel.add(algaLinks.linkToOrders());
+		orderModel.add(algaLinks.linkToOrders("orders"));
 		
 		if(order.canBeConfirmed()) {
 			orderModel.add(algaLinks.linkToConfirmationOrder(order.getCode(), "confirmed"));

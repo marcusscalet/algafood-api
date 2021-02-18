@@ -1,7 +1,6 @@
 package com.marcusscalet.algafood.api.openapi.controller;
 
-import java.util.List;
-
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -19,7 +18,7 @@ import io.swagger.annotations.ApiResponses;
 public interface PaymentMethodControllerOpenApi {
 
 	@ApiOperation("Lista todos os métodos de pagamento")
-	 ResponseEntity<List<PaymentMethodModel>> listAll(ServletWebRequest request);
+	 ResponseEntity<CollectionModel<PaymentMethodModel>> listAll(ServletWebRequest request);
 
 	@ApiOperation("Busca um método de pagamento por ID")
 	@ApiResponses({ @ApiResponse(code = 400, message = "ID de método de pagamento inválido", response = Problem.class),

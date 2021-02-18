@@ -37,7 +37,7 @@ public class RestaurantModelAssembler extends RepresentationModelAssemblerSuppor
         restaurantModel.getAddress().getCity().add(
                 algaLinks.linkToCity(restaurant.getAddress().getCity().getId()));
         
-        restaurantModel.add(algaLinks.linkToRestaurantPaymentMethod(restaurant.getId(), 
+        restaurantModel.add(algaLinks.linkToRestaurantPaymentMethods(restaurant.getId(), 
                 "payment-methods"));
         
         restaurantModel.add(algaLinks.linkToRestaurantAccountables(restaurant.getId(), 

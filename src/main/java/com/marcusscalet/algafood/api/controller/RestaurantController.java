@@ -145,7 +145,7 @@ public class RestaurantController implements RestaurantControllerOpenApi{
 		}
 	}
 
-	@DeleteMapping("/activation")
+	@DeleteMapping("/inactivation")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void multipleInactivation(@RequestBody List<Long> restaurantIds) {
 		try {

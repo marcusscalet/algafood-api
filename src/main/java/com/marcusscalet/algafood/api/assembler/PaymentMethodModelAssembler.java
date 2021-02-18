@@ -1,27 +1,43 @@
 package com.marcusscalet.algafood.api.assembler;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import com.marcusscalet.algafood.api.AlgaLinks;
+import com.marcusscalet.algafood.api.controller.PaymentMethodController;
 import com.marcusscalet.algafood.api.model.PaymentMethodModel;
 import com.marcusscalet.algafood.domain.model.PaymentMethod;
 
 @Component
-public class PaymentMethodModelAssembler {
+public class PaymentMethodModelAssembler extends RepresentationModelAssemblerSupport<PaymentMethod, PaymentMethodModel> {
 
 	@Autowired
 	private ModelMapper modelMapper;
-
-	public PaymentMethodModel toModel(PaymentMethod paymentMethod) {
-		return modelMapper.map(paymentMethod, PaymentMethodModel.class);
+	
+	@Autowired
+    private AlgaLinks algaLinks;
+	
+	public PaymentMethodModelAssembler() {
+		super(PaymentMethodController.class, PaymentMethodModel.class);
 	}
-
-	public List<PaymentMethodModel> toCollectionModel(Collection<PaymentMethod> paymentMethods) {
-		return paymentMethods.stream().map(paymentMethod -> toModel(paymentMethod)).collect(Collectors.toList());
+	
+	@Override
+	public PaymentMethodModel toModel(PaymentMethod paymentMethod) {
+		PaymentMethodModel paymentMethodModel = createModelWithId(paymentMethod.getId(), paymentMethod);
+		
+		modelMapper.map(paymentMethod, paymentMethodModel);
+		
+		paymentMethodModel.add(algaLinks.linkToPaymentMethods("paymentMethods"));
+		
+		return paymentMethodModel;
+	}
+	
+	@Override
+	public CollectionModel<PaymentMethodModel> toCollectionModel(Iterable<? extends PaymentMethod> entities) {
+		return super.toCollectionModel(entities)
+				.add(algaLinks.linkToPaymentMethods());
 	}
 }
