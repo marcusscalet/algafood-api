@@ -1,6 +1,7 @@
 package com.marcusscalet.algafood.api.openapi.controller;
 
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
 import com.marcusscalet.algafood.api.model.UserModel;
@@ -26,7 +27,7 @@ public interface RestaurantUserControllerOpenApi {
         @ApiResponse(code = 404, message = "Restaurante ou usuário não encontrado", 
             response = Problem.class)
     })
-	void associateUser(
+	ResponseEntity<Void> associateUser(
 			@ApiParam(value = "ID do usuário", example = "1", required = true) Long userId, 
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId);
 	
@@ -36,7 +37,7 @@ public interface RestaurantUserControllerOpenApi {
         @ApiResponse(code = 404, message = "Restaurante ou usuário não encontrado", 
             response = Problem.class)
     })
-	void disassociateUser(
+	ResponseEntity<Void> disassociateUser(
 			@ApiParam(value = "ID do usuário", example = "1", required = true) Long userId, 
 			@ApiParam(value = "ID do restaurante", example = "1", required = true) Long restaurantId);
 }

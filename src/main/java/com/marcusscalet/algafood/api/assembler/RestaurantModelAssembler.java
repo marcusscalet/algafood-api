@@ -31,41 +31,46 @@ public class RestaurantModelAssembler extends RepresentationModelAssemblerSuppor
         
         restaurantModel.add(algaLinks.linkToRestaurants("restaurants"));
         
-        restaurantModel.getCuisine().add(
-                algaLinks.linkToCuisine(restaurant.getCuisine().getId()));
-        
-        restaurantModel.getAddress().getCity().add(
-                algaLinks.linkToCity(restaurant.getAddress().getCity().getId()));
-        
-        restaurantModel.add(algaLinks.linkToRestaurantPaymentMethods(restaurant.getId(), 
-                "payment-methods"));
-        
-        restaurantModel.add(algaLinks.linkToRestaurantAccountables(restaurant.getId(), 
-                "accountables"));
-        
         if (restaurant.allowedToActivate()) {
-        	restaurantModel.add(
-        			algaLinks.linkToActivateRestaurant(restaurant.getId(), "active"));
+            restaurantModel.add(
+                    algaLinks.linkToActivateRestaurant(restaurant.getId(), "activate"));
         }
 
         if (restaurant.allowedToInactivate()) {
-        	restaurantModel.add(
-        			algaLinks.linkToInactivateRestaurant(restaurant.getId(), "inactive"));
+            restaurantModel.add(
+                    algaLinks.linkToInactivateRestaurant(restaurant.getId(), "inactivate"));
         }
 
         if (restaurant.allowedToOpen()) {
-        	restaurantModel.add(
-        			algaLinks.linkToOpenRestaurant(restaurant.getId(), "open"));
+            restaurantModel.add(
+                    algaLinks.linkToOpenRestaurant(restaurant.getId(), "open"));
         }
 
         if (restaurant.allowedToClose()) {
-        	restaurantModel.add(
-        			algaLinks.linkToCloseRestaurant(restaurant.getId(), "close"));
+            restaurantModel.add(
+                    algaLinks.linkToCloseRestaurant(restaurant.getId(), "close"));
+        }	
+        
+        restaurantModel.add(algaLinks.linkToProducts(restaurant.getId(), "products"));
+        
+        restaurantModel.getCuisine().add(
+                algaLinks.linkToCuisine(restaurant.getCuisine().getId()));
+        
+        if (restaurantModel.getAddress() != null 
+                && restaurantModel.getAddress().getCity() != null) {
+            restaurantModel.getAddress().getCity().add(
+                    algaLinks.linkToCity(restaurant.getAddress().getCity().getId()));
         }
+        
+        restaurantModel.add(algaLinks.linkToRestaurantPaymentMethods(restaurant.getId(), 
+                "formas-pagamento"));
+        
+        restaurantModel.add(algaLinks.linkToRestaurantAccountables(restaurant.getId(), 
+                "responsaveis"));
         
         return restaurantModel;
     }
-
+        
 	@Override
     public CollectionModel<RestaurantModel> toCollectionModel(Iterable<? extends Restaurant> entities) {
         return super.toCollectionModel(entities)

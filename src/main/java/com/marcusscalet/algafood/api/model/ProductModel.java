@@ -2,13 +2,15 @@ package com.marcusscalet.algafood.api.model;
 
 import java.math.BigDecimal;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
+
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+@Relation(collectionRelation = "products")
 @Setter
-public class ProductModel {
+public class ProductModel extends RepresentationModel<ProductModel>{
 
 	@ApiModelProperty(example = "1")
 	private Long id;

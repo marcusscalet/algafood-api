@@ -99,15 +99,6 @@ public class AlgaLinks {
 	    return linkToUserGroups(userId, IanaLinkRelations.SELF.value());
 	}
 
-	public Link linkToRestaurantAccountables(Long restaurantId, String rel) {
-	    return linkTo(methodOn(RestaurantUserController.class)
-	            .listAll(restaurantId)).withRel(rel);
-	}
-
-	public Link linkToRestaurantAccountables(Long restaurantId) {
-	    return linkToRestaurantAccountables(restaurantId, IanaLinkRelations.SELF.value());
-	}
-
 	public Link linkToPaymentMethod(Long paymentMethodId, String rel) {
 	    return linkTo(methodOn(PaymentMethodController.class)
 	            .find(paymentMethodId, null)).withRel(rel);
@@ -159,6 +150,15 @@ public class AlgaLinks {
 
 	public Link linkToProduct(Long restaurantId, Long productId) {
 	    return linkToProduct(restaurantId, productId, IanaLinkRelations.SELF.value());
+	}
+	
+	public Link linkToProducts(Long restaurantId, String rel) {
+	    return linkTo(methodOn(RestaurantProductController.class)
+	            .listAll(restaurantId, null)).withRel(rel);
+	}
+
+	public Link linkToProducts(Long restaurantId) {
+	    return linkToProducts(restaurantId, IanaLinkRelations.SELF.value());
 	}
 
 	public Link linkToCuisines(String rel) {
@@ -233,5 +233,24 @@ public class AlgaLinks {
 	public Link linkToRestaurantPaymentMethodAttach(Long restaurantId, String rel) {
 		return linkTo(methodOn(RestaurantPaymentMethodController.class)
 				.attach(restaurantId, null)).withRel(rel);
+	}
+	
+	public Link linkToRestaurantAccountables(Long restaurantId, String rel) {
+	    return linkTo(methodOn(RestaurantUserController.class)
+	            .listAll(restaurantId)).withRel(rel);
+	}
+
+	public Link linkToRestaurantAccountables(Long restaurantId) {
+	    return linkToRestaurantAccountables(restaurantId, IanaLinkRelations.SELF.value());
+	}
+	
+	public Link linkToRestaurantAccountableDisassociate(Long restaurantId, Long userId, String rel) {
+		   return linkTo(methodOn(RestaurantUserController.class)
+		            .disassociateUser(restaurantId, userId)).withRel(rel);
+	}
+
+	public Link linkToRestaurantAccountableAssociate(Long restaurantId, String rel) {
+		  return linkTo(methodOn(RestaurantUserController.class)
+		            .associateUser(restaurantId, null)).withRel(rel);
 	}
 }

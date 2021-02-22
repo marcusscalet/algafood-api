@@ -53,13 +53,11 @@ public class RestaurantController implements RestaurantControllerOpenApi{
 	@Autowired
 	private RestaurantOnlyNameModelAssembler restaurantOnlyNameModelAssembler;  
 
-//	@JsonView(RestaurantView.Summary.class)
 	@GetMapping
 	public CollectionModel<RestaurantBasicModel> listAllSummary() {
 		return restaurantBasicModelAssembler.toCollectionModel(restaurantRegistrationService.listAll());
 	}
 	
-//	@JsonView(RestaurantView.OnlyName.class)
 	@GetMapping(params = "view=only-name")
 	public CollectionModel<RestaurantOnlyNameModel> listAllByName() {
 		return restaurantOnlyNameModelAssembler.toCollectionModel(restaurantRegistrationService.listAll());
