@@ -3,6 +3,7 @@ package com.marcusscalet.algafood.api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marcusscalet.algafood.api.AlgaLinks;
 import com.marcusscalet.algafood.api.openapi.controller.StatisticsControllerOpenApi;
 import com.marcusscalet.algafood.domain.filter.DailySalesFilter;
 import com.marcusscalet.algafood.domain.model.dto.DailySales;
@@ -27,6 +29,19 @@ public class StatisticsController implements StatisticsControllerOpenApi {
 	@Autowired
 	private SalesReportService salesReportService;
 
+	@Autowired
+	private AlgaLinks algaLinks;
+
+	@Override
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public StatisticsModel statistics() {
+	    var statisticsModel = new StatisticsModel();
+	    
+	    statisticsModel.add(algaLinks.linkToStatisticsDailySales("daily-sales"));
+	    
+	    return statisticsModel;
+	}       
+	
 	@GetMapping(path = "/daily-sales", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<DailySales> queryDailySales(DailySalesFilter filter,
 			@RequestParam(required = false, defaultValue = "+00:00") String timeOffset) {
@@ -47,6 +62,9 @@ public class StatisticsController implements StatisticsControllerOpenApi {
 				.contentType(MediaType.APPLICATION_PDF)
 				.headers(headers)
 				.body(bytesPdf);
+	}
+	
+	public static class StatisticsModel extends RepresentationModel<StatisticsModel> {
 	}
 
 }

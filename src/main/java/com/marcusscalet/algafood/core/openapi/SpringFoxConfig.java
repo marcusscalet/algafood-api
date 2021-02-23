@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Links;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,9 +21,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
+import com.marcusscalet.algafood.api.model.CityModel;
 import com.marcusscalet.algafood.api.model.CuisineModel;
 import com.marcusscalet.algafood.api.model.OrderSummaryModel;
+import com.marcusscalet.algafood.api.openapi.model.CitiesModelOpenApi;
 import com.marcusscalet.algafood.api.openapi.model.CuisinesModelOpenApi;
+import com.marcusscalet.algafood.api.openapi.model.LinksModelOpenApi;
 import com.marcusscalet.algafood.api.openapi.model.OrdersSummaryModelOpenApi;
 import com.marcusscalet.algafood.api.openapi.model.PageableModelOpenApi;
 
@@ -61,10 +67,13 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.additionalModels(typeResolver.resolve(Problem.class))
 				.ignoredParameterTypes(ServletWebRequest.class)
 				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+				.directModelSubstitute(Links.class, LinksModelOpenApi.class)
 				.alternateTypeRules(AlternateTypeRules.newRule(
-						typeResolver.resolve(Page.class, CuisineModel.class), CuisinesModelOpenApi.class))
+						typeResolver.resolve(PagedModel.class, CuisineModel.class), CuisinesModelOpenApi.class))
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(Page.class, OrderSummaryModel.class), OrdersSummaryModelOpenApi.class))
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, CityModel.class), CitiesModelOpenApi.class))
 			.apiInfo(apiInfo())
 			.tags(tags()[0], tags());
 	}
@@ -80,7 +89,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				new Tag("States", "Manage states"),
 				new Tag("Products", "Manage products from restaurants"),
 				new Tag("Users", "Manage users"),
-		        new Tag("Statistics", "Algafood Statistics")
+		        new Tag("Statistics", "Algafood Statistics"),
+		        new Tag("Permissions", "Manage permissions")
 		};
 	}
 	

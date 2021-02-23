@@ -1,6 +1,6 @@
 package com.marcusscalet.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
 import com.marcusscalet.algafood.api.model.GroupModel;
@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiResponses;
 public interface GroupControllerOpenApi {
 
 	@ApiOperation("Lista todos os grupos")
-	List<GroupModel> listAll();
+	CollectionModel<GroupModel> listAll();
 
 	@ApiOperation("Busca um grupo por ID")
 	@ApiResponses({ @ApiResponse(code = 400, message = "ID de grupo inválido", response = Problem.class),

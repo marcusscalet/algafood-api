@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.assembler.GroupModelAssembler;
 import com.marcusscalet.algafood.api.assembler.GroupInputDisassembler;
+import com.marcusscalet.algafood.api.assembler.GroupModelAssembler;
 import com.marcusscalet.algafood.api.model.GroupModel;
 import com.marcusscalet.algafood.api.model.input.GroupInput;
 import com.marcusscalet.algafood.api.openapi.controller.GroupControllerOpenApi;
@@ -40,7 +41,7 @@ public class GroupController implements GroupControllerOpenApi{
 	private GroupModelAssembler groupModelAssembler;
 
 	@GetMapping
-	public List<GroupModel> listAll() {
+	public CollectionModel<GroupModel> listAll() {
 		List<Group> groupsList = groupRegistrationService.listAll();
 		
 		return groupModelAssembler.toCollectionModel(groupsList);

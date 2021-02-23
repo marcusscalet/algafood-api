@@ -1,6 +1,7 @@
 package com.marcusscalet.algafood.api.openapi.controller;
 
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
 import com.marcusscalet.algafood.api.model.PermissionModel;
@@ -18,14 +19,14 @@ public interface GroupPermissionControllerOpenApi {
     @ApiResponses({
         @ApiResponse(code = 400, message = "ID do grupo inválido", response = Problem.class),
         @ApiResponse(code = 404, message = "Grupo não encontrado", response = Problem.class)})
-	List<PermissionModel> listAll(@ApiParam(value = "ID do grupo", example = "1", required = true) Long groupId);
+	CollectionModel<PermissionModel> listAll(@ApiParam(value = "ID do grupo", example = "1", required = true) Long groupId);
 
 	@ApiOperation("Associação de permissão com grupo")
     @ApiResponses({
         @ApiResponse(code = 204, message = "Associação realizada com sucesso"),
         @ApiResponse(code = 404, message = "Grupo ou permissão não encontrada", 
             response = Problem.class)})
-	void attach(@ApiParam(value = "ID do grupo", example = "1", required = true) Long groupId,
+	ResponseEntity<Void> attach(@ApiParam(value = "ID do grupo", example = "1", required = true) Long groupId,
 			@ApiParam(value = "ID da permissão", example = "1", required = true) Long permissionId);
 
 	 @ApiOperation("Desassociação de permissão com grupo")
@@ -33,6 +34,6 @@ public interface GroupPermissionControllerOpenApi {
 	        @ApiResponse(code = 204, message = "Desassociação realizada com sucesso"),
 	        @ApiResponse(code = 404, message = "Grupo ou permissão não encontrada", 
 	            response = Problem.class)})
-	void detach(@ApiParam(value = "ID do grupo", example = "1", required = true) Long groupId, 
+	 ResponseEntity<Void> detach(@ApiParam(value = "ID do grupo", example = "1", required = true) Long groupId, 
 			@ApiParam(value = "ID da permissão", example = "1", required = true) Long permissionId);
 }

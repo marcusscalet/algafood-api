@@ -1,27 +1,34 @@
 package com.marcusscalet.algafood.api.assembler;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
+import com.marcusscalet.algafood.api.AlgaLinks;
 import com.marcusscalet.algafood.api.model.PermissionModel;
 import com.marcusscalet.algafood.domain.model.Permission;
 
 @Component
-public class PermissionModelAssembler {
+public class PermissionModelAssembler 
+implements RepresentationModelAssembler<Permission, PermissionModel>{
 
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	public PermissionModel toModel(Permission permission) {
-		return modelMapper.map(permission, PermissionModel.class);
-	}
-	
-	public List<PermissionModel> toModelCollection(Collection<Permission> permissions){
-		return permissions.stream().map(permission -> toModel(permission)).collect(Collectors.toList());
-	}
+	@Autowired
+    private AlgaLinks algaLinks;
+
+    @Override
+    public PermissionModel toModel(Permission permission) {
+    	PermissionModel permissionModel = modelMapper.map(permission, PermissionModel.class);
+        return permissionModel;
+    }
+    
+    @Override
+    public CollectionModel<PermissionModel> toCollectionModel(Iterable<? extends Permission> entities) {
+        return RepresentationModelAssembler.super.toCollectionModel(entities)
+                .add(algaLinks.linkToPermissions());
+    }   
 }

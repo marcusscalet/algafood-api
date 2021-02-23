@@ -13,14 +13,19 @@ import org.springframework.stereotype.Component;
 
 import com.marcusscalet.algafood.api.controller.CityController;
 import com.marcusscalet.algafood.api.controller.CuisineController;
+import com.marcusscalet.algafood.api.controller.GroupController;
+import com.marcusscalet.algafood.api.controller.GroupPermissionController;
 import com.marcusscalet.algafood.api.controller.OrderController;
 import com.marcusscalet.algafood.api.controller.OrderStatusController;
 import com.marcusscalet.algafood.api.controller.PaymentMethodController;
+import com.marcusscalet.algafood.api.controller.PermissionController;
 import com.marcusscalet.algafood.api.controller.RestaurantController;
 import com.marcusscalet.algafood.api.controller.RestaurantPaymentMethodController;
 import com.marcusscalet.algafood.api.controller.RestaurantProductController;
+import com.marcusscalet.algafood.api.controller.RestaurantProductImageController;
 import com.marcusscalet.algafood.api.controller.RestaurantUserController;
 import com.marcusscalet.algafood.api.controller.StateController;
+import com.marcusscalet.algafood.api.controller.StatisticsController;
 import com.marcusscalet.algafood.api.controller.UserController;
 import com.marcusscalet.algafood.api.controller.UserGroupController;
 
@@ -48,6 +53,23 @@ public class AlgaLinks {
 		return new Link(UriTemplate.of(ordersUrl, 
 				PAGINATION_VARIABLES.concat(filtroVariables)), rel);
 	}
+	
+	public Link linkToStatistics(String rel) {
+	    return linkTo(StatisticsController.class).withRel(rel);
+	}
+
+	public Link linkToStatisticsDailySales(String rel) {
+	    TemplateVariables filterVariables = new TemplateVariables(
+	            new TemplateVariable("restaurantId", VariableType.REQUEST_PARAM),
+	            new TemplateVariable("creationStartDate", VariableType.REQUEST_PARAM),
+	            new TemplateVariable("creationEndDate", VariableType.REQUEST_PARAM),
+	            new TemplateVariable("timeOffset", VariableType.REQUEST_PARAM));
+	    
+	    String ordersUrl = linkTo(methodOn(StatisticsController.class)
+	            .queryDailySales(null, null)).toUri().toString();
+	    
+	    return new Link(UriTemplate.of(ordersUrl, filterVariables), rel);
+	} 
 	
 	public Link linkToConfirmationOrder(String orderCode, String rel) {
 		return linkTo(methodOn(OrderStatusController.class)
@@ -253,4 +275,58 @@ public class AlgaLinks {
 		  return linkTo(methodOn(RestaurantUserController.class)
 		            .associateUser(restaurantId, null)).withRel(rel);
 	}
+	
+	public Link linkToProductImage(Long restaurantId, Long productId, String rel) {
+	    return linkTo(methodOn(RestaurantProductImageController.class)
+	            .searchImage(restaurantId, productId)).withRel(rel);
+	}
+
+	public Link linkToProductImage(Long restaurantId, Long productId) {
+	    return linkToProductImage(restaurantId, productId, IanaLinkRelations.SELF.value());
+	}
+	
+	public Link linkToGroups(String rel) {
+	    return linkTo(GroupController.class).withRel(rel);
+	}
+
+	public Link linkToGroups() {
+	    return linkToGroups(IanaLinkRelations.SELF.value());
+	}
+
+	public Link linkToGroupPermissions(Long groupId, String rel) {
+	    return linkTo(methodOn(GroupPermissionController.class)
+	            .listAll(groupId)).withRel(rel);
+	}     
+	
+	public Link linkToPermissions(String rel) {
+	    return linkTo(PermissionController.class).withRel(rel);
+	}
+
+	public Link linkToPermissions() {
+	    return linkToPermissions(IanaLinkRelations.SELF.value());
+	}
+
+	public Link linkToGroupPermissions(Long groupId) {
+	    return linkToGroupPermissions(groupId, IanaLinkRelations.SELF.value());
+	}
+
+	public Link linkToGroupPermissionAttach(Long groupId, String rel) {
+	    return linkTo(methodOn(GroupPermissionController.class)
+	            .attach(groupId, null)).withRel(rel);
+	}
+
+	public Link linkToGroupPermissionDetach(Long groupId, Long permissionId, String rel) {
+	    return linkTo(methodOn(GroupPermissionController.class)
+	            .detach(groupId, permissionId)).withRel(rel);
+	}
+	
+	public Link linkToUserGroupAssociate(Long userId, String rel) {
+	    return linkTo(methodOn(UserGroupController.class)
+	            .associate(userId, null)).withRel(rel);
+	}
+
+	public Link linkToUserGroupDisassociate(Long userId, Long groupId, String rel) {
+	    return linkTo(methodOn(UserGroupController.class)
+	            .disassociate(userId, groupId)).withRel(rel);
+	}     
 }

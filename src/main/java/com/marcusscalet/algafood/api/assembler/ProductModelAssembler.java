@@ -25,14 +25,17 @@ public class ProductModelAssembler extends RepresentationModelAssemblerSupport<P
     
 	@Override
 	public ProductModel toModel(Product product) {
-		  ProductModel productModel = createModelWithId(
-	                product.getId(), product, product.getRestaurant().getId());
-	        
-	        modelMapper.map(product, productModel);
-	        
-	        productModel.add(algaLinks.linkToProducts(product.getRestaurant().getId(), "products"));
-	        
-	        return productModel;
-	    }
+		ProductModel productModel = createModelWithId(
+	            product.getId(), product, product.getRestaurant().getId());
+	    
+	    modelMapper.map(product, productModel);
+	    
+	    productModel.add(algaLinks.linkToProducts(product.getRestaurant().getId(), "products"));
+
+	    productModel.add(algaLinks.linkToProductImage(
+	            product.getRestaurant().getId(), product.getId(), "image"));
+	    
+	    return productModel;
+	}
 	
 }
