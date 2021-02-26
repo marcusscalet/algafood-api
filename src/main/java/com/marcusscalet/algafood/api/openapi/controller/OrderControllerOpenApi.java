@@ -4,9 +4,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.OrderModel;
-import com.marcusscalet.algafood.api.model.OrderSummaryModel;
 import com.marcusscalet.algafood.api.model.input.OrderInput;
+import com.marcusscalet.algafood.api.v1.model.OrderModel;
+import com.marcusscalet.algafood.api.v1.model.OrderSummaryModel;
 import com.marcusscalet.algafood.domain.filter.OrderFilter;
 
 import io.swagger.annotations.Api;

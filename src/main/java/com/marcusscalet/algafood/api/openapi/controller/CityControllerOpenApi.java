@@ -3,8 +3,8 @@ package com.marcusscalet.algafood.api.openapi.controller;
 import org.springframework.hateoas.CollectionModel;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.CityModel;
 import com.marcusscalet.algafood.api.model.input.CityInput;
+import com.marcusscalet.algafood.api.v1.model.CityModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

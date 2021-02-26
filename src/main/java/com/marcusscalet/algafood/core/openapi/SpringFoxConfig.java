@@ -1,5 +1,10 @@
 package com.marcusscalet.algafood.core.openapi;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLStreamHandler;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -7,7 +12,7 @@ import java.util.function.Consumer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Page;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
@@ -21,14 +26,28 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.CityModel;
-import com.marcusscalet.algafood.api.model.CuisineModel;
-import com.marcusscalet.algafood.api.model.OrderSummaryModel;
 import com.marcusscalet.algafood.api.openapi.model.CitiesModelOpenApi;
 import com.marcusscalet.algafood.api.openapi.model.CuisinesModelOpenApi;
+import com.marcusscalet.algafood.api.openapi.model.GroupsModelOpenApi;
 import com.marcusscalet.algafood.api.openapi.model.LinksModelOpenApi;
 import com.marcusscalet.algafood.api.openapi.model.OrdersSummaryModelOpenApi;
 import com.marcusscalet.algafood.api.openapi.model.PageableModelOpenApi;
+import com.marcusscalet.algafood.api.openapi.model.PaymentMethodsModelOpenApi;
+import com.marcusscalet.algafood.api.openapi.model.PermissionsModelOpenApi;
+import com.marcusscalet.algafood.api.openapi.model.ProductsModelOpenApi;
+import com.marcusscalet.algafood.api.openapi.model.RestaurantsBasicModelOpenApi;
+import com.marcusscalet.algafood.api.openapi.model.StatesModelOpenApi;
+import com.marcusscalet.algafood.api.openapi.model.UsersModelOpenApi;
+import com.marcusscalet.algafood.api.v1.model.CityModel;
+import com.marcusscalet.algafood.api.v1.model.CuisineModel;
+import com.marcusscalet.algafood.api.v1.model.GroupModel;
+import com.marcusscalet.algafood.api.v1.model.OrderSummaryModel;
+import com.marcusscalet.algafood.api.v1.model.PaymentMethodModel;
+import com.marcusscalet.algafood.api.v1.model.PermissionModel;
+import com.marcusscalet.algafood.api.v1.model.ProductModel;
+import com.marcusscalet.algafood.api.v1.model.RestaurantBasicModel;
+import com.marcusscalet.algafood.api.v1.model.StateModel;
+import com.marcusscalet.algafood.api.v1.model.UserModel;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -66,14 +85,51 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.globalResponses(HttpMethod.DELETE, globalDeleteResponses())
 				.additionalModels(typeResolver.resolve(Problem.class))
 				.ignoredParameterTypes(ServletWebRequest.class)
+				.ignoredParameterTypes(ServletWebRequest.class,
+						URL.class, URI.class, URLStreamHandler.class, Resource.class,
+						File.class, InputStream.class)
 				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
 				.directModelSubstitute(Links.class, LinksModelOpenApi.class)
+				
 				.alternateTypeRules(AlternateTypeRules.newRule(
-						typeResolver.resolve(PagedModel.class, CuisineModel.class), CuisinesModelOpenApi.class))
+						typeResolver.resolve(PagedModel.class, CuisineModel.class),
+						CuisinesModelOpenApi.class))
+				
 				.alternateTypeRules(AlternateTypeRules.newRule(
-						typeResolver.resolve(Page.class, OrderSummaryModel.class), OrdersSummaryModelOpenApi.class))
+						typeResolver.resolve(PagedModel.class, OrderSummaryModel.class),
+						OrdersSummaryModelOpenApi.class))
+				
 				.alternateTypeRules(AlternateTypeRules.newRule(
-						typeResolver.resolve(CollectionModel.class, CityModel.class), CitiesModelOpenApi.class))
+						typeResolver.resolve(CollectionModel.class, CityModel.class),
+						CitiesModelOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, StateModel.class),
+						StatesModelOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, PaymentMethodModel.class),
+						PaymentMethodsModelOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, GroupModel.class),
+						GroupsModelOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, PermissionModel.class),
+						PermissionsModelOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, ProductModel.class),
+						ProductsModelOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, RestaurantBasicModel.class),
+						RestaurantsBasicModelOpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, UserModel.class),
+						UsersModelOpenApi.class))
 			.apiInfo(apiInfo())
 			.tags(tags()[0], tags());
 	}

@@ -7,8 +7,8 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.ProductImageModel;
 import com.marcusscalet.algafood.api.model.input.ProductImageInput;
+import com.marcusscalet.algafood.api.v1.model.ProductImageModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

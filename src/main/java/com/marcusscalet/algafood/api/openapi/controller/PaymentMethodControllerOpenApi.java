@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.PaymentMethodModel;
 import com.marcusscalet.algafood.api.model.input.PaymentMethodInput;
+import com.marcusscalet.algafood.api.v1.model.PaymentMethodModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

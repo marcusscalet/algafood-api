@@ -4,9 +4,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.marcusscalet.algafood.api.model.AddressModel;
 import com.marcusscalet.algafood.api.model.input.OrderItemInput;
+import com.marcusscalet.algafood.api.v1.model.AddressModel;
+import com.marcusscalet.algafood.api.v2.model.input.CityInputV2;
 import com.marcusscalet.algafood.domain.model.Address;
+import com.marcusscalet.algafood.domain.model.City;
 import com.marcusscalet.algafood.domain.model.OrderItem;
 
 @Configuration
@@ -15,6 +17,9 @@ public class ModelMapperConfig {
 	@Bean
 	public ModelMapper modelMapper() {
 		var modelMapper = new ModelMapper();
+
+		modelMapper.createTypeMap(CityInputV2.class, City.class)
+		.addMappings(mapper -> mapper.skip(City::setId));
 
 		modelMapper.createTypeMap(OrderItemInput.class, OrderItem.class)
 				.addMappings(mapper -> mapper.skip(OrderItem::setId));

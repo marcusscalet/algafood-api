@@ -4,8 +4,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.CuisineModel;
 import com.marcusscalet.algafood.api.model.input.CuisineInput;
+import com.marcusscalet.algafood.api.v1.model.CuisineModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

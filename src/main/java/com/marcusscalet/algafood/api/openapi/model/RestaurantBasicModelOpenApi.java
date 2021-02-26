@@ -1,28 +1,27 @@
 package com.marcusscalet.algafood.api.openapi.model;
 
-import java.math.BigDecimal;
+import java.util.List;
 
-import com.marcusscalet.algafood.api.model.CuisineModel;
+import org.springframework.hateoas.Links;
+
+import com.marcusscalet.algafood.api.v1.model.RestaurantBasicModel;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@ApiModel("RestaurantEssentialModel")
-@Getter
-@Setter
+@ApiModel("RestaurantsBasicModel")
+@Data
 public class RestaurantBasicModelOpenApi {
 
-	@ApiModelProperty(example = "1")
-	private Long id;
-	
-	@ApiModelProperty(example = "Thai Gourmet")
-	private String nome;
-	
-	@ApiModelProperty(example = "12.00")
-	private BigDecimal shippingFee;
-	
-	@ApiModelProperty(example = "1")
-	private CuisineModel cuisine;
-}
+    private RestaurantsEmbeddedModelOpenApi _embedded;
+    private Links _links;
+    
+    @ApiModel("RestaurantsEmbeddedModel")
+    @Data
+    public class RestaurantsEmbeddedModelOpenApi {
+        
+        private List<RestaurantBasicModel> restaurants;
+        
+    }
+    
+}    

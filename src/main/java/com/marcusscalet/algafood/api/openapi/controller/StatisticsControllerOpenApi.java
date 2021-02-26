@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.marcusscalet.algafood.api.controller.StatisticsController.StatisticsModel;
+import com.marcusscalet.algafood.api.v1.controller.StatisticsController.StatisticsModel;
 import com.marcusscalet.algafood.domain.filter.DailySalesFilter;
 import com.marcusscalet.algafood.domain.model.dto.DailySales;
 

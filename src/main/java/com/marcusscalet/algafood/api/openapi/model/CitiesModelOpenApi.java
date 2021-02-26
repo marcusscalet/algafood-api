@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.hateoas.Links;
 
-import com.marcusscalet.algafood.api.model.CityModel;
+import com.marcusscalet.algafood.api.v1.model.CityModel;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

@@ -4,7 +4,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.UserModel;
+import com.marcusscalet.algafood.api.v1.model.UserModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

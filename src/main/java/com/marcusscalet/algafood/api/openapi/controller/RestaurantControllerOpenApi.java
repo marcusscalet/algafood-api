@@ -6,11 +6,11 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.RestaurantBasicModel;
-import com.marcusscalet.algafood.api.model.RestaurantModel;
-import com.marcusscalet.algafood.api.model.RestaurantOnlyNameModel;
 import com.marcusscalet.algafood.api.model.input.RestaurantInput;
 import com.marcusscalet.algafood.api.openapi.model.RestaurantBasicModelOpenApi;
+import com.marcusscalet.algafood.api.v1.model.RestaurantBasicModel;
+import com.marcusscalet.algafood.api.v1.model.RestaurantModel;
+import com.marcusscalet.algafood.api.v1.model.RestaurantOnlyNameModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "Restaurants")
 public interface RestaurantControllerOpenApi {
@@ -28,9 +29,9 @@ public interface RestaurantControllerOpenApi {
 		@ApiImplicitParam(value = "Nome da projeção de pedidos", allowableValues = "only-name",
 				name = "view", paramType = "query", dataTypeClass = String.class)
 	})
-//	@JsonView(RestaurantView.Summary.class)
-	CollectionModel<RestaurantBasicModel> listAllSummary();
+	CollectionModel<RestaurantBasicModel> listAll();
 	
+	@ApiIgnore
 	@ApiOperation(value = "Restaurants list", hidden = true)
 	CollectionModel<RestaurantOnlyNameModel> listAllByName();
 	

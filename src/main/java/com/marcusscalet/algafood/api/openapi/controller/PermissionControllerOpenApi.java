@@ -2,7 +2,7 @@ package com.marcusscalet.algafood.api.openapi.controller;
 
 import org.springframework.hateoas.CollectionModel;
 
-import com.marcusscalet.algafood.api.model.PermissionModel;
+import com.marcusscalet.algafood.api.v1.model.PermissionModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

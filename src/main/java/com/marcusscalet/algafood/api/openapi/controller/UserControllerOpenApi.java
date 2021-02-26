@@ -4,10 +4,10 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.model.UserModel;
 import com.marcusscalet.algafood.api.model.input.PasswordInput;
 import com.marcusscalet.algafood.api.model.input.UserInput;
 import com.marcusscalet.algafood.api.model.input.UserWithPasswordInput;
+import com.marcusscalet.algafood.api.v1.model.UserModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
