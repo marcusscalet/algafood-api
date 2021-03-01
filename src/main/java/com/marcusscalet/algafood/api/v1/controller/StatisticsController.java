@@ -20,7 +20,7 @@ import com.marcusscalet.algafood.domain.service.SalesReportService;
 import com.marcusscalet.algafood.infrastructure.service.query.SalesQueryServiceImpl;
 
 @RestController
-@RequestMapping(path = "/statistics")
+@RequestMapping(path = "/v1/statistics")
 public class StatisticsController implements StatisticsControllerOpenApi {
 
 	@Autowired

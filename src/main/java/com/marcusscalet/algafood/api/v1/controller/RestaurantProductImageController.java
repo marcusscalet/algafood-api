@@ -36,7 +36,7 @@ import com.marcusscalet.algafood.domain.service.ProductImageCatalogService;
 import com.marcusscalet.algafood.domain.service.ProductRegistrationService;
 
 @RestController
-@RequestMapping("/restaurants/{restaurantId}/products/{productId}/image")
+@RequestMapping(path = "/v1/restaurants/{restaurantId}/products/{productId}/image")
 public class RestaurantProductImageController implements RestaurantProductImageControllerOpenApi{
 
 	@Autowired

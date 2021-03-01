@@ -26,7 +26,7 @@ import com.marcusscalet.algafood.domain.model.State;
 import com.marcusscalet.algafood.domain.service.StateRegistrationService;
 
 @RestController
-@RequestMapping("/states")
+@RequestMapping(path = "/v1/states")
 public class StateController implements StateControllerOpenApi{
 
 	@Autowired

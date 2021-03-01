@@ -1,4 +1,4 @@
-package com.marcusscalet.algafood.api.v1.controller;
+package com.marcusscalet.algafood.api.v2.controller;
 
 import javax.validation.Valid;
 
@@ -19,42 +19,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.model.input.CuisineInput;
-import com.marcusscalet.algafood.api.openapi.controller.CuisineControllerOpenApi;
-import com.marcusscalet.algafood.api.v1.assembler.CuisineInputDisassembler;
-import com.marcusscalet.algafood.api.v1.assembler.CuisineModelAssembler;
-import com.marcusscalet.algafood.api.v1.model.CuisineModel;
+import com.marcusscalet.algafood.api.v2.assembler.CuisineInputDisassemblerV2;
+import com.marcusscalet.algafood.api.v2.assembler.CuisineModelAssemblerV2;
+import com.marcusscalet.algafood.api.v2.model.CuisineModelV2;
+import com.marcusscalet.algafood.api.v2.model.input.CuisineInputV2;
 import com.marcusscalet.algafood.domain.model.Cuisine;
 import com.marcusscalet.algafood.domain.service.CuisineRegistrationService;
 
 @RestController
-@RequestMapping(path = "/v1/cuisines")
-public class CuisineController implements CuisineControllerOpenApi{
+@RequestMapping(path = "/v2/cuisines")
+public class CuisineControllerV2{
 
 	@Autowired
 	private CuisineRegistrationService cuisineRegistrationService;
 
 	@Autowired
-	private CuisineModelAssembler cuisineModelAssembler;
+	private CuisineModelAssemblerV2 cuisineModelAssembler;
 	
 	@Autowired
-	private CuisineInputDisassembler cuisineInputDisassembler;
+	private CuisineInputDisassemblerV2 cuisineInputDisassembler;
 	
 	@Autowired
 	private PagedResourcesAssembler<Cuisine> pagedResourceAssembler;
 	
 	@GetMapping
-	public PagedModel<CuisineModel> listAll(@PageableDefault(size = 10) Pageable pageable) {
+	public PagedModel<CuisineModelV2> listAll(@PageableDefault(size = 10) Pageable pageable) {
 		Page<Cuisine> cuisinesPage = cuisineRegistrationService.findAll(pageable);
 		
-		PagedModel<CuisineModel> cuisinesPagedModel = pagedResourceAssembler
+		PagedModel<CuisineModelV2> cuisinesPagedModel = pagedResourceAssembler
 				.toModel(cuisinesPage, cuisineModelAssembler);
 		
 		return cuisinesPagedModel;
 	}
 
 	@GetMapping("/{cuisineId}")
-	public CuisineModel find(@PathVariable Long cuisineId) {
+	public CuisineModelV2 find(@PathVariable Long cuisineId) {
 		Cuisine cuisine =  cuisineRegistrationService.searchOrFail(cuisineId);
 		
 		return cuisineModelAssembler.toModel(cuisine);
@@ -62,7 +61,7 @@ public class CuisineController implements CuisineControllerOpenApi{
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CuisineModel add(@Valid @RequestBody CuisineInput cuisineInput) {
+	public CuisineModelV2 add(@Valid @RequestBody CuisineInputV2 cuisineInput) {
 		Cuisine cuisine = cuisineInputDisassembler.toDomainObject(cuisineInput);
 		cuisine = cuisineRegistrationService.saveCuisine(cuisine);
 		
@@ -70,7 +69,7 @@ public class CuisineController implements CuisineControllerOpenApi{
 	}
 
 	@PutMapping("/{cuisineId}")
-	public CuisineModel update(@PathVariable Long cuisineId, @Valid @RequestBody CuisineInput cuisineInput) {
+	public CuisineModelV2 update(@PathVariable Long cuisineId, @Valid @RequestBody CuisineInputV2 cuisineInput) {
 
 		Cuisine currentCuisine = cuisineRegistrationService.searchOrFail(cuisineId);
 

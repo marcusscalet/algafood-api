@@ -36,7 +36,7 @@ import com.marcusscalet.algafood.domain.model.User;
 import com.marcusscalet.algafood.domain.service.OrderService;
 
 @RestController
-@RequestMapping(value = "/orders")
+@RequestMapping(path = "/v1/orders")
 public class OrderController implements OrderControllerOpenApi {
 
 	@Autowired

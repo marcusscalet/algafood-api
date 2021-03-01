@@ -23,14 +23,13 @@ import com.marcusscalet.algafood.api.openapi.controller.CityControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.assembler.CityInputDisassembler;
 import com.marcusscalet.algafood.api.v1.assembler.CityModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.CityModel;
-import com.marcusscalet.algafood.core.web.AlgaMediaTypes;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.StateNotFoundException;
 import com.marcusscalet.algafood.domain.model.City;
 import com.marcusscalet.algafood.domain.service.CityRegistrationService;
 
 @RestController
-@RequestMapping(path = "/cities", produces = AlgaMediaTypes.V1_APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/cities")
 public class CityController implements CityControllerOpenApi{
 
 	@Autowired

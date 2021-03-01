@@ -20,7 +20,7 @@ import com.marcusscalet.algafood.domain.model.Group;
 import com.marcusscalet.algafood.domain.service.GroupRegistrationService;
 
 @RestController
-@RequestMapping(value = "/groups/{groupId}/permissions")
+@RequestMapping(path = "/v1/groups/{groupId}/permissions")
 public class GroupPermissionController implements GroupPermissionControllerOpenApi {
 
 	@Autowired

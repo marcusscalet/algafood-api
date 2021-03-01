@@ -22,14 +22,13 @@ import com.marcusscalet.algafood.api.v2.assembler.CityInputDisassemblerV2;
 import com.marcusscalet.algafood.api.v2.assembler.CityModelAssemblerV2;
 import com.marcusscalet.algafood.api.v2.model.CityModelV2;
 import com.marcusscalet.algafood.api.v2.model.input.CityInputV2;
-import com.marcusscalet.algafood.core.web.AlgaMediaTypes;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.StateNotFoundException;
 import com.marcusscalet.algafood.domain.model.City;
 import com.marcusscalet.algafood.domain.service.CityRegistrationService;
 
 @RestController
-@RequestMapping(path = "/cities", produces = AlgaMediaTypes.V2_APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v2/cities")
 public class CityControllerV2 {
 
 	@Autowired

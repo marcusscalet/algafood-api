@@ -6,7 +6,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import com.marcusscalet.algafood.api.v1.AlgaLinks;
+import com.marcusscalet.algafood.api.v2.AlgaLinksV2;
 import com.marcusscalet.algafood.api.v2.controller.CityControllerV2;
 import com.marcusscalet.algafood.api.v2.model.CityModelV2;
 import com.marcusscalet.algafood.domain.model.City;
@@ -18,7 +18,7 @@ public class CityModelAssemblerV2 extends RepresentationModelAssemblerSupport<Ci
 	private ModelMapper modelMapper;
 	
 	@Autowired
-	private AlgaLinks algaLinks;
+	private AlgaLinksV2 algaLinks;
 	
 	public CityModelAssemblerV2() {
 		super(CityControllerV2.class, CityModelV2.class);

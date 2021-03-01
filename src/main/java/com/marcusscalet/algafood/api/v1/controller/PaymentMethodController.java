@@ -35,7 +35,7 @@ import com.marcusscalet.algafood.domain.repository.PaymentMethodRepository;
 import com.marcusscalet.algafood.domain.service.PaymentMethodRegistrationService;
 
 @RestController
-@RequestMapping(value = "/payment-methods")
+@RequestMapping(path = "/v1/payment-methods")
 public class PaymentMethodController implements PaymentMethodControllerOpenApi{
 
 	@Autowired

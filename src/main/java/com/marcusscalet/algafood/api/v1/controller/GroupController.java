@@ -28,7 +28,7 @@ import com.marcusscalet.algafood.domain.model.Group;
 import com.marcusscalet.algafood.domain.service.GroupRegistrationService;
 
 @RestController
-@RequestMapping(path = "/groups")
+@RequestMapping(path = "/v1/groups")
 public class GroupController implements GroupControllerOpenApi{
 
 	@Autowired

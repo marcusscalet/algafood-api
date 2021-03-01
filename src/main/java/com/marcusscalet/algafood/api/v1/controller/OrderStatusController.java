@@ -13,7 +13,7 @@ import com.marcusscalet.algafood.api.openapi.controller.OrderStatusControllerOpe
 import com.marcusscalet.algafood.domain.service.OrderStatusService;
 
 @RestController
-@RequestMapping(value = "/orders/{orderCode}")
+@RequestMapping(path = "/v1/orders/{orderCode}")
 public class OrderStatusController implements OrderStatusControllerOpenApi {
 
 	@Autowired

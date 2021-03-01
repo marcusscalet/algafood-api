@@ -15,7 +15,7 @@ import com.marcusscalet.algafood.domain.model.Permission;
 import com.marcusscalet.algafood.domain.repository.PermissionRepository;
 
 @RestController
-@RequestMapping(path = "/permissions")
+@RequestMapping(path = "/v1/permissions")
 public class PermissionController implements PermissionControllerOpenApi {
 
 

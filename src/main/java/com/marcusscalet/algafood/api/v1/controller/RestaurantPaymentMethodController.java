@@ -20,7 +20,7 @@ import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
 
 @RestController
-@RequestMapping(value = "/restaurants/{restaurantId}/payment-methods")
+@RequestMapping(path = "/v1/restaurants/{restaurantId}/payment-methods")
 public class RestaurantPaymentMethodController implements RestaurantPaymentMethodControllerOpenApi{
 
 	@Autowired

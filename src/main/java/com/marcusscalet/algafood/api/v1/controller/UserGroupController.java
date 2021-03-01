@@ -20,7 +20,7 @@ import com.marcusscalet.algafood.domain.model.User;
 import com.marcusscalet.algafood.domain.service.UserRegistrationService;
 
 @RestController
-@RequestMapping(value = "/users/{userId}/groups")
+@RequestMapping(path = "/v1/users/{userId}/groups")
 public class UserGroupController implements UserGroupControllerOpenApi {
 
 	@Autowired

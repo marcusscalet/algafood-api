@@ -35,7 +35,7 @@ import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
 
 @RestController
-@RequestMapping(value = "/restaurants")
+@RequestMapping(path = "/v1/restaurants")
 public class RestaurantController implements RestaurantControllerOpenApi{
 
 	@Autowired
