@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.model.input.GroupInput;
-import com.marcusscalet.algafood.api.openapi.controller.GroupControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.assembler.GroupInputDisassembler;
 import com.marcusscalet.algafood.api.v1.assembler.GroupModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.GroupModel;
+import com.marcusscalet.algafood.api.v1.model.input.GroupInput;
+import com.marcusscalet.algafood.api.v1.openapi.controller.GroupControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.GroupNotFoundException;
 import com.marcusscalet.algafood.domain.model.Group;

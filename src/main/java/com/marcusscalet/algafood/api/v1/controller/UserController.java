@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.model.input.PasswordInput;
-import com.marcusscalet.algafood.api.model.input.UserInput;
-import com.marcusscalet.algafood.api.model.input.UserWithPasswordInput;
-import com.marcusscalet.algafood.api.openapi.controller.UserControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.assembler.UserInputDisassembler;
 import com.marcusscalet.algafood.api.v1.assembler.UserModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.UserModel;
+import com.marcusscalet.algafood.api.v1.model.input.PasswordInput;
+import com.marcusscalet.algafood.api.v1.model.input.UserInput;
+import com.marcusscalet.algafood.api.v1.model.input.UserWithPasswordInput;
+import com.marcusscalet.algafood.api.v1.openapi.controller.UserControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.UserNotFoundException;
 import com.marcusscalet.algafood.domain.model.User;

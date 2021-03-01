@@ -26,18 +26,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.marcusscalet.algafood.api.exceptionhandler.Problem;
-import com.marcusscalet.algafood.api.openapi.model.CitiesModelOpenApi;
-import com.marcusscalet.algafood.api.openapi.model.CuisinesModelOpenApi;
-import com.marcusscalet.algafood.api.openapi.model.GroupsModelOpenApi;
-import com.marcusscalet.algafood.api.openapi.model.LinksModelOpenApi;
-import com.marcusscalet.algafood.api.openapi.model.OrdersSummaryModelOpenApi;
-import com.marcusscalet.algafood.api.openapi.model.PageableModelOpenApi;
-import com.marcusscalet.algafood.api.openapi.model.PaymentMethodsModelOpenApi;
-import com.marcusscalet.algafood.api.openapi.model.PermissionsModelOpenApi;
-import com.marcusscalet.algafood.api.openapi.model.ProductsModelOpenApi;
-import com.marcusscalet.algafood.api.openapi.model.RestaurantsBasicModelOpenApi;
-import com.marcusscalet.algafood.api.openapi.model.StatesModelOpenApi;
-import com.marcusscalet.algafood.api.openapi.model.UsersModelOpenApi;
 import com.marcusscalet.algafood.api.v1.model.CityModel;
 import com.marcusscalet.algafood.api.v1.model.CuisineModel;
 import com.marcusscalet.algafood.api.v1.model.GroupModel;
@@ -48,6 +36,20 @@ import com.marcusscalet.algafood.api.v1.model.ProductModel;
 import com.marcusscalet.algafood.api.v1.model.RestaurantBasicModel;
 import com.marcusscalet.algafood.api.v1.model.StateModel;
 import com.marcusscalet.algafood.api.v1.model.UserModel;
+import com.marcusscalet.algafood.api.v1.openapi.model.CitiesModelOpenApi;
+import com.marcusscalet.algafood.api.v1.openapi.model.CuisinesModelOpenApi;
+import com.marcusscalet.algafood.api.v1.openapi.model.GroupsModelOpenApi;
+import com.marcusscalet.algafood.api.v1.openapi.model.LinksModelOpenApi;
+import com.marcusscalet.algafood.api.v1.openapi.model.OrdersSummaryModelOpenApi;
+import com.marcusscalet.algafood.api.v1.openapi.model.PageableModelOpenApi;
+import com.marcusscalet.algafood.api.v1.openapi.model.PaymentMethodsModelOpenApi;
+import com.marcusscalet.algafood.api.v1.openapi.model.PermissionsModelOpenApi;
+import com.marcusscalet.algafood.api.v1.openapi.model.ProductsModelOpenApi;
+import com.marcusscalet.algafood.api.v1.openapi.model.RestaurantsBasicModelOpenApi;
+import com.marcusscalet.algafood.api.v1.openapi.model.StatesModelOpenApi;
+import com.marcusscalet.algafood.api.v1.openapi.model.UsersModelOpenApi;
+import com.marcusscalet.algafood.api.v2.model.CuisineModelV2;
+import com.marcusscalet.algafood.api.v2.openapi.model.CuisinesModelV2OpenApi;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -70,14 +72,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SpringFoxConfig implements WebMvcConfigurer {
 
 	@Bean
-	public Docket apiDocket() {
-
+	public Docket apiDocketV1() {
 		var typeResolver = new TypeResolver();
 		
-		return new Docket(DocumentationType.OAS_30).select()
-				.apis(RequestHandlerSelectors.basePackage("com.marcusscalet.algafood.api"))
-				.paths(PathSelectors.any())
-				.build()
+		return new Docket(DocumentationType.OAS_30)
+				.groupName("V1")
+				.select()
+					.apis(RequestHandlerSelectors.basePackage("com.marcusscalet.algafood.api"))
+					.paths(PathSelectors.ant("/v1/**"))
+					.build()
 				.useDefaultResponseMessages(false)
 				.globalResponses(HttpMethod.GET, globalGetResponses())
 				.globalResponses(HttpMethod.POST, globalPostPutResponses())
@@ -130,11 +133,50 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 				.alternateTypeRules(AlternateTypeRules.newRule(
 						typeResolver.resolve(CollectionModel.class, UserModel.class),
 						UsersModelOpenApi.class))
-			.apiInfo(apiInfo())
-			.tags(tags()[0], tags());
+			.apiInfo(apiInfoV1())
+			
+			.tags(tagsV1()[0], tagsV1());
 	}
 	
-	private Tag[] tags(){
+	@Bean
+	public Docket apiDocketV2() {
+		var typeResolver = new TypeResolver();
+		
+		return new Docket(DocumentationType.OAS_30)
+				.groupName("V2")
+				.select()
+					.apis(RequestHandlerSelectors.basePackage("com.marcusscalet.algafood.api"))
+					.paths(PathSelectors.ant("/v2/**"))
+					.build()
+				.useDefaultResponseMessages(false)
+				.globalResponses(HttpMethod.GET, globalGetResponses())
+				.globalResponses(HttpMethod.POST, globalPostPutResponses())
+				.globalResponses(HttpMethod.PUT, globalPostPutResponses())
+				.globalResponses(HttpMethod.DELETE, globalDeleteResponses())
+				.additionalModels(typeResolver.resolve(Problem.class))
+				.ignoredParameterTypes(ServletWebRequest.class)
+				.ignoredParameterTypes(ServletWebRequest.class,
+						URL.class, URI.class, URLStreamHandler.class, Resource.class,
+						File.class, InputStream.class)
+				.directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+				.directModelSubstitute(Links.class, LinksModelOpenApi.class)
+						
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(PagedModel.class, CuisineModelV2.class),
+						CuisinesModelV2OpenApi.class))
+				
+				.alternateTypeRules(AlternateTypeRules.newRule(
+						typeResolver.resolve(CollectionModel.class, CuisineModelV2.class),
+						CuisinesModelV2OpenApi.class))
+				
+				.apiInfo(apiInfoV2())
+	
+				.tags(new Tag("Cities", "Manage cities"),
+						new Tag("Cuisines", "Manage cuisines"));
+	}
+			
+	
+	private Tag[] tagsV1(){
 		return new Tag[] {
 				new Tag("Cities", "Manage cities"),
 				new Tag("Groups", "Manage groups"),
@@ -150,11 +192,22 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 		};
 	}
 	
-	private ApiInfo apiInfo() {
+	private ApiInfo apiInfoV1() {
+		return new ApiInfoBuilder()
+				.title("Algafood API (Depreciada)")
+				.description("API aberta para clientes e restaurantes. <br>"
+						+ "<strong>Essa versão da API está depreciada  e deixará de existir a partir de 02/02/2022.<br>"
+						+ "Use a versão mais atual da API.")
+				.version("1.0")
+				.contact(new Contact("Marcus", "https://www.algaworks.com", "contato@algaworks.com"))
+				.build();
+	}
+	
+	private ApiInfo apiInfoV2() {
 		return new ApiInfoBuilder()
 				.title("Algafood API")
 				.description("API aberta para clientes e restaurantes")
-				.version("1.0")
+				.version("2.0")
 				.contact(new Contact("Marcus", "https://www.algaworks.com", "contato@algaworks.com"))
 				.build();
 	}

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.openapi.controller.GroupPermissionControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.AlgaLinks;
 import com.marcusscalet.algafood.api.v1.assembler.PermissionModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.PermissionModel;
+import com.marcusscalet.algafood.api.v1.openapi.controller.GroupPermissionControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.Group;
 import com.marcusscalet.algafood.domain.service.GroupRegistrationService;
 

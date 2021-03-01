@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.model.input.RestaurantInput;
-import com.marcusscalet.algafood.api.openapi.controller.RestaurantControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.assembler.RestaurantBasicModelAssembler;
 import com.marcusscalet.algafood.api.v1.assembler.RestaurantInputDisassembler;
 import com.marcusscalet.algafood.api.v1.assembler.RestaurantModelAssembler;
@@ -27,6 +25,8 @@ import com.marcusscalet.algafood.api.v1.assembler.RestaurantOnlyNameModelAssembl
 import com.marcusscalet.algafood.api.v1.model.RestaurantBasicModel;
 import com.marcusscalet.algafood.api.v1.model.RestaurantModel;
 import com.marcusscalet.algafood.api.v1.model.RestaurantOnlyNameModel;
+import com.marcusscalet.algafood.api.v1.model.input.RestaurantInput;
+import com.marcusscalet.algafood.api.v1.openapi.controller.RestaurantControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.CityNotFoundException;
 import com.marcusscalet.algafood.domain.exception.CuisineNotFoundException;

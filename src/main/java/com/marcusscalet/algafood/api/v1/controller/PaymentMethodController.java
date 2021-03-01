@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
-import com.marcusscalet.algafood.api.model.input.PaymentMethodInput;
-import com.marcusscalet.algafood.api.openapi.controller.PaymentMethodControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.assembler.PaymentMethodInputDisassembler;
 import com.marcusscalet.algafood.api.v1.assembler.PaymentMethodModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.PaymentMethodModel;
+import com.marcusscalet.algafood.api.v1.model.input.PaymentMethodInput;
+import com.marcusscalet.algafood.api.v1.openapi.controller.PaymentMethodControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.PaymentMethodNotFoundException;
 import com.marcusscalet.algafood.domain.model.PaymentMethod;

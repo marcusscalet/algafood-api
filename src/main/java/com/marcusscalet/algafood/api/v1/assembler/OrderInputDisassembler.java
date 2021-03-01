@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.marcusscalet.algafood.api.model.input.OrderInput;
+import com.marcusscalet.algafood.api.v1.model.input.OrderInput;
 import com.marcusscalet.algafood.domain.model.Order;
 
 @Component

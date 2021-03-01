@@ -4,8 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.marcusscalet.algafood.api.model.input.OrderItemInput;
 import com.marcusscalet.algafood.api.v1.model.AddressModel;
+import com.marcusscalet.algafood.api.v1.model.input.OrderItemInput;
 import com.marcusscalet.algafood.api.v2.model.input.CityInputV2;
 import com.marcusscalet.algafood.domain.model.Address;
 import com.marcusscalet.algafood.domain.model.City;

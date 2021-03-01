@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcusscalet.algafood.api.ResourceUriHelper;
-import com.marcusscalet.algafood.api.model.input.CityInput;
-import com.marcusscalet.algafood.api.openapi.controller.CityControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.assembler.CityInputDisassembler;
 import com.marcusscalet.algafood.api.v1.assembler.CityModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.CityModel;
+import com.marcusscalet.algafood.api.v1.model.input.CityInput;
+import com.marcusscalet.algafood.api.v1.openapi.controller.CityControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.StateNotFoundException;
 import com.marcusscalet.algafood.domain.model.City;
@@ -41,6 +41,7 @@ public class CityController implements CityControllerOpenApi{
 	@Autowired
 	private CityInputDisassembler cityInputDisassembler;
 	
+	@Deprecated
 	@GetMapping
 	public CollectionModel<CityModel> listAll() {
 		List<City> citiesList = cityRegistrationService.listAll();

@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.model.input.StateInput;
-import com.marcusscalet.algafood.api.openapi.controller.StateControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.assembler.StateInputDisassembler;
 import com.marcusscalet.algafood.api.v1.assembler.StateModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.StateModel;
+import com.marcusscalet.algafood.api.v1.model.input.StateInput;
+import com.marcusscalet.algafood.api.v1.openapi.controller.StateControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.State;
 import com.marcusscalet.algafood.domain.service.StateRegistrationService;
 

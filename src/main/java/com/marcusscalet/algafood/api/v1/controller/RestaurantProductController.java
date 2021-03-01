@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.model.input.ProductInput;
-import com.marcusscalet.algafood.api.openapi.controller.RestaurantProductControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.AlgaLinks;
 import com.marcusscalet.algafood.api.v1.assembler.ProductInputDisassembler;
 import com.marcusscalet.algafood.api.v1.assembler.ProductModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.ProductModel;
+import com.marcusscalet.algafood.api.v1.model.input.ProductInput;
+import com.marcusscalet.algafood.api.v1.openapi.controller.RestaurantProductControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.Product;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.service.ProductRegistrationService;

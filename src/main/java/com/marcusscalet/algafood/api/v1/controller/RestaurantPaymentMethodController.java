@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.openapi.controller.RestaurantPaymentMethodControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.AlgaLinks;
 import com.marcusscalet.algafood.api.v1.assembler.PaymentMethodModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.PaymentMethodModel;
+import com.marcusscalet.algafood.api.v1.openapi.controller.RestaurantPaymentMethodControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.Restaurant;
 import com.marcusscalet.algafood.domain.service.RestaurantRegistrationService;
 

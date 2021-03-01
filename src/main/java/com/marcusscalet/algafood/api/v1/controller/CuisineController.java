@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.model.input.CuisineInput;
-import com.marcusscalet.algafood.api.openapi.controller.CuisineControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.assembler.CuisineInputDisassembler;
 import com.marcusscalet.algafood.api.v1.assembler.CuisineModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.CuisineModel;
+import com.marcusscalet.algafood.api.v1.model.input.CuisineInput;
+import com.marcusscalet.algafood.api.v1.openapi.controller.CuisineControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.Cuisine;
 import com.marcusscalet.algafood.domain.service.CuisineRegistrationService;
 

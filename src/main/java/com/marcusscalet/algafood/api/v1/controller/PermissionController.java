@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.openapi.controller.PermissionControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.assembler.PermissionModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.PermissionModel;
+import com.marcusscalet.algafood.api.v1.openapi.controller.PermissionControllerOpenApi;
 import com.marcusscalet.algafood.domain.model.Permission;
 import com.marcusscalet.algafood.domain.repository.PermissionRepository;
 

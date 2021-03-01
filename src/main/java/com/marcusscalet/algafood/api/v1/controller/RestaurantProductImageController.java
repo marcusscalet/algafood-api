@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.marcusscalet.algafood.api.model.input.ProductImageInput;
-import com.marcusscalet.algafood.api.openapi.controller.RestaurantProductImageControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.assembler.ProductImageModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.ProductImageModel;
+import com.marcusscalet.algafood.api.v1.model.input.ProductImageInput;
+import com.marcusscalet.algafood.api.v1.openapi.controller.RestaurantProductImageControllerOpenApi;
 import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
 import com.marcusscalet.algafood.domain.model.Product;
 import com.marcusscalet.algafood.domain.model.ProductImage;

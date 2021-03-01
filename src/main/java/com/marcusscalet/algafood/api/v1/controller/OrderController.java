@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.marcusscalet.algafood.api.model.input.OrderInput;
-import com.marcusscalet.algafood.api.openapi.controller.OrderControllerOpenApi;
 import com.marcusscalet.algafood.api.v1.assembler.OrderInputDisassembler;
 import com.marcusscalet.algafood.api.v1.assembler.OrderModelAssembler;
 import com.marcusscalet.algafood.api.v1.assembler.OrderSummaryModelAssembler;
 import com.marcusscalet.algafood.api.v1.model.OrderModel;
 import com.marcusscalet.algafood.api.v1.model.OrderSummaryModel;
+import com.marcusscalet.algafood.api.v1.model.input.OrderInput;
+import com.marcusscalet.algafood.api.v1.openapi.controller.OrderControllerOpenApi;
 import com.marcusscalet.algafood.core.data.PageWrapper;
 import com.marcusscalet.algafood.core.data.PageableTranslator;
 import com.marcusscalet.algafood.domain.exception.BusinessException;
