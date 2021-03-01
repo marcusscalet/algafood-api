@@ -41,7 +41,6 @@ public class CityController implements CityControllerOpenApi{
 	@Autowired
 	private CityInputDisassembler cityInputDisassembler;
 	
-	@Deprecated
 	@GetMapping
 	public CollectionModel<CityModel> listAll() {
 		List<City> citiesList = cityRegistrationService.listAll();

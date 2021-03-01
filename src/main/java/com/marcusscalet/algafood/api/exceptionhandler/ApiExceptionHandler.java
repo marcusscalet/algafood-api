@@ -33,6 +33,9 @@ import com.marcusscalet.algafood.domain.exception.BusinessException;
 import com.marcusscalet.algafood.domain.exception.EntityBeingUsedException;
 import com.marcusscalet.algafood.domain.exception.EntityNotFoundException;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -100,7 +103,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ProblemType problemType = ProblemType.SYSTEM_ERROR;
 		String detail = GENERIC_ERROR_MESSAGE_FINAL_USER;
 
-		ex.printStackTrace();
+		log.error(ex.getMessage(), ex);
 		
 		Problem problem = createProblemBuilder(status, problemType, detail)
 				.userMessage(detail)
@@ -131,7 +134,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ProblemType problemType = ProblemType.INVALID_DATA;
 		String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente";
 
-		ex.printStackTrace();
+		log.error(ex.getMessage(), ex);
 		
 		Problem problem = createProblemBuilder(status, problemType, detail)
 				.userMessage(detail)
