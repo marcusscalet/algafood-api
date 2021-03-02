@@ -43,7 +43,7 @@ public class User {
 
 	@ManyToMany
 	@JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
-	private Set<Group> group = new HashSet<>();
+	private Set<Group> groups = new HashSet<>();
 
 	public boolean passwordMatches(String password) {
 		return getPassword().equals(password);
@@ -54,10 +54,10 @@ public class User {
 	}
 	
 	public boolean addGroup(Group group) {
-		return getGroup().add(group);
+		return getGroups().add(group);
 	}
 	
 	public boolean removeGroup(Group group) {
-		return getGroup().remove(group);
+		return getGroups().remove(group);
 	}
 }
