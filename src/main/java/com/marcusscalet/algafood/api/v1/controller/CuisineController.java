@@ -27,15 +27,10 @@ import com.marcusscalet.algafood.api.v1.openapi.controller.CuisineControllerOpen
 import com.marcusscalet.algafood.domain.model.Cuisine;
 import com.marcusscalet.algafood.domain.service.CuisineRegistrationService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @RestController
 @RequestMapping(path = "/v1/cuisines")
 public class CuisineController implements CuisineControllerOpenApi{
 
-//	private static final Logger logger = LoggerFactory.getLogger(CuisineController.class);
-	
 	@Autowired
 	private CuisineRegistrationService cuisineRegistrationService;
 
@@ -50,7 +45,6 @@ public class CuisineController implements CuisineControllerOpenApi{
 	
 	@GetMapping
 	public PagedModel<CuisineModel> listAll(@PageableDefault(size = 10) Pageable pageable) {
-		log.info("Listing all Cuisines");
 
 		Page<Cuisine> cuisinesPage = cuisineRegistrationService.findAll(pageable);
 		
