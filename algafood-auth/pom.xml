@@ -34,6 +34,10 @@
 			<version>2.3.7.RELEASE</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
 
 		<!-- Spring Security OAuth2 com Java 11+ lança exception: Caused by: java.lang.ClassNotFoundException: 
 			javax.xml.bind.JAXBException Em um projeto com Spring Boot, adicione as dependências 
