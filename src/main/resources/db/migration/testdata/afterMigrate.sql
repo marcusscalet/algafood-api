@@ -77,15 +77,15 @@ insert into `group_` (name) values ('Gerente'), ('Vendedor'), ('Secretária'), (
 insert into group_permission (`group_id`, permission_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1); 
 
 insert into `user_` (id, name, email, password, registration_date) values
-(1, 'João da Silva', 'joao.ger@algafood.com', '123', utc_timestamp),
-(2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', utc_timestamp),
-(3, 'José Souza', 'jose.aux@algafood.com', '123', utc_timestamp),
-(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp);  
+(1, 'João da Silva', 'joao.ger@algafood.com', '$2y$12$hANcSoFZyE8hM8m5iCtn2.PEWyE4Fwthu0Vy1g0ald.VnO4/Vaq1e', utc_timestamp),
+(2, 'Maria Joaquina', 'maria.vnd@algafood.com', '$2y$12$hANcSoFZyE8hM8m5iCtn2.PEWyE4Fwthu0Vy1g0ald.VnO4/Vaq1e', utc_timestamp),
+(3, 'José Souza', 'jose.aux@algafood.com', '$2y$12$hANcSoFZyE8hM8m5iCtn2.PEWyE4Fwthu0Vy1g0ald.VnO4/Vaq1e', utc_timestamp),
+(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '$2y$12$hANcSoFZyE8hM8m5iCtn2.PEWyE4Fwthu0Vy1g0ald.VnO4/Vaq1e', utc_timestamp);  
 
 insert into user_group (`user_id`, `group_id`) values (1, 1), (1, 2), (2, 1);
 
 insert into `user_` (id, name, email, password, registration_date) values
-(5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp);
+(5, 'Manoel Lima', 'manoel.loja@gmail.com', '$2y$12$hANcSoFZyE8hM8m5iCtn2.PEWyE4Fwthu0Vy1g0ald.VnO4/Vaq1e', utc_timestamp);
 
 insert into restaurant_accountable_user(restaurant_id, user_id) values (1, 5), (3, 5);
 
